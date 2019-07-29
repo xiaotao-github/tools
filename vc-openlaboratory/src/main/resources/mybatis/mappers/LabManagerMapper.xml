@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.vcooc.experiment.mapper.LabManagerMapper">
+	
+	<insert id="insertList">
+		INSERT INTO 
+			lab_manager (
+				lab_manager_id, 
+				lad_id, 
+				manager_id, 
+				create_time, 
+				update_time
+			)
+		VALUES
+		<foreach collection="list" item="index" separator=",">
+			(#{index.labManagerId},#{index.ladId},#{index.managerId},#{index.createTime},#{index.updateTime})
+		</foreach>
+	</insert>
+</mapper>

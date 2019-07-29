@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.vcooc.experiment.mapper.LabClockInMachineMapper" >
+  <resultMap id="BaseResultMap" type="com.vcooc.base.pojo.LabClockInMachine" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="clockin_id" property="clockinId" jdbcType="VARCHAR" />
+    <result column="lab_id" property="labId" jdbcType="BIGINT" />
+    <result column="fk_name" property="fkName" jdbcType="VARCHAR" />
+    <result column="operator_id" property="operatorId" jdbcType="INTEGER" />
+    <result column="supported_enroll_data" property="supportedEnrollData" jdbcType="VARCHAR" />
+    <result column="is_deleted" property="isDeleted" jdbcType="BIT" />
+    <result column="total_user_count" property="totalUserCount" jdbcType="SMALLINT" />
+    <result column="user_count" property="userCount" jdbcType="SMALLINT" />
+    <result column="manager_count" property="managerCount" jdbcType="SMALLINT" />
+    <result column="fp_count" property="fpCount" jdbcType="SMALLINT" />
+    <result column="face_count" property="faceCount" jdbcType="SMALLINT" />
+    <result column="password_count" property="passwordCount" jdbcType="SMALLINT" />
+    <result column="idcard_count" property="idcardCount" jdbcType="SMALLINT" />
+    <result column="total_log_count" property="totalLogCount" jdbcType="INTEGER" />
+    <result column="firmware" property="firmware" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <!-- 自定义属性 -->
+    <result column="lab_name" property="labName" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <resultMap type="ExperimentLab" id="MachineLabMap" autoMapping="true">
+		 <id column="lab_id" property="labId" />
+		 <result column="lab_name" property="labName" javaType="string" jdbcType="VARCHAR" />
+</resultMap>
+
+  <select id="selectAddMachieLabList" parameterType="com.vcooc.base.pojo.TeacherInfo"  resultMap="MachineLabMap">
+  	SELECT DISTINCT el.lab_id,el.lab_name
+	FROM  experiment_lab AS el
+	LEFT JOIN lab_clock_in_machine  AS  lcm
+	ON (el.lab_id =lcm.lab_id  )
+	WHERE el.lab_status=1   AND stealth=2 AND (lcm.lab_id IS NULL OR lcm.is_deleted=1)
+	AND LENGTH(el.mainframe_id)>0
+	<if test="departmentId!=null">
+	 AND el.department_id = #{departmentId}
+	</if>
+  </select>
+  
+  <select id="selectMachineList" parameterType="com.vcooc.base.pojo.TeacherInfo" resultMap="BaseResultMap">
+  	SELECT
+	lcm.id,
+	el.lab_id,
+	lcm.clockin_id,
+	lcm.fk_name,
+	el.lab_name
+	FROM
+		lab_clock_in_machine AS lcm
+	INNER JOIN experiment_lab AS el ON lcm.lab_id = el.lab_id
+	WHERE
+		lcm.is_deleted = 0
+	<if test="departmentId!=null">
+	 AND el.department_id = #{departmentId}
+	</if>
+  </select>
+  
+  <select id="selectEditMachieLabList" resultMap="MachineLabMap">
+  	 	<!-- 可重新选择实验室id -->
+  	 	SELECT DISTINCT
+			el.lab_id,
+			el.lab_name
+		FROM
+			experiment_lab AS el
+		LEFT JOIN lab_clock_in_machine AS lcm ON (el.lab_id = lcm.lab_id)
+		WHERE
+			el.lab_status = 1
+		AND stealth = 2
+		AND (
+			lcm.lab_id IS NULL
+			OR lcm.is_deleted = 1
+			OR lcm.clockin_id = #{clockinId}
+		)
+		AND LENGTH(el.mainframe_id)>0
+	<if test="departmentId!=null">
+	 AND el.department_id = #{departmentId}
+	</if>
+  </select>
+  
+  <select id="selectMachineByClockinId" resultMap="BaseResultMap">
+  	SELECT
+	lcm.id,
+	el.lab_id,
+	lcm.clockin_id,
+	lcm.fk_name,
+	el.lab_name
+	FROM
+		lab_clock_in_machine AS lcm
+	INNER JOIN experiment_lab AS el ON lcm.lab_id = el.lab_id
+	WHERE
+		lcm.is_deleted = 0
+		AND lcm.clockin_id=#{clockinId}
+  
+  </select>
+  
+  <select id="selectAddMachieClockinIdList" resultType="string">
+  	SELECT
+		lcm.clockin_id
+	FROM
+		lab_clock_in_machine AS lcm
+	WHERE
+		lcm.is_deleted = 1
+  
+  </select>
+  
+  <update id="updateForAddMachine" parameterType="com.vcooc.base.pojo.LabClockInMachine">
+  	UPDATE lab_clock_in_machine AS lcm
+	SET lcm.fk_name = #{machine.fkName},
+	 lcm.lab_id = #{machine.labId},
+	 lcm.operator_id = #{machine.operatorId},
+	 lcm.create_time = NOW(),
+	 lcm.is_deleted = 0
+	WHERE
+		lcm.clockin_id = #{machine.clockinId}
+		AND lcm.is_deleted=1
+  
+  </update>
+  
+</mapper>

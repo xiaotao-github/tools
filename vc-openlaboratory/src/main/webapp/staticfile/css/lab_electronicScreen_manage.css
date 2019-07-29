@@ -1,0 +1,20 @@
+@charset "UTF-8";
+
+.showBanner ul li{margin:10px 0;}
+.showBanner ul li .bannerBox{height:120px;overflow:hidden;position:relative;}
+.showBanner ul li .bannerBox img{display:block;width:100%;}
+.showBanner ul li .bannerBox .delBtn{position:absolute;bottom:0;right:0;margin-bottom:0;}
+.showBanner ul li .bannerBox .delBtn i{color:#fff; padding:10px;background: #ddd;background:rgba(0,0,0,0.7);cursor:pointer;}
+.showBanner ul li .bannerBox .delBtn i.c-success{color: #5eb95e;}
+
+.activeBtnBox .activeBtn{position:relative;cursor:pointer;margin-top:7px;}
+.activeBtnBox .activeBtn .line{position:absolute;width:36px;height:5px;border: 2px solid #eee;border-radius:5px;top:6px;background-color:#fff;}
+.activeBtnBox .activeBtn .circle{transition:0.1s;position:absolute;left:0;width:15px;height:15px;border:2px solid #ddd;border-radius:50%;background-color:#fff;}
+.activeBtnBox .span{padding-left: 60px;color:#4cacea;line-height:1em;padding-left:50px;}
+.activeBtnBox .span i{cursor:pointer;}
+.activeBtnBox .span_msg{display:none;}
+
+.bannerPaging{font-size:16px;}
+.bannerPaging .prevBtn,.bannerPaging .nextBtn{display:inline-block;}
+.bannerPaging ul{display:inline-block;}
+.bannerPaging ul li{display:inline-block;}

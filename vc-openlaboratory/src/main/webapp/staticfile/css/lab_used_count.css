@@ -1,0 +1,16 @@
+@charset "UTF-8";
+.bg-gray{background-color:#f2f2f2;}
+.bg-blue{background-color:#7cb5ec;}
+.bg-green{background-color:#90ed7d;}
+.bg-orange{background-color:#fc7a42}
+
+.topPart{margin-bottom:50px;}
+.topPart .rightPart{}
+.topPart .rightPart li .circle{margin:20px auto;height:100%;height:120px;width:120px;border-radius:50%;}
+.topPart .rightPart li .circle span{line-height:120px;font-size:30px;color:#fff;}
+.topPart .rightPart li .text p{margin-bottom:0;}
+.topPart .rightPart li .text .name{font-size:20px;}
+.topPart .rightPart li .text .time{}
+
+.bottomPart{}
+.bottomPart .classes a{display:block;}

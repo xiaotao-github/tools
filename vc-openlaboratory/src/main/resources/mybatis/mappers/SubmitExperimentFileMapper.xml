@@ -1,0 +1,693 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.vcooc.experiment.mapper.SubmitExperimentFileMapper">
+	<resultMap type="SubmitExperimentFile" id="submitExperimentFileMap" autoMapping="true">
+		<id column="submit_experiment_file_id" property="submitExperimentFileId"/>
+		<!--实验室信息-->
+		<association property="experimentCourse" column="experiment_course_id" select="selectExperimentCourseByExperimentId"/>
+		<!--查询实验信息-->
+		<association property="experiment"  column="experiment_id" select="selectExperimentByExperimentId"/>
+		<!--查询提交人的信息-->
+		<association property="studentSubmitter" column="submitter_id" select="selectStudentInfoByStudentInfoId" />
+	</resultMap>
+	<!--优秀报告全映射-->
+	<resultMap type="SubmitExperimentFile" id="submitExperimentFileAndAllMap" autoMapping="true">
+		<id column="submit_experiment_file_id" property="submitExperimentFileId"/>
+		<result column="experiment_id" property="experimentId"/>
+		<result column="experiment_course_id" property="experimentCourseId"/>
+		<result column="experiment_group_id" property="experimentGroupId"/>
+		<!--查询实验课程信息-->
+		<association property="experimentCourse"  column="experiment_course_id" select="selectExperimentCourseByExperimentId"/>
+		<!--查询实验信息-->
+		<association property="experiment"  column="experiment_id" select="selectExperimentByExperimentId"/>
+		<!--查询提交人的信息-->
+		<association property="studentSubmitter" column="submitter_id" select="selectStudentInfoByStudentInfoId" />
+		<!--指导教师-->
+		<association property="teacherInfo" column="experiment_group_id" select="selectTeacherByExperimentGroupId"/>
+		<!--查询所属小组-->
+		<association property="experimentGroup" column="experiment_group_id" select="selectGroupByExperimentGroupId"/>
+	</resultMap>
+	<!--实验课程映射 -->
+	<resultMap type="ExperimentCourse" id="experimentCourseMap"
+		autoMapping="true">
+		<id column="experiment_course_id" property="experimentCourseId" />
+		<!--课程封面映射 -->
+		<association property="resourceFile" javaType="ResourceFile">
+			<id column="course_img_id" property="fileId" />
+			<result column="file_format_path" property="fileFormatPath" />
+		</association>
+		<!--参考实验 -->
+		<collection property="visitExperimentList" ofType="Experiment"
+			javaType="ArrayList" column="experiment_course_id"
+			select="selectVisiExperimentByExperimentCourseId" />
+	</resultMap>
+	<!--sql 添加条件 过滤掉 伪删除的数据-->
+	<sql id="experimentAndCourseLeftJoin">
+		LEFT JOIN experiment ex ON  ex.experiment_id = sef.experiment_id
+		LEFT JOIN experiment_course ec ON ec.experiment_course_id = sef.experiment_course_id
+	</sql>
+	<sql id="experimentAndCourseWhere">
+		 AND ex.stealth = 2 AND ec.stealth = 2
+	</sql>
+	<!--根据学生ID，查询该学生已经完成的实验-->
+	<select id="selectStudentFinishExperimentByStudentInfoId" resultMap="submitExperimentFileMap">
+		SELECT sef.* FROM submit_experiment_file sef 
+		<include refid="experimentAndCourseLeftJoin"/>
+		WHERE sef.submitter_id = #{studentInfoId} AND sef.submit_status IN (2,3)
+		<include refid="experimentAndCourseWhere"/>
+	</select>
+	<!--根据实验课程ID，查询实验课程信息-->
+	<select id="selectExperimentCourseByExperimentId" resultMap="experimentCourseMap">
+		SELECT
+		c.*,rf.file_format_path
+		FROM
+		experiment_course c
+		LEFT JOIN resource_file rf ON
+		rf.file_id=c.course_img_id
+		WHERE c.experiment_course_id =
+		#{experimentCourseId}
+	</select>
+	<!--根据实验ID查询实验信息-->
+	<select id="selectExperimentByExperimentId" resultType="Experiment">
+		SELECT e.* FROM experiment e WHERE  e.experiment_id = #{experimentId}
+	</select>
+	<!-- g -->
+	<!--根据学生ID，查询学生所属实验下的优秀报告-->
+	<select id="selectGoodReportByStudentInfoId" resultMap="submitExperimentFileMap">
+		SELECT sef.* FROM submit_experiment_file sef
+		<include refid="experimentAndCourseLeftJoin"/>
+		 WHERE sef.experiment_id
+		IN(SELECT eg.experiment_id FROM experiment_group eg WHERE eg.experiment_group_id
+		IN (SELECT egs.experiment_group_id FROM experiment_group_student egs WHERE
+		egs.student_info_id = #{studentInfoId})) 
+		AND sef.good_report = 1
+		<include refid="experimentAndCourseWhere"/>
+	</select>
+	<!--根据学生ID，查询学生信息-->
+	<select id="selectStudentInfoByStudentInfoId" resultType="StudentInfo">
+		SELECT s.*,u.username ,gc.className AS class_name,gc.gradeName,dm.majorName,
+		dm.departmentName AS department_name
+		FROM student_info s
+		LEFT JOIN (
+		SELECT c.id AS classId,c.name AS className,g.id AS gradeId ,g.name gradeName
+		,g.major_id AS majorId FROM tb_class c
+		LEFT JOIN grade g ON g.id = c.grade_id 
+		) gc ON gc.classId= s.tb_class_id
+		LEFT JOIN (
+		SELECT m.id AS majorId,m.name AS majorName,d.id AS departmentId,d.name AS
+		departmentName FROM major m
+		LEFT JOIN department d ON d.id = m.department_id
+		) dm ON dm.majorId = gc.majorId
+		LEFT JOIN (
+		SELECT d.id AS departmentId  FROM
+		department d
+		) dt ON dt.departmentId = dm.departmentId 
+		LEFT JOIN USER u ON u.id = s.id WHERE s.id=#{studentInfoId}
+	</select>
+	<!--查询实验下的优秀报告-->
+	<select id="selectGoodReportByAndExperimentId" resultMap="submitExperimentFileMap">
+		SELECT sef.* FROM submit_experiment_file sef
+		<include refid="experimentAndCourseLeftJoin"/>
+		WHERE sef.experiment_id = #{experimentId} AND sef.good_report = 1
+		<include refid="experimentAndCourseWhere"/> 
+	</select>
+	<!--根据实验报告ID，查询实验报告信息-->
+	<select id="selectSubmitExperimentFileById" resultMap="submitExperimentFileAndAllMap">
+			SELECT sef.* FROM submit_experiment_file sef
+			<include refid="experimentAndCourseLeftJoin"/>
+			 WHERE sef.submit_experiment_file_id = #{submitFileId}
+			 <include refid="experimentAndCourseWhere"/> 
+	</select>
+	<!--根据实验课程ID 查询实验课程下的参考实验 -->
+	<select id="selectVisiExperimentByExperimentCourseId"
+		parameterType="int" resultType="Experiment">
+		SELECT e.* ,ti.name AS
+		teacher_info_name FROM experiment e
+		LEFT JOIN teacher_info ti
+		ON
+		e.author_id = ti.id
+		WHERE e.experiment_id IN
+		(SELECT ce.experiment_id
+		FROM course_experiment ce WHERE
+		ce.experiment_course_id =
+		#{experimentCourseId}) AND e.stealth = 2
+		AND
+		e.experiment_type = 2
+	</select>
+	<!--成绩管理-->
+	<resultMap type="SubmitExperimentFile" id="teacherSubmitExperimentFile" autoMapping="true">
+		<id column="submit_experiment_file_id" property="submitExperimentFileId"/>
+		<result column="experiment_id" property="experimentId"/>
+		<result column="experiment_course_id" property="experimentCourseId"/>
+		<result column="experiment_group_id" property="experimentGroupId"/>
+		<!--指导教师-->
+		<association property="teacherInfo" column="experiment_group_id" select="selectTeacherByExperimentGroupId"/>
+		<!--查询所属小组-->
+		<association property="experimentGroup" column="experiment_group_id" select="selectGroupByExperimentGroupId"/>
+		<!--查询实验课程信息-->
+		<association property="experimentCourse"  column="experiment_course_id" select="selectExperimentCourseByExperimentId"/>
+		<!--查询实验信息-->
+		<association property="experiment"  column="experiment_id" select="selectExperimentByExperimentId"/>
+		<!--查询提交人的信息-->
+		<association property="studentSubmitter" column="submitter_id" select="selectStudentInfoByStudentInfoId" />
+		<!--关联账号  -->
+		<association property="SubmitUser" column="id" select="selectUserByStudentInfoId" />
+	</resultMap>
+	
+	<!--datatable 学生实验成绩-->
+	<resultMap type="SubmitExperimentFile" id="teacherSubmitExperimentFile2" autoMapping="true">
+			<id column="submit_experiment_file_id" property="submitExperimentFileId"/>
+			<result column="experiment_id" property="experimentId"/>
+		<!-- 	<result column="experiment_course_id" property="experimentCourseId"/>
+			<result column="experiment_group_id" property="experimentGroupId"/> -->
+			<!--查询实验课程信息-->
+			<association property="experimentCourse" javaType="ExperimentCourse">
+				<id column="experiment_course_id" property="experimentCourseId"/>
+				<result column="course_name" property="courseName"/>
+			</association>
+			<!--查询实验信息-->
+			<association property="experiment" javaType="Experiment">
+				<id column="experiment_id" property="experimentId"/>
+				<result column="experiment_name" property="experimentName"/>
+			</association>
+			<!--查询所属小组-->
+			<association property="experimentGroup" javaType="ExperimentGroup">
+				<id column="experiment_group_id" property="experimentGroupId"/>
+				<result column="group_name" property="groupName"/>
+				<result column="start_time" property="startTime"/>
+				<result column="end_time" property="endTime"/>
+			</association>
+			<!--指导教师-->
+			<association property="teacherInfo" javaType="TeacherInfo">
+				<id column="teacher_id" property="id"/>
+				<result column="teacher_name" property="name"/>
+			</association>
+			<!--查询提交人的信息-->
+			<association property="studentSubmitter" javaType="StudentInfo">
+				<id column="submitter_id" property="id"/>
+				<result column="student_name" property="name"/>
+				<result column="username" property="username"/>
+				<result column="department_name" property="departmentName"/>
+				<result column="major_name" property="majorName"/>
+				<result column="grade_name" property="gradeName"/>
+				<result column="class_name" property="className"/>
+			</association>
+		 	<!--关联账号  -->
+			<!--<association property="SubmitUser" column="id" select="selectUserByStudentInfoId" /> -->
+	</resultMap>
+	
+	<!--学生映射-->
+<!-- 	<resultMap type="StudentInfo" id="studentInfoMap" autoMapping="true">
+		<id property="id" column="id"/>
+		<result property="departmentName" column="department_name"/>
+		<result property="className" column="class_name"/>
+	</resultMap> -->
+	
+	<!--根据条件查询学生提交的实验报告信息-->
+	<select id="selectSubmitExperimentFileByWhere" resultMap="teacherSubmitExperimentFile">
+		SELECT * FROM submit_experiment_file sef
+		<include refid="experimentAndCourseLeftJoin"/>
+		WHERE  sef.experiment_group_id IN (
+		SELECT eg.experiment_group_id FROM experiment_group eg  
+		<where>
+		1=1
+		<include refid="experimentAndCourseWhere"/>
+		<if test="departmentId!=null">
+		AND eg.teacher_info_id IN 
+		(SELECT ti.id FROM teacher_info ti  WHERE ti.department_id =#{departmentId})
+		</if> 
+		<if test="teacherInfoId!=null">
+			AND eg.teacher_info_id = #{teacherInfoId}
+		</if>
+		) 
+		<if test="submitStatus!=null">
+			AND sef.submit_status = #{submitStatus}
+		</if>
+		</where>
+	</select>
+	<!--根据条件查询学生提交的实验报告信息-->
+	<select id="selectSubmitExperimentFileByWhereToList" resultMap="teacherSubmitExperimentFile2">
+		<choose>
+			<when test=" sSearch!=null and sSearch!='' ">
+				select a.* from (
+					SELECT sef.submit_experiment_file_id,sef.score,
+					sef.experiment_id,ex.experiment_name,
+					sef.experiment_course_id,ec.course_name,
+					sef.experiment_group_id,gt.group_name,
+					gt.teacher_id,gt.teacher_name,
+					gt.start_time,gt.end_time,
+					sef.submitter_id,sInfo.name AS student_name,sInfo.username,sInfo.department_name,sInfo.major_name,sInfo.grade_name,sInfo.class_name,					
+					sef.submit_status,sef.check_time,sef.create_time,sef.update_time,sef.other_file
+					FROM submit_experiment_file sef
+					LEFT JOIN experiment ex ON  ex.experiment_id = sef.experiment_id
+					LEFT JOIN experiment_course ec ON ec.experiment_course_id = sef.experiment_course_id
+					LEFT JOIN (	
+						SELECT eg.experiment_group_id,eg.start_time,eg.end_time,eg.group_name,ti.name AS teacher_name , ti.id AS teacher_id FROM experiment_group eg 
+						LEFT JOIN teacher_info  AS ti ON eg.teacher_info_id = ti.id
+					) AS gt ON gt.experiment_group_id = sef.experiment_group_id
+					LEFT JOIN (
+						SELECT s.id ,s.name,u.username ,gc.className AS class_name,gc.classId AS class_id,gc.gradeName AS grade_name,gc.gradeId AS grade_id,dm.majorName AS major_name,dm.majorId AS major_id,
+							dm.departmentName AS department_name,dm.departmentId AS department_id
+							FROM student_info s
+							LEFT JOIN (
+							SELECT c.id AS classId,c.name AS className,g.id AS gradeId ,g.name gradeName
+							,g.major_id AS majorId FROM tb_class c
+							LEFT JOIN grade g ON g.id = c.grade_id 
+							) gc ON gc.classId= s.tb_class_id
+							LEFT JOIN (
+							SELECT m.id AS majorId,m.name AS majorName,d.id AS departmentId,d.name AS
+							departmentName FROM major m
+							LEFT JOIN department d ON d.id = m.department_id
+							) dm ON dm.majorId = gc.majorId
+							LEFT JOIN (
+							SELECT d.id AS departmentId  FROM
+							department d
+							) dt ON dt.departmentId = dm.departmentId 
+							LEFT JOIN USER u ON u.id = s.id
+					) AS sInfo ON sInfo.id = sef.submitter_id    
+					<where>
+						1=1
+						<include refid="experimentAndCourseWhere"/>
+						<if test="departmentId!=null">
+							AND sInfo.department_id = #{departmentId}
+						</if> 
+						<if test="teacherInfoId!=null">
+							AND gt.teacher_id = #{teacherInfoId}
+						</if>
+						<if test="submitStatus!=null">
+							AND sef.submit_status = #{submitStatus}
+						</if>
+					</where>
+				) as a
+				<where>
+					<choose>
+						<when test='sSearch == "进行中" or sSearch == "待批改" or sSearch == "已批改" or sSearch == "重做中" or sSearch == "重做" or sSearch == "已完成"'>
+							<choose>
+								<when test='sSearch == "进行中"'>
+									submit_status=1
+								</when>
+								<when test='sSearch == "待批改"'>
+									submit_status=2
+								</when>
+								<when test='sSearch == "已批改" or sSearch == "已完成" '>
+									submit_status=3
+								</when>
+								<otherwise>
+									submit_status=4
+								</otherwise>
+							</choose>
+						</when>
+						<when test='sSearch == "已导出"  or  sSearch == "未导出"'>
+							<choose>
+								<when test='sSearch == "未导出"'>
+									other_file is NULL
+								</when>
+								<otherwise>
+									other_file = 1
+								</otherwise>
+							</choose>
+						</when>
+						<when test='sSearch == "即将开始" or sSearch == "进行中" or sSearch == "已过期"'>
+							<choose>
+								<when test='sSearch == "即将开始"'>
+									start_time &gt; now() 
+								</when>
+								<when test='sSearch == "进行中"'>
+									start_time  &lt; now() AND end_time &gt; now() 
+								</when>
+								<otherwise>
+									end_time &lt; now() OR start_time is NUll 
+								</otherwise>
+							</choose>
+						</when>
+						<otherwise>
+							course_name LIKE CONCAT(CONCAT('%',#{sSearch}),'%')
+							OR experiment_name  LIKE CONCAT(CONCAT('%', #{sSearch}), '%')
+							OR group_name LIKE CONCAT(CONCAT('%',#{sSearch}),'%')
+							OR student_name LIKE CONCAT(CONCAT('%',#{sSearch}),'%')
+							OR username LIKE CONCAT(CONCAT('%',#{sSearch}),'%')
+							OR department_name LIKE CONCAT(CONCAT('%',#{sSearch}),'%')
+							OR major_name LIKE CONCAT(CONCAT('%',#{sSearch}),'%')
+							OR grade_name LIKE CONCAT(CONCAT('%',#{sSearch}),'%')
+							OR class_name LIKE CONCAT(CONCAT('%',#{sSearch}),'%')
+							OR teacher_name LIKE CONCAT(CONCAT('%',#{sSearch}),'%')
+						</otherwise>
+					</choose>
+				</where>	
+					ORDER BY ${sortCol} ${sortDir} LIMIT #{start},#{end}
+			</when>
+			<otherwise>
+				SELECT sef.submit_experiment_file_id,sef.score,
+					sef.experiment_id,ex.experiment_name,
+					sef.experiment_course_id,ec.course_name,
+					sef.experiment_group_id,gt.group_name,
+					gt.teacher_id,gt.teacher_name,
+					gt.start_time,gt.end_time,
+					sef.submitter_id,sInfo.name AS student_name,sInfo.username,sInfo.department_name,sInfo.major_name,sInfo.grade_name,sInfo.class_name,					
+					sef.submit_status,sef.check_time,sef.create_time,sef.update_time,sef.other_file
+					FROM submit_experiment_file sef
+					LEFT JOIN experiment ex ON  ex.experiment_id = sef.experiment_id
+					LEFT JOIN experiment_course ec ON ec.experiment_course_id = sef.experiment_course_id
+					LEFT JOIN (	
+						SELECT eg.experiment_group_id,eg.start_time,eg.end_time,eg.group_name,ti.name AS teacher_name , ti.id AS teacher_id FROM experiment_group eg 
+						LEFT JOIN teacher_info  AS ti ON eg.teacher_info_id = ti.id
+					) AS gt ON gt.experiment_group_id = sef.experiment_group_id
+					LEFT JOIN (
+						SELECT s.id ,s.name,u.username ,gc.className AS class_name,gc.classId AS class_id,gc.gradeName AS grade_name,gc.gradeId AS grade_id,dm.majorName AS major_name,dm.majorId AS major_id,
+							dm.departmentName AS department_name,dm.departmentId AS department_id
+							FROM student_info s
+							LEFT JOIN (
+							SELECT c.id AS classId,c.name AS className,g.id AS gradeId ,g.name gradeName
+							,g.major_id AS majorId FROM tb_class c
+							LEFT JOIN grade g ON g.id = c.grade_id 
+							) gc ON gc.classId= s.tb_class_id
+							LEFT JOIN (
+							SELECT m.id AS majorId,m.name AS majorName,d.id AS departmentId,d.name AS
+							departmentName FROM major m
+							LEFT JOIN department d ON d.id = m.department_id
+							) dm ON dm.majorId = gc.majorId
+							LEFT JOIN (
+							SELECT d.id AS departmentId  FROM
+							department d
+							) dt ON dt.departmentId = dm.departmentId 
+							LEFT JOIN USER u ON u.id = s.id
+					) AS sInfo ON sInfo.id = sef.submitter_id  
+				<where>
+						1=1
+						<include refid="experimentAndCourseWhere"/>
+						<if test="departmentId!=null">
+							AND sInfo.department_id = #{departmentId}
+						</if> 
+						<if test="teacherInfoId!=null">
+							AND gt.teacher_id = #{teacherInfoId}
+						</if>
+						<if test="submitStatus!=null">
+							AND sef.submit_status = #{submitStatus}
+						</if>
+					</where>
+				 ORDER BY ${sortCol} ${sortDir} LIMIT #{start},#{end}
+			</otherwise>
+		</choose>
+	</select>
+	
+		<!--根据条件查询学生提交的实验报告数量-->
+	<select id="selectSubmitExperimentFileSizeByWhere" resultType="Integer">
+		<choose>
+			<when test=" sSearch!=null and sSearch!='' ">
+				select count(a.submit_experiment_file_id) from (
+					SELECT sef.submit_experiment_file_id,sef.score,
+					sef.experiment_id,ex.experiment_name,
+					sef.experiment_course_id,ec.course_name,
+					sef.experiment_group_id,gt.group_name,
+					gt.teacher_id,gt.teacher_name,
+					gt.start_time,gt.end_time,
+					sef.submitter_id,sInfo.name AS student_name,sInfo.username,sInfo.department_name,sInfo.major_name,sInfo.grade_name,sInfo.class_name,					
+					sef.submit_status,sef.check_time,sef.create_time,sef.update_time,sef.other_file
+					FROM submit_experiment_file sef
+					LEFT JOIN experiment ex ON  ex.experiment_id = sef.experiment_id
+					LEFT JOIN experiment_course ec ON ec.experiment_course_id = sef.experiment_course_id
+					LEFT JOIN (	
+						SELECT eg.experiment_group_id,eg.start_time,eg.end_time,eg.group_name,ti.name AS teacher_name , ti.id AS teacher_id FROM experiment_group eg 
+						LEFT JOIN teacher_info  AS ti ON eg.teacher_info_id = ti.id
+					) AS gt ON gt.experiment_group_id = sef.experiment_group_id
+					LEFT JOIN (
+						SELECT s.id ,s.name,u.username ,gc.className AS class_name,gc.classId AS class_id,gc.gradeName AS grade_name,gc.gradeId AS grade_id,dm.majorName AS major_name,dm.majorId AS major_id,
+							dm.departmentName AS department_name,dm.departmentId AS department_id
+							FROM student_info s
+							LEFT JOIN (
+							SELECT c.id AS classId,c.name AS className,g.id AS gradeId ,g.name gradeName
+							,g.major_id AS majorId FROM tb_class c
+							LEFT JOIN grade g ON g.id = c.grade_id 
+							) gc ON gc.classId= s.tb_class_id
+							LEFT JOIN (
+							SELECT m.id AS majorId,m.name AS majorName,d.id AS departmentId,d.name AS
+							departmentName FROM major m
+							LEFT JOIN department d ON d.id = m.department_id
+							) dm ON dm.majorId = gc.majorId
+							LEFT JOIN (
+							SELECT d.id AS departmentId  FROM
+							department d
+							) dt ON dt.departmentId = dm.departmentId 
+							LEFT JOIN USER u ON u.id = s.id
+					) AS sInfo ON sInfo.id = sef.submitter_id  
+				<where>
+						1=1
+						<include refid="experimentAndCourseWhere"/>
+						<if test="departmentId!=null">
+							AND sInfo.department_id = #{departmentId}
+						</if> 
+						<if test="teacherInfoId!=null">
+							AND gt.teacher_id = #{teacherInfoId}
+						</if>
+						<if test="submitStatus!=null">
+							AND sef.submit_status = #{submitStatus}
+						</if>
+					</where>
+				) as a
+				<where>
+					<choose>
+						<when test='sSearch == "进行中" or sSearch == "待批改" or sSearch == "已批改"  or sSearch == "已完成" or sSearch == "重做中" or sSearch == "重做"'>
+							<choose>
+								<when test='sSearch == "进行中"'>
+									submit_status=1
+								</when>
+								<when test='sSearch == "待批改"'>
+									submit_status=2
+								</when>
+								<when test='sSearch == "已批改" or sSearch == "已完成" '>
+									submit_status=3
+								</when>
+								<otherwise>
+									submit_status=4
+								</otherwise>
+							</choose>
+						</when>
+						<when test='sSearch == "已导出"  or  sSearch == "未导出"'>
+							<choose>
+								<when test='sSearch == "未导出"'>
+									other_file is NULL
+								</when>
+								<otherwise>
+									other_file = 1
+								</otherwise>
+							</choose>
+						</when>
+						<when test='sSearch == "即将开始" or sSearch == "进行中" or sSearch == "已过期"'>
+							<choose>
+								<when test='sSearch == "已过期"'>
+									end_time &lt; now()
+								</when>
+								<when test='sSearch == "进行中"'>
+									start_time  &lt; now() AND end_time &gt; now() 
+								</when>
+								<otherwise>
+									start_time &gt; now()
+								</otherwise>
+							</choose>
+						</when>
+						<otherwise>
+							course_name LIKE CONCAT(CONCAT('%',#{sSearch}),'%')
+							OR experiment_name  LIKE CONCAT(CONCAT('%', #{sSearch}), '%')
+							OR group_name LIKE CONCAT(CONCAT('%',#{sSearch}),'%')
+							OR student_name LIKE CONCAT(CONCAT('%',#{sSearch}),'%')
+							OR username LIKE CONCAT(CONCAT('%',#{sSearch}),'%')
+							OR department_name LIKE CONCAT(CONCAT('%',#{sSearch}),'%')
+							OR major_name LIKE CONCAT(CONCAT('%',#{sSearch}),'%')
+							OR grade_name LIKE CONCAT(CONCAT('%',#{sSearch}),'%')
+							OR class_name LIKE CONCAT(CONCAT('%',#{sSearch}),'%')
+							OR teacher_name LIKE CONCAT(CONCAT('%',#{sSearch}),'%')
+						</otherwise>
+					</choose>
+				</where>	
+			</when>
+			<otherwise>
+					SELECT count(sef.submit_experiment_file_id)
+					FROM submit_experiment_file sef
+					LEFT JOIN experiment ex ON  ex.experiment_id = sef.experiment_id
+					LEFT JOIN experiment_course ec ON ec.experiment_course_id = sef.experiment_course_id
+					LEFT JOIN (	
+						SELECT eg.experiment_group_id,eg.group_name,ti.name AS teacher_name , ti.id AS teacher_id FROM experiment_group eg 
+						LEFT JOIN teacher_info  AS ti ON eg.teacher_info_id = ti.id
+					
+					) AS gt ON gt.experiment_group_id = sef.experiment_group_id
+					LEFT JOIN (
+						SELECT s.id ,s.name,u.username ,gc.className AS class_name,gc.classId AS class_id,gc.gradeName AS grade_name,gc.gradeId AS grade_id,dm.majorName AS major_name,dm.majorId AS major_id,
+							dm.departmentName AS department_name,dm.departmentId AS department_id
+							FROM student_info s
+							LEFT JOIN (
+							SELECT c.id AS classId,c.name AS className,g.id AS gradeId ,g.name gradeName
+							,g.major_id AS majorId FROM tb_class c
+							LEFT JOIN grade g ON g.id = c.grade_id 
+							) gc ON gc.classId= s.tb_class_id
+							LEFT JOIN (
+							SELECT m.id AS majorId,m.name AS majorName,d.id AS departmentId,d.name AS
+							departmentName FROM major m
+							LEFT JOIN department d ON d.id = m.department_id
+							) dm ON dm.majorId = gc.majorId
+							LEFT JOIN (
+							SELECT d.id AS departmentId  FROM
+							department d
+							) dt ON dt.departmentId = dm.departmentId 
+							LEFT JOIN USER u ON u.id = s.id
+					) AS sInfo ON sInfo.id = sef.submitter_id  
+				<where>
+					1=1
+					<include refid="experimentAndCourseWhere"/>
+					<if test="departmentId!=null">
+						AND sInfo.department_id = #{departmentId}
+					</if> 
+					<if test="teacherInfoId!=null">
+						AND gt.teacher_id = #{teacherInfoId}
+					</if>
+					<if test="submitStatus!=null">
+						AND sef.submit_status = #{submitStatus}
+					</if>
+				</where>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<!-- 根据小组ID，查询指导老师信息 -->
+	<select id="selectTeacherByExperimentGroupId" resultType="TeacherInfo">
+		SELECT ti.* FROM teacher_info ti WHERE ti.id  =
+		 (SELECT eg.teacher_info_id FROM  experiment_group eg WHERE eg.experiment_group_id = #{experimentGroupId})
+	</select>
+	<!--根据小组ID，查询小组信息-->
+	<select id="selectGroupByExperimentGroupId" resultType="ExperimentGroup">
+		SELECT eg.* FROM experiment_group eg WHERE eg.experiment_group_id = #{experimentGroupId}
+	</select>
+	<!--根据ID查询实验报告-->
+	<select id="seleteStudentSubmitReportById" resultMap="teacherSubmitExperimentFile">
+		SELECT * FROM submit_experiment_file sef
+		<include refid="experimentAndCourseLeftJoin"/>
+		WHERE  sef.submit_experiment_file_id = #{submitExperimentFileId}
+		<include refid="experimentAndCourseWhere"/>
+	</select>
+	<select id="selectsubmitExperimentFileByIds" resultMap="teacherSubmitExperimentFile">
+		SELECT * FROM submit_experiment_file sef
+		<include refid="experimentAndCourseLeftJoin"/>
+		<!-- 关联用户表 -->
+		LEFT JOIN user u ON u.id=sef.submitter_id
+		 WHERE  sef.submit_experiment_file_id IN
+		<foreach  collection="submitIds" item="submitId" open="(" close=")" separator=",">
+			#{submitId}
+		</foreach>
+		<include refid="experimentAndCourseWhere"/>
+	</select>
+	<!-- 查询同一教师分配给同一门实验课下的同一实验下学生提交的实验报告 -->
+	<select id="seleteStudentSubmitReportByWhere" resultMap="teacherSubmitExperimentFile">
+	select sef.*,g.teacher_info_id,g.experiment_id 
+	from submit_experiment_file sef
+	LEFT JOIN experiment_group g on
+	g.experiment_group_id=sef.experiment_group_id
+	where g.teacher_info_id=#{teacherInfoId} and g.experiment_id=#{experimentId}
+	and sef.experiment_course_id=#{experimentCourseId}
+	and sef.submit_status in(2,3)
+	</select>
+	<!-- 批量批阅学生实验成绩 -->
+	<update id="updateStudentSubmitReportByIds">
+	    update  submit_experiment_file 
+	      set score=#{record.score},
+	         remark=#{record.remark},
+	         good_report=#{record.goodReport},
+	         update_time=now(),
+	         submit_status=#{record.submitStatus}
+	         where submit_experiment_file_id in (${ids})
+	</update>
+	
+	
+	<select id="selectUserByStudentInfoId" resultType="User">
+		 select * from user where id=#{id}
+	</select>
+		<!-- 批量修改导出状态 -->
+	<update id="updateExportStatusByIds" parameterType="Integer[]">
+	   update submit_experiment_file set other_file=#{status}
+	   
+	   where submit_experiment_file_id in (
+	   <foreach collection="ids" item="id" separator=",">
+	            #{id}
+	   </foreach>
+	   )
+	</update>
+	<!-- 根据条件  获取学生实验成绩单中的学生id -->
+	<select id="getOldStudentGradeId" resultType="Integer">
+		SELECT submitter_id FROM submit_experiment_file
+		<where>
+			experiment_id=#{experimentId}
+			AND experiment_course_id = #{experimentCourseId} AND  experiment_group_id = #{groupId}
+		</where>
+	</select>
+	<!--初始化学生实验成绩信息-->
+	<insert id="initializeStudentGrade">
+		INSERT INTO submit_experiment_file(
+		`experiment_id`,
+		`experiment_course_id`,
+		`experiment_group_id`,
+		`submit_status`,
+		`submitter_id`,
+		`score`,
+		`good_report`,
+		`create_time`,
+		`update_time`
+		) VALUES
+		<foreach collection="studentInfoIds" item="studentInfoId" separator=",">
+			(#{experimentId},
+			#{experimentCourseId},
+			#{experimentGroupId},
+			1,
+			#{studentInfoId},
+			0,2,now(),now())	
+		</foreach>
+	</insert>
+	<!--更新学生的实验成绩单-->
+	<update id="updateStudentGrade">
+		UPDATE submit_experiment_file SET 
+		<choose>
+			<when test="experimentGroupId !=null">
+				`experiment_group_id`= #{experimentGroupId}
+			</when>
+			<otherwise>
+				`experiment_group_id`= null
+			</otherwise>
+		</choose>
+		WHERE
+		`experiment_id` = #{experimentId} 
+		AND `experiment_course_id` = #{experimentCourseId} 
+		AND `submitter_id` IN 
+		<foreach open="(" close=")" collection="studentInfoIds" item="studentInfoId"  separator=",">
+			#{studentInfoId}
+		</foreach>
+	</update>
+	
+	<!--  根据学生id 查询学生的实验信息   实验状态 实验名称 等 -->
+	<select id="selectStudentExperimentByStudentId" resultMap="teacherSubmitExperimentFile2">
+		SELECT a.submit_experiment_file_id,a.submit_status,a.score,b.experiment_name,c.course_name,d.group_name,d.experiment_group_id, d.start_time,d.end_time FROM submit_experiment_file a 
+		LEFT JOIN experiment b ON b.experiment_id = a.experiment_id
+		LEFT JOIN experiment_course c ON c.experiment_course_id = a.experiment_course_id
+		LEFT JOIN experiment_group d ON d.experiment_group_id = a.experiment_group_id
+		WHERE a.submitter_id = #{id} AND d.end_time > NOW()
+	</select>
+	
+	
+	
+	<resultMap id="submitExperimentFileMapA" type="SubmitExperimentFile">
+		<id column="submit_experiment_file_id" property="submitExperimentFileId"/>
+		<result column="experiment_group_id" property="experimentGroupId"/>
+		<result column="experiment_id" property="experimentId" />
+		<association property="experiment" javaType="Experiment">
+			<result column="experiment_name" property="experimentName"/>
+		</association>
+		<association property="experimentGroup" javaType="ExperimentGroup">
+			<result column="start_time" property="startTime"/>
+			<result column="end_time" property="endTime"/>
+		</association>
+	</resultMap>
+	<!--根据实验课程ID，实验ID，学生ID，查询该学生在该实验课程下的其他正在进行中的实验-->
+	<select id="selectOtherExperimentByExperimentGroupIdAndExperimentCourse2" resultMap="submitExperimentFileMapA">
+		SELECT a.submit_experiment_file_id,b.experiment_name,b.experiment_id,c.experiment_group_id,c.start_time,c.end_time FROM submit_experiment_file AS a 
+		LEFT JOIN experiment AS b ON b.experiment_id = a.experiment_id
+		LEFT JOIN experiment_group AS c ON c.experiment_group_id = a.experiment_group_id
+		WHERE a.experiment_course_id = #{experimentCourseId} AND a.submitter_id = #{studentInfoId}   AND a.experiment_id != #{experimentId} AND c.end_time > NOW() 
+	</select>
+</mapper>

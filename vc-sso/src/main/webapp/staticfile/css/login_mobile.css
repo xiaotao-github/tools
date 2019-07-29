@@ -1,0 +1,78 @@
+ @media screen and (max-width: 1080px){
+	html,body{font-size: 168.75px;}
+}
+ @media screen and (max-width: 980px){
+	html,body{font-size: 153.125px;}
+}
+@media screen and (max-width: 770px){
+	html,body{font-size: 120px;}
+} 
+@media screen and (max-width: 640px){
+	html,body{font-size: 100px;}
+}
+@media screen and (max-width: 414px){
+	html,body{font-size: 64.6875px}
+}
+@media screen and (max-width: 375px){
+	html,body{font-size: 58.59px}
+}
+@media screen and (max-width: 360px){
+	html,body{font-size: 56.25px}
+}
+@media screen and (max-width: 320px){
+	html,body{font-size: 50px;}
+}
+
+
+	:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+	    color: #999; opacity:1; 
+	}
+
+	::-moz-placeholder { /* Mozilla Firefox 19+ */
+	    color: #999;opacity:1;
+	}
+
+	input:-ms-input-placeholder{
+	    color: #999;opacity:1;
+	}
+
+	input::-webkit-input-placeholder{
+	    color: #999;opacity:1;
+	}
+
+	
+	.Validform_right{color:green;}
+	.Validform_wrong{color:red;}
+
+	.loginMobileContainer{width: 640px;height: 100vh;margin: 0 auto;background: url(../images/loginBg_mobile.png) center top no-repeat;background-size: 640px auto;}
+	.title{font-size: 26px;color: #FFF;text-align: center;padding-top: 40px;}
+	.logo{width: 140px;height: 140px;overflow: hidden;margin: 30px auto;border-radius: 50%;background: #c1dfff;}
+	.logo img{display: block;width: 110px;margin: 15px auto;}
+	.loginFill{text-align: center; margin: 320px auto 0 auto;width: 450px;}
+	.loginFill li{display: block;width: 100%;}
+	.loginFill li div{height: 40px;width: 100%;border-radius: 20px;border: 1px solid #ddd;}
+	.loginFill li.userVerification div{border: none;}
+	.loginFill li.userVerification img{display: block;float: left;width: 120px;height: 40px;margin-left: 30px;}
+	.input{width: 400px;height: 38px;font-size: 20px;display: block;margin: 1px 25px;}
+	.input.inputVerification{text-indent: 1.5em;margin: 0;height: 38px; width: 280px;display: block;float: left;border-radius: 20px;border: 1px solid #ddd;}
+	.Validform_checktip{height: 30px;width: 100%;font-size:16px;display: block;text-align: left;text-indent: 2em;}
+	.loginFill li.userLogin{height: 40px;margin-top: 20px;}
+	.loginFill li.userLogin button{display: block; background:#63aeff;font-size: 22px;color: #FFF;border: none;width: 100%;height: 100%;line-height: 40px;border-radius: 20px;}
+	.loginFill li.userLogin button:active{background: #528dce}
+	#errormsg{font-size: 16px;padding-left:20px;height:30px;line-height:30px;margin: 0 auto;margin-top:30px;}
+
+@media screen and (max-width: 1080px){
+	.loginMobileContainer{width: 100%;background-size: 100% auto;}
+	.title{font-size: 0.26rem;padding-top: 0.4rem;line-height: 0.3rem}
+	.logo{width: 1.4rem;height: 1.4rem;margin: 0.5rem auto;}
+	.logo img{width: 1.1rem;margin: 0.15rem auto;}
+	.loginFill{margin: 3.2rem auto 0 auto;width: 5rem;}
+	.loginFill li div{height: 0.5rem;border-radius: 0.25rem;border: 0.01rem solid #ddd;}
+	.loginFill li.userVerification img{width: 1.5rem;height: 0.5rem;margin-left: 0.35rem}
+	.input{width: 4rem;height: 0.48rem;font-size: 0.2rem;margin: 0.01rem 0.25rem;}
+	.input.inputVerification{width: 3rem;height: 0.47rem;border-radius: 0.25rem;border: 0.01rem solid #ddd;}
+	.Validform_checktip{height: 0.3rem;font-size: 0.16rem;line-height: 0.3rem}
+	.loginFill li.userLogin{height: 0.5rem;margin-top: 0.2rem}
+	.loginFill li.userLogin button{font-size: 0.24rem;line-height: 0.5rem;border-radius: 0.25rem;}
+	#errormsg{font-size:0.22rem;padding-left:0.2rem;height:0.3rem;line-height:0.3rem;margin-top:0.3rem;}
+}

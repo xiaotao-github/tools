@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.vcooc.experiment.mapper.LabNoticeMapper">
+	<!-- 根据实验室id 查询该实验下的公告以及其他实验开放的公告 -->
+	<select id="selectByLabIdAndCommonNotice" resultType="LabNotice">
+		SELECT l.*,ti.name teacher_name,el.lab_name FROM lab_notice l 
+		LEFT JOIN teacher_info ti ON l.teacher_id = ti.id
+		LEFT JOIN experiment_lab el ON el.lab_id = l.lab_id
+		WHERE
+		(l.lab_id = #{labId} OR l.is_common = 2 )
+		<if test="isPublish !=null">
+		  AND l.is_publish = #{isPublish}
+		</if> 
+	</select>	
+
+</mapper>

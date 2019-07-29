@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.vcooc.experiment.mapper.ScourseGroupStudentMapper">
+	      
+     <!-- 查询小组下学生id -->
+     <select id="selectStudentIdsByGroupId" parameterType="int" resultType="int">
+            select student_id from scourse_group_student 
+            where group_id=#{groupId}                
+     </select>
+     
+     
+     <select id="getNoGroupStudent" resultType="StudentInfo">
+     	SELECT si.id,si.name,u.username FROM student_info si 
+		LEFT JOIN USER u ON u.id = si.id
+		WHERE si.tb_class_id = #{classId} AND si.id NOT IN (
+				SELECT 	student_id
+				FROM    scourse_group_student 
+				WHERE group_id IN (
+					SELECT 	group_id
+					FROM    scourse_group 
+					WHERE   schedule_id=#{scheduleId}  AND class_id=#{classId}
+					)
+			)
+     </select>
+     
+     
+     <insert id="addGroupStudent">
+     	INSERT INTO scourse_group_student ( group_id,student_id,create_time,update_time)
+		VALUES
+		<foreach  collection="studentId" item="i" separator=",">
+					(  #{groupId},#{i},NOW(),NOW() )
+		</foreach>
+     </insert>
+     
+     
+     <resultMap type="ScourseGroup" id="scourseGroup_member" autoMapping="true">
+     	 <id column="group_id" property="groupId"/>
+     	 <collection property="groupMember" javaType="ArrayList" ofType="StudentInfo">
+	     	 <id column="student_id" property="id"/>
+	     	 <result column="name" property="name"/>
+	     	 <result column="image_path" property="imagePath"/>
+	     	 <result column="username" property="username"/>
+     	 </collection>
+     </resultMap>
+     
+     <select id="getGroupAndGroupMember" resultMap="scourseGroup_member">
+			SELECT 	  <!-- 小组 -->
+					  sg.group_id,sg.schedule_id,sg.class_id,sg.group_name,sg.source,sg.experiment_id,
+					  <!-- 小组成员 -->
+					  sgs.group_student_id,sgs.student_id,
+					  si.id,si.name,si.image_path,
+					  u.username
+			FROM      scourse_group sg
+			LEFT JOIN scourse_group_student sgs ON sgs.group_id=sg.group_id
+			LEFT JOIN student_info si ON si.id = sgs.student_id
+			LEFT JOIN USER u ON u.id=si.id
+			WHERE   sg.group_id=#{groupId}
+     </select>
+     
+     
+     <select id="getOtherStudent" resultType="StudentInfo">
+     	SELECT   si.id,si.name,si.image_path,u.username 
+		FROM student_info si
+		LEFT JOIN USER u  ON u.id=si.id
+		WHERE si.tb_class_id IN (
+					SELECT class_id FROM scourse_group WHERE group_id=#{groupId}
+		) AND si.id NOT IN (
+				SELECT sgs.student_id
+				FROM scourse_group sg
+				LEFT JOIN scourse_group_student sgs ON sgs.group_id = sg.group_id
+				WHERE sg.schedule_id IN (
+						SELECT schedule_id FROM scourse_group WHERE group_id=#{groupId}
+			 	) 
+		)
+     </select>
+     
+     
+     <select id="deleteGroupMember">
+     	DELETE FROM scourse_group_student WHERE group_id=#{groupId} AND student_id IN (${studentIds})
+     </select>
+  
+  
+  	<select id="getScheduleStudent" resultType="int">
+		SELECT student_id FROM scourse_group_student WHERE group_id IN (
+		SELECT group_id FROM scourse_group WHERE schedule_id=#{scheduleId})
+  	</select>
+</mapper>

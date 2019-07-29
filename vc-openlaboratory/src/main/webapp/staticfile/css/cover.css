@@ -1,0 +1,82 @@
+.cl:after,.clearfix:after{content:".";display:block;height:0;clear:both;visibility:hidden}.cl,.clearfix{zoom:1}
+
+
+.navbar-wrapper{
+	height: 70px;
+}
+
+.navbar .logo{
+	height: 70px;
+	line-height: 70px;
+	line-height: 73px/9;
+	*line-height: 70px;
+	_line-height: 70px;
+}
+
+.Hui-aside{
+	top: 70px;
+	padding-top: 0;
+}
+
+.Hui-article-box{
+	top: 70px;
+}
+
+
+.navbar-nav>ul>li, .navbar-nav>ul>li>a{
+	line-height: 70px;
+	line-height: 73px/9;
+	*line-height: 70px;
+	_line-height: 70px;
+}
+
+.navbar-logo{
+	vertical-align: middle;
+}
+
+.navbar-logo img{
+	width: 60px;
+}
+
+.navbar-slogan{
+	font-size: 22px;
+}
+
+.avatarli img{
+	width: 40px;
+	height: 40px;
+	position: absolute;
+	margin-top: 10px;
+	margin-left: 10px;
+	top: 0;
+	left: 0;
+	z-index: -1;
+}
+
+.useravatar{
+	width: 40px;
+	height: 40px;
+	margin: 10px;
+}
+
+.width-50{
+	width:50px;
+}
+
+#Hui-msg .badge{
+	top: 24px;
+}
+
+.Hui-aside .menu_dropdown dd ul{
+	padding: 3px 0;
+}
+
+.Hui-aside .menu_dropdown dd menu li a{
+	padding-left:42px;
+}
+
+.welcomePageUserOperateList table.dataTable thead .sorting_asc, table.dataTable thead .sorting_desc, table.dataTable thead .sorting{
+	background-position: 100px;
+}
+
+

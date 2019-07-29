@@ -1,0 +1,240 @@
+
+/*主体*/
+.myself-main {
+	min-height:80vh;
+    background-color: #f5f5f5;
+}
+
+/*位置导航栏*/
+.myself-main .main-bar {
+    width: 1200px;
+    height: 20px;
+    line-height: 20px;
+    color: #848484;
+    margin: 0px auto 10px auto;
+    padding-top: 10px;
+    font-size: 14px;
+}
+
+.myself-main .main-bar span {
+    float: left;
+}
+
+.myself-main .main-bar span i {
+    color: #1781b3;
+}
+
+.myself-main .main-bar a {
+    color: #848484;
+    float: left;
+}
+
+.myself-main .main-bar a:hover {
+    text-decoration: underline;
+    color: #c03;
+}
+
+/*内容*/
+.myself-main .myself-content {
+    width: 1200px;
+    margin: 0px auto;
+    background-color: #fff;
+}
+
+/*基本信息修改*/
+.myself-main .myself-content .info {
+    width: 1100px;
+    margin: 0px auto;
+}
+
+.myself-main .myself-content .info .title {
+    font-size: 18px;
+    line-height: 30px;
+    color: #1781b3;
+    padding-top: 40px;
+    border-bottom: 1px dashed #D8D8D8;
+}
+
+.myself-main .myself-content .info .revisecontent {
+    padding-top: 30px;
+    clear: both;
+    overflow: hidden;
+}
+
+.myself-main .myself-content .info .revisecontent .left {
+    width: 420px;
+    float: left;
+    padding-left: 40px;;
+}
+
+.myself-main .myself-content .info .revisecontent .left .left-title {
+    float: left;
+    width: 100px;
+    font-weight: 500;
+}
+
+.myself-main .myself-content .info .revisecontent .left .left-content {
+    float: left;
+    /* width: 270px; */
+}
+
+.myself-main .myself-content .info .revisecontent .left .left-content img {
+    display: block;
+    padding-bottom: 5px;
+    width: 140px;
+    height: 140px;
+}
+
+.myself-main .myself-content .info .revisecontent .left .left-content p {
+    font-size: 12px;
+}
+
+.myself-main .myself-content .info .revisecontent .right {
+    float: right;
+    padding-right:40px;
+}
+
+.myself-main .myself-content .info .revisecontent .right .form-group {
+
+}
+
+.myself-main .myself-content .info .revisecontent .right .form-group .right-label {
+    float: left;
+    width: 100px;
+    text-align: right;
+}
+
+.myself-main .myself-content .info .revisecontent .right .form-group .right-div {
+    float: left;
+    width: 400px;
+}
+
+.myself-main .myself-content .info .revisecontent .right .form-group .right-div .name-input {
+    width: 390px;
+    padding: 10px 5px;
+}
+
+.myself-main .myself-content .info .revisecontent .right .form-group .right-div .textarea {
+    width: 400px;
+    max-width: 400px;
+    min-height: 120px;
+    padding: 5px;
+}
+
+/*按钮*/
+.myself-main .myself-content .btn {
+    text-align: center;
+    margin: 50px auto 0px;
+    padding-bottom: 150px;
+}
+
+.myself-main .myself-content .btn button {
+    padding: 8px 20px;
+    cursor: pointer;
+    border: none;
+    border-radius: 3px;
+    transition: all .4s ease;
+    outline: none;
+    text-align: center;
+    letter-spacing: 1px;
+    background-color: #2c92d2;
+    color: #fff;
+    font-size: 16px;
+}
+
+.myself-main .myself-content .btn button:hover {
+    background-color: #e44 !important;
+    cursor: pointer;
+}
+
+/* 头像 */
+#ImgPr{display:block;float:left;}
+
+/*sign name*/
+#mySignature{clear:both;padding:10px;background-color: #f2f2f2;margin:10px auto;}
+#mySignature img{display:block;width:100%;height:100px;}
+#signature{border:1px solid #a9a9a9;}
+
+/*validform*/
+.Validform_checktip {
+    height: 25px;
+    overflow: hidden;
+    color: #999;
+    font-size: 12px;
+    float: left;
+}
+
+.Validform_right {
+    color: #71b83d;
+    padding-left: 15px;
+    background: url(../images/right.png) no-repeat left top;
+}
+
+.Validform_wrong {
+    color: red;
+    padding-left: 15px;
+    white-space: nowrap;
+    background: url(../images/error.png) no-repeat left top;
+}
+
+.Validform_loading {
+    padding-left: 15px;
+    background: url(../images/onLoad.gif) no-repeat left top;
+}
+
+.Validform_error {
+    background-color: #ffe7e7;
+}
+
+#Validform_msg {
+    color: #7d8289;
+    font: 12px/1.5 tahoma, arial, \5b8b\4f53, sans-serif;
+    width: 280px;
+    -webkit-box-shadow: 2px 2px 3px #aaa;
+    -moz-box-shadow: 2px 2px 3px #aaa;
+    background: #fff;
+    position: absolute;
+    top: 0px;
+    right: 50px;
+    z-index: 99999;
+    display: none;
+    filter: progid:DXImageTransform.Microsoft.Shadow(Strength=3, Direction=135, Color='#999999');
+}
+
+#Validform_msg .iframe {
+    position: absolute;
+    left: 0px;
+    top: -1px;
+    z-index: -1;
+}
+
+#Validform_msg .Validform_title {
+    line-height: 25px;
+    height: 25px;
+    text-align: left;
+    font-weight: bold;
+    padding: 0 8px;
+    color: #fff;
+    position: relative;
+    background-color: #000;
+}
+
+#Validform_msg a.Validform_close:link, #Validform_msg a.Validform_close:visited {
+    line-height: 22px;
+    position: absolute;
+    right: 8px;
+    top: 0px;
+    color: #fff;
+    text-decoration: none;
+}
+
+#Validform_msg a.Validform_close:hover {
+    color: #cc0;
+}
+
+#Validform_msg .Validform_info {
+    padding: 8px;
+    border: 1px solid #000;
+    border-top: none;
+    text-align: left;
+}

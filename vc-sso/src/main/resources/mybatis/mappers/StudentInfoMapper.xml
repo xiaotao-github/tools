@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.vcooc.sso.mapper.StudentInfoMapper">
+	<!--学生信息表映射 -->
+	<resultMap type="StudentInfo" id="StudentInfoMap"
+		autoMapping="true">
+			<id column="id" property="id" javaType="int" jdbcType="INTEGER" />
+		<association property="user" javaType="User" autoMapping="true">
+			<id column="id" property="id" javaType="int" jdbcType="INTEGER" />
+		</association>
+		<association property="tbClass" javaType="TbClass">
+			<id column="class_id" property="id" javaType="int" jdbcType="INTEGER" />
+			<result column="class_name" property="name" javaType="string"
+				jdbcType="VARCHAR" />
+			<association property="grade" javaType="Grade">
+				<id column="grade_id" property="id" javaType="int" jdbcType="INTEGER" />
+				<result column="grade_name" property="name" javaType="string"
+					jdbcType="VARCHAR" />
+				<association property="major" javaType="Major">
+					<id column="major_id" property="id" javaType="int" jdbcType="INTEGER" />
+					<result column="major_name" property="name" javaType="string"
+						jdbcType="VARCHAR" />
+					<association property="department" javaType="Department">
+						<id column="department_id" property="id" javaType="int"
+							jdbcType="INTEGER" />
+						<result column="department_name" property="name" javaType="string"
+							jdbcType="VARCHAR" />
+					</association>
+				</association>
+			</association>
+		</association>
+	</resultMap>
+	<!--根据学生id查询学生信息 -->
+	<select id="findStudentInfoByUserId" parameterType="Integer"
+		resultMap="StudentInfoMap">
+		SELECT
+		u.username,u.password,u.status,u.stealth,u.type,si.*,cgmd.* FROM student_info si
+		LEFT JOIN
+		(SELECT
+		cgm.*,d.name department_name FROM department d
+		LEFT JOIN (
+		SELECT
+		tg.*,m.name major_name,m.department_id FROM major m LEFT JOIN (
+		SELECT
+		tc.id class_id ,tc.name class_name,g.id grade_id,g.name
+		grade_name,g.major_id major_id FROM tb_class tc LEFT JOIN grade g ON
+		tc.grade_id = g.id)tg
+		ON m.id = tg.major_id) cgm
+		ON d.id =
+		cgm.department_id) cgmd
+		ON si.tb_class_id = cgmd.class_id
+		LEFT JOIN USER u
+		ON si.id = u.id
+		WHERE u.stealth = 2 AND si.id = #{userId}
+	</select>
+	<!--学生注册 添加学生用户信息-->
+	<insert id="addStudent" parameterType="StudentInfo">
+		INSERT INTO
+		`student_info`(
+		id,
+		tb_class_id,
+		tb_group_id,
+		NAME,
+		age,
+		sex,
+		phone,
+		image_path,
+		email,
+		nickname,
+		source,
+		open_id,
+		ic_no,
+		exp1,
+		exp2,
+		create_time,
+		update_time)
+		VALUES (#{user.id},#{tbClass.id},#{tbGroup.id},
+		#{name},#{age},#{sex},#{phone},#{imagePath},#{email},#{nickname},#{source},#{openId},#{icNo},#{exp1},#{exp2},#{createTime},#{updateTime});
+	</insert>
+	<!--更新学生用户登录信息-->
+	<update id="updateStudentInfoByStudentId" parameterType="Map">
+		UPDATE student_info  
+		<set>
+			<if test="loginNumber!=null">login_number =#{loginNumber},</if>
+			<if test="preTime">pre_time = #{preTime},</if>
+			<if test="updateTime">update_time = #{updateTime}</if>
+		</set>
+		 	WHERE id =#{id};
+		UPDATE USER SET STATUS = #{status} WHERE id = #{id};
+	</update>
+	
+	<!-- 设置教师账号密码 -->
+	<update id="updateStudentInfoPwd">
+		UPDATE user
+		<set>
+		    <if test="pwd!=null">password =#{pwd}</if>
+		 </set>
+		    WHERE id = #{id};
+	</update>
+</mapper>

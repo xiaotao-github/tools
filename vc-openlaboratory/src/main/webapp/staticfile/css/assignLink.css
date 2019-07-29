@@ -1,0 +1,47 @@
+@CHARSET "UTF-8";
+
+	.cl:after,.clearfix:after{content:".";display:block;height:0;clear:both;visibility:hidden}.cl,.clearfix{zoom:1}
+	.btnGroup{padding:30px 0;}
+	
+	.addQuestionsContain{padding:20px;}
+	.addQuestionsContain .txt{}
+	.addQuestionsContain .nav{display:block;border-bottom:1px solid #44bad7;}
+	.addQuestionsContain .nav li{display:block;float:left;padding:0 20px;font-size:14px;height:35px;line-height:35px;cursor:pointer;color:#44bad7;border:1px solid #fff;border-bottom:0;}
+	.addQuestionsContain .nav li:hover{border:1px solid #44bad7;border-bottom:0;}
+	.addQuestionsContain .nav li.selected{color:#FFF;font-size:16px;background:#44bad7;cursor:default;border:1px solid #44bad7;border-bottom:0;}
+	.addQuestionsContain .checktable{border-bottom:1px solid #44bad7;padding:20px 20px 60px;}
+	.addQuestionsContain .checktable .checktable_uncheck{display:none;}
+
+	.link_table{}
+	.link_table .tbody{border:solid #FFF;border-width:2px 0px 0px 2px;}
+	.link_table .tbody tr{background:#f5f3e3;cursor:pointer;}
+	.link_table .tbody tr.uncheck{background:#e3f2f5;}
+	.link_table .tbody tr:hover{background:#e4e2d1;}
+	.link_table .tbody td{background:none;border:solid #FFF;border-width:0px 1px 6px 0px;}
+	.link_table thead th{border:solid #FFF;border-width:0px 1px 6px 0px;}
+	.link_table .tbody .tdClick{padding:0 10px;;}
+	.link_table .tbody .tdClick input{display:block;height:16px;width:16px; margin:0 auto;}
+	
+	.linkSign{padding:0 5px;}
+	.linkContain{}
+	.linkAuthor{font-size:12px;padding:0 5px;}
+	
+	
+	.showDetail{padding:20px;color:#666;}
+	.showQuestionsTitle{font-size:16px;color:#333;}
+	.showQuestionsOptions{font-size:16px;}
+	.showQuestionsOptions span{padding: 5px 20px;display:block;float:left;}
+	.showTheTrueAnswer{margin-top:20px;}
+	.showTheTrueAnswer span{padding-right:20px;}
+	.showTheTrueAnswer .txt{font-weight:bold;}
+	.showAnalysis{margin-top:20px;}
+	.showAnalysis .ATxt{font-size:14px;font-weight:bold;}
+	.showAnalysis .AContain{font-size:14px;padding-left:20px;}
+	
+	
+	.dataTables_wrapper .dataTables_length{padding-bottom:10px;}
+	#DataTables_Table_0_filter{padding-bottom:10px;}
+	input[type=search]{padding:0 ;height:23px;}
+	table.dataTable thead .sorting{background:url(../images/sortBg.png)right center no-repeat; color:#FFF;}
+	table.dataTable thead .sorting_desc{background:url(../images/sortBgDesc.png)right center no-repeat;color:#FFF;}
+	table.dataTable thead .sorting_asc{background:url(../images/sortBgAsc.png)right center no-repeat;color:#FFF;}

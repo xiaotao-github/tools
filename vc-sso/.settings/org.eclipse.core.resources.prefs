@@ -1,0 +1,14 @@
+eclipse.preferences.version=1
+encoding//src/main/resources/env.properties=UTF-8
+encoding//src/main/resources/httpclient.properties=UTF-8
+encoding//src/main/resources/imageCode.properties=UTF-8
+encoding//src/main/resources/jdbc.properties=UTF-8
+encoding//src/main/resources/upload.properties=UTF-8
+encoding//src/main/webapp/WEB-INF/adminPage/footer.jsp=UTF-8
+encoding//src/main/webapp/WEB-INF/adminPage/index.html=UTF-8
+encoding//src/main/webapp/WEB-INF/adminPage/index.jsp=UTF-8
+encoding//src/main/webapp/WEB-INF/adminPage/myselfInfoRevise.html=UTF-8
+encoding//src/main/webapp/WEB-INF/adminPage/myselfInfoRevise.jsp=UTF-8
+encoding//src/main/webapp/WEB-INF/adminPage/passwordRevise.html=UTF-8
+encoding//src/main/webapp/WEB-INF/adminPage/passwordRevise.jsp=UTF-8
+encoding//src/main/webapp/error.jsp=UTF-8

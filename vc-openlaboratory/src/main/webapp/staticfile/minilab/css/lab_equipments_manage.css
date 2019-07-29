@@ -1,0 +1,38 @@
+@charset "UTF-8";
+
+.container-page{padding:30px;}
+
+.container-page .typePart{}
+.container-page .typePart li{min-height:100px;margin:10px 0;background-color:#f5f5f5;text-align:center;}
+.container-page .typePart li .eachEquipment{color:#4ca3bc;background-color:#fff;cursor:pointer;}
+.container-page .typePart li .eachEquipment:hover{background-color:#ebfaff;}
+.container-page .typePart li .eachEquipment p{margin-bottom:0;}
+.container-page .typePart li .eachEquipment .experimentFont{font-size:40px;}
+.container-page .typePart li .typeTitle{font-weight:bold;color:#999;margin-bottom:0;}
+
+.container-page .equipments{}
+.container-page .equipments .eachEquipment{color:#4ca3bc;cursor:pointer;}
+.container-page .equipments .eachEquipment p{margin-bottom:0;}
+.container-page .equipments .eachEquipment div{background-color:#fff;}
+.container-page .equipments .eachEquipment div:hover{background-color:#f5fafe;}
+.container-page .equipments .eachEquipment .experimentFont{font-size:40px;}
+
+
+.editType{display: none;}
+.editType ul{background-color:#f5f5f5;}
+.editType ul li{cursor:pointer;}
+.editType ul li.checked{color:#4ca3bc;}
+.editType ul li.checked div{border:1px solid #4ca3bc;}
+.editType ul li div{background-color:#fff;}
+.editType ul li p{margin-bottom:0;}
+.editType ul li .experimentFont{font-size:26px;}
+
+.reeditBtn{display:none;}
+
+.body_shadow{width: 100%;height: 100vh;background-color: rgba(0,0,0,0.4);top: 0;left: 0;display: none;}
+.jump_btn{bottom: 20px;bottom: 0.2rem;right: 20px;right:0.2rem;display: none;}
+.jump_btn a{display: block;}
+.jump_btn a img{width: 80px;width: 0.8rem;}
+.jump_btn_tip{background-color: rgba(0,0,0,0.5);width: 100px; border-radius: 5px;border-radius: 0.05rem;margin-left: -110px;float: left;margin-bottom: 0;}
+.jump_btn_sel{bottom: 20px;bottom: 0.2rem;right: 20px;right:0.2rem;}
+.jump_btn_sel img{width: 80px;width: 0.8rem;}

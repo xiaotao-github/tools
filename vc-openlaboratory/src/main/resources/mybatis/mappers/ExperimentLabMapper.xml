@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.vcooc.experiment.mapper.ExperimentLabMapper">
+	
+	<resultMap type="ExperimentLab" id="experimentLab_teacherInfo_mapper" autoMapping="true">
+		 <id column="lab_id" property="labId" />
+		 <!--操作人 -->
+		<association property="operator" javaType="TeacherInfo">
+			<id column="operator_user_id" property="id" javaType="int" jdbcType="INTEGER" />
+			<result column="operator_user_name" property="name" javaType="string" jdbcType="VARCHAR" />
+			<result column="operator_user_image_path" property="imagePath" javaType="string" jdbcType="VARCHAR" />
+		</association>
+		 <!--负责人 -->
+		 <collection property="dutyTeachers" ofType="TeacherInfo" javaType="ArrayList">
+			<id column="duty_id" property="id" javaType="int" jdbcType="INTEGER" />
+			<result column="duty_name" property="name" javaType="string" jdbcType="VARCHAR" />
+			<result column="duty_image_path" property="imagePath" javaType="string" jdbcType="VARCHAR" />
+		</collection>
+	</resultMap>
+	
+	
+	<sql id="colname">
+		lab_id, 
+		department_id, 
+		operator_id, 
+		lab_status, 
+		lab_number, 
+		lab_seat, 
+		lab_name, 
+		lab_description, 
+		lab_img, 
+		mainframe_key, 
+		mainframe_id, 
+		video_stream, 
+		stealth, 
+		create_time, 
+		update_time
+	</sql>
+	
+	<!-- 关联查询所有实验室，或者院系实验室 ,支持关键词搜索 -->
+	<select id="Aselect" resultMap="experimentLab_teacherInfo_mapper">
+		SELECT 	  
+				  <!-- 实验室表 -->
+				  el.lab_id,el.department_id,el.operator_id, 
+	  			  el.lab_status,el.lab_seat,el.lab_name,el.lab_description, 
+	  			  el.lab_img,el.mainframe_key,el.mainframe_id,el.video_stream, 
+	  			  el.stealth,el.create_time,el.update_time,el.lab_number,
+				  <!-- 院系表 -->
+	  			  d.name AS department_name,
+	  			  <!-- 实验室/管理员关联表 -->
+	  			  lm.lab_manager_id,
+	  			  <!-- 管理员 -->
+	  			  duty.name AS duty_name,duty.id AS duty_id,duty.image_path AS duty_image_path,
+	  			  <!-- 操作员 -->
+	  			  operator.id AS operator_user_id,operator.name AS operator_user_name,
+	  			  operator.image_path AS operator_user_image_path
+
+		FROM 
+		<choose>
+			<when test="page !=null and page.thisPage != null and page.pageSize != null">
+				(
+					SELECT  <include refid="colname"></include> 
+					FROM experiment_lab 
+					WHERE stealth=#{stealth}
+					<if test="labStatus != null">
+					AND lab_status = #{labStatus}
+					</if>
+					<if test="keyword != null">
+					AND (lab_name like CONCAT('%',#{keyword}, '%') 
+					or lab_number like CONCAT('%',#{keyword}, '%'))</if>
+					LIMIT #{page.startNumber},#{page.pageSize}
+				 )
+			</when>
+			<otherwise>
+				experiment_lab
+			</otherwise>
+		</choose> 
+				el
+		LEFT JOIN department d ON d.id = el.department_id
+		LEFT JOIN lab_manager lm ON lm.lad_id = el.lab_id
+		LEFT JOIN teacher_info duty ON duty.id = lm.manager_id
+		LEFT JOIN teacher_info  operator ON operator.id=el.operator_id
+		WHERE el.stealth=#{stealth} AND el.lab_status = #{labStatus}
+		<!-- 指定 通用实验室类型只获取通用实验室  不包括院系实验室 -->
+		<if test="NoFaculties!= null">AND (el.department_id = -1)</if>
+		<if test="departmentId != null">AND (el.department_id = #{departmentId})</if>
+		<if test="keyword != null">AND (el.lab_name like CONCAT('%',#{keyword}, '%') or el.lab_number like CONCAT('%',#{keyword}, '%'))</if>
+	</select>
+	
+	<!-- 关联查询所有实验室，或者院系实验室 与我负责的 -->
+	<select id="selectExperimentLabList" resultMap="experimentLab_teacherInfo_mapper">
+		SELECT 	  
+				  <!-- 实验室表 -->
+				  el.lab_id,el.department_id,el.operator_id, 
+	  			  el.lab_status,el.lab_seat,el.lab_name,el.lab_description, 
+	  			  el.lab_img,el.mainframe_key,el.mainframe_id,el.video_stream, 
+	  			  el.stealth,el.create_time,el.update_time,el.lab_number,
+				  <!-- 院系表 -->
+	  			  d.name AS department_name,
+	  			  <!-- 实验室/管理员关联表 -->
+	  			  lm.lab_manager_id,
+	  			  <!-- 管理员 -->
+	  			  duty.name AS duty_name,duty.id AS duty_id,duty.image_path AS duty_image_path,
+	  			  <!-- 操作员 -->
+	  			  operator.id AS operator_user_id,operator.name AS operator_user_name,
+	  			  operator.image_path AS operator_user_image_path
+
+		FROM 
+		<choose>
+			<when test="stealth!=null">
+				(
+					SELECT  <include refid="colname"></include> 
+					FROM experiment_lab 
+					WHERE stealth=#{stealth}
+				 )
+			</when>
+			<otherwise>
+				experiment_lab
+			</otherwise>
+		</choose> 
+				el
+		LEFT JOIN department d ON d.id = el.department_id
+		LEFT JOIN lab_manager lm ON lm.lad_id = el.lab_id
+		LEFT JOIN teacher_info duty ON duty.id = lm.manager_id
+		LEFT JOIN teacher_info  operator ON operator.id=el.operator_id
+		WHERE el.stealth=#{stealth}
+		<if test="departmentId != null">AND el.department_id = #{departmentId}</if>	
+		<if test="ladId != null">AND el.lab_id = #{ladId}</if>	
+	</select>
+	
+	
+	
+	<select id="countAselect" resultType="int">
+		SELECT  count(lab_id)
+		FROM experiment_lab
+		WHERE stealth=#{stealth}
+		<if test="keyword != null">AND (lab_name like CONCAT('%',#{keyword}, '%') or lab_number like CONCAT('%',#{keyword}, '%'))</if>
+	</select>
+	
+	
+	<!-- 关联查询给我负责的实验室 ,支持关键词搜索-->
+	<select id="AselectMyLab" resultMap="experimentLab_teacherInfo_mapper">
+		SELECT 	  el.lab_id,el.department_id,el.operator_id, 
+	  			  el.lab_status,el.lab_seat,el.lab_name,el.lab_description, 
+	  			  el.lab_img,el.mainframe_key,el.mainframe_id,el.video_stream, 
+	  			  el.stealth,el.create_time,el.update_time,
+
+	  			  d.name AS department_name,
+	  
+	  			  duty.name AS duty_name,duty.id AS duty_id,duty.image_path AS duty_image_path,
+	  
+	  			  operator.id AS operator_user_id,operator.name AS operator_user_name,
+	  			  operator.image_path AS operator_user_image_path
+
+		FROM 
+			  experiment_lab el
+		LEFT JOIN department d ON d.id = el.department_id
+		LEFT JOIN lab_manager lm ON lm.lad_id = el.lab_id
+		LEFT JOIN teacher_info duty ON duty.id = lm.manager_id
+		LEFT JOIN teacher_info  operator ON operator.id=el.operator_id      
+		WHERE el.stealth=#{stealth}  AND el.lab_id IN (SELECT  lad_id FROM  lab_manager  WHERE  manager_id=#{authorId})
+		<if test="keyword != null">AND (el.lab_name like CONCAT('%',#{keyword}, '%') or el.lab_number like CONCAT('%',#{keyword}, '%'))</if>
+	</select>
+	
+	
+	
+	<!-- 关联查询实验室 -->
+	<select id="AselectById" resultMap="experimentLab_teacherInfo_mapper">
+		SELECT 	  
+				  <!-- 实验室表 -->
+				  el.lab_id,el.department_id,el.operator_id, 
+	  			  el.lab_status,el.lab_seat,el.lab_name,el.lab_description, 
+	  			  el.lab_img,el.mainframe_key,el.mainframe_id,el.video_stream, 
+	  			  el.stealth,el.create_time,el.update_time,el.lab_number,
+				  <!-- 院系表 -->
+	  			  d.name AS department_name,
+	  			  <!-- 实验室/管理员关联表 -->
+	  			  lm.lab_manager_id,
+	  			  <!-- 管理员 -->
+	  			  duty.name AS duty_name,duty.id AS duty_id,duty.image_path AS duty_image_path
+	  			  
+		FROM      experiment_lab el
+		
+		LEFT JOIN department d ON d.id = el.department_id
+		LEFT JOIN lab_manager lm ON lm.lad_id = el.lab_id
+		LEFT JOIN teacher_info duty ON duty.id = lm.manager_id
+		WHERE el.lab_id=#{labId}
+	</select>
+	
+	<select id="selectByScheduleId" resultMap="experimentLab_teacherInfo_mapper">
+		SELECT 		el.lab_id,el.department_id,el.operator_id,el.lab_status,el.lab_number, 
+					el.lab_seat,el.lab_name,el.lab_description,el.lab_img,el.mainframe_key, 
+					el.mainframe_id,el.video_stream,el.stealth,el.create_time,el.update_time,
+					 <!-- 院系表 -->
+	  			  	 d.name AS department_name,
+	  			 	 <!-- 实验室/管理员关联表 -->
+	  			  	lm.lab_manager_id,
+	  			 	 <!-- 管理员 -->
+	  			  duty.name AS duty_name,duty.id AS duty_id,duty.image_path AS duty_image_path
+		FROM 
+					experiment_lab el
+		LEFT JOIN department d ON d.id = el.department_id
+		LEFT JOIN lab_manager lm ON lm.lad_id = el.lab_id
+		LEFT JOIN teacher_info duty ON duty.id = lm.manager_id
+		WHERE el.lab_id in (SELECT lab_id AS tempid FROM course_schedule  WHERE schedule_id=#{scheduleId})
+	</select>
+</mapper>

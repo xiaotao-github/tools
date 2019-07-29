@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.vcooc.experiment.mapper.LabClockInMachineUserMapper" >
+  <resultMap id="BaseResultMap" type="com.vcooc.base.pojo.LabClockInMachineUser" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="enroll_id" property="enrollId" jdbcType="BIGINT" />
+    <result column="clockin_id" property="clockinId" jdbcType="VARCHAR" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="operator_id" property="operatorId" jdbcType="INTEGER" />
+    <result column="lab_id" property="labId" jdbcType="BIGINT" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="user_privilege" property="userPrivilege" jdbcType="VARCHAR" />
+    <result column="id_flag" property="idFlag" jdbcType="TINYINT" />
+    <result column="is_deleted" property="isDeleted" jdbcType="BIT" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.vcooc.base.pojo.LabClockInMachineUser" extends="BaseResultMap" >
+    <result column="enroll_password" property="enrollPassword" jdbcType="LONGVARBINARY" />
+  </resultMap>
+  
+  <!-- 考勤机用户Map -->
+  <resultMap id="UserMap" type="com.vcooc.experiment.dto.ClockInMachineUserDTO" >
+   	<result column="id"  property="id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="username" property="username" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="TINYINT" />
+    <result column="depart_name" property="departName" jdbcType="VARCHAR" />
+    <result column="major_name" property="majorName" jdbcType="VARCHAR" />
+    <result column="grade_name" property="gradeName" jdbcType="VARCHAR" />
+    <result column="class_name" property="className" jdbcType="VARCHAR" />
+    
+    <result column="operator_name" property="operateName" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, enroll_id, clockin_id, user_name, user_id, operator_id, lab_id, create_time, 
+    update_time, user_privilege, id_flag, is_deleted
+  </sql>
+  <sql id="Blob_Column_List" >
+    enroll_password
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from lab_clock_in_machine_user
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from lab_clock_in_machine_user
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.vcooc.base.pojo.LabClockInMachineUser" >
+    insert into lab_clock_in_machine_user (id, enroll_id, clockin_id, 
+      user_name, user_id, operator_id, 
+      lab_id, create_time, update_time, 
+      user_privilege, id_flag, is_deleted, 
+      enroll_password)
+    values (#{id,jdbcType=BIGINT}, #{enrollId,jdbcType=BIGINT}, #{clockinId,jdbcType=VARCHAR}, 
+      #{userName,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, #{operatorId,jdbcType=INTEGER}, 
+      #{labId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{userPrivilege,jdbcType=VARCHAR}, #{idFlag,jdbcType=TINYINT}, #{isDeleted,jdbcType=BIT}, 
+      #{enrollPassword,jdbcType=LONGVARBINARY})
+  </insert>
+  <insert id="insertSelective" parameterType="com.vcooc.base.pojo.LabClockInMachineUser" >
+    insert into lab_clock_in_machine_user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="enrollId != null" >
+        enroll_id,
+      </if>
+      <if test="clockinId != null" >
+        clockin_id,
+      </if>
+      <if test="userName != null" >
+        user_name,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="operatorId != null" >
+        operator_id,
+      </if>
+      <if test="labId != null" >
+        lab_id,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="userPrivilege != null" >
+        user_privilege,
+      </if>
+      <if test="idFlag != null" >
+        id_flag,
+      </if>
+      <if test="isDeleted != null" >
+        is_deleted,
+      </if>
+      <if test="enrollPassword != null" >
+        enroll_password,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="enrollId != null" >
+        #{enrollId,jdbcType=BIGINT},
+      </if>
+      <if test="clockinId != null" >
+        #{clockinId,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="operatorId != null" >
+        #{operatorId,jdbcType=INTEGER},
+      </if>
+      <if test="labId != null" >
+        #{labId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userPrivilege != null" >
+        #{userPrivilege,jdbcType=VARCHAR},
+      </if>
+      <if test="idFlag != null" >
+        #{idFlag,jdbcType=TINYINT},
+      </if>
+      <if test="isDeleted != null" >
+        #{isDeleted,jdbcType=BIT},
+      </if>
+      <if test="enrollPassword != null" >
+        #{enrollPassword,jdbcType=LONGVARBINARY},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.vcooc.base.pojo.LabClockInMachineUser" >
+    update lab_clock_in_machine_user
+    <set >
+      <if test="enrollId != null" >
+        enroll_id = #{enrollId,jdbcType=BIGINT},
+      </if>
+      <if test="clockinId != null" >
+        clockin_id = #{clockinId,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="operatorId != null" >
+        operator_id = #{operatorId,jdbcType=INTEGER},
+      </if>
+      <if test="labId != null" >
+        lab_id = #{labId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userPrivilege != null" >
+        user_privilege = #{userPrivilege,jdbcType=VARCHAR},
+      </if>
+      <if test="idFlag != null" >
+        id_flag = #{idFlag,jdbcType=TINYINT},
+      </if>
+      <if test="isDeleted != null" >
+        is_deleted = #{isDeleted,jdbcType=BIT},
+      </if>
+      <if test="enrollPassword != null" >
+        enroll_password = #{enrollPassword,jdbcType=LONGVARBINARY},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.vcooc.base.pojo.LabClockInMachineUser" >
+    update lab_clock_in_machine_user
+    set enroll_id = #{enrollId,jdbcType=BIGINT},
+      clockin_id = #{clockinId,jdbcType=VARCHAR},
+      user_name = #{userName,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=INTEGER},
+      operator_id = #{operatorId,jdbcType=INTEGER},
+      lab_id = #{labId,jdbcType=BIGINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      user_privilege = #{userPrivilege,jdbcType=VARCHAR},
+      id_flag = #{idFlag,jdbcType=TINYINT},
+      is_deleted = #{isDeleted,jdbcType=BIT},
+      enroll_password = #{enrollPassword,jdbcType=LONGVARBINARY}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.vcooc.base.pojo.LabClockInMachineUser" >
+    update lab_clock_in_machine_user
+    set enroll_id = #{enrollId,jdbcType=BIGINT},
+      clockin_id = #{clockinId,jdbcType=VARCHAR},
+      user_name = #{userName,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=INTEGER},
+      operator_id = #{operatorId,jdbcType=INTEGER},
+      lab_id = #{labId,jdbcType=BIGINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      user_privilege = #{userPrivilege,jdbcType=VARCHAR},
+      id_flag = #{idFlag,jdbcType=TINYINT},
+      is_deleted = #{isDeleted,jdbcType=BIT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectMachineUserCountByClockinId" resultType="int">
+  	SELECT
+		count(id) AS number
+	FROM
+		lab_clock_in_machine_user
+	WHERE
+		clockin_id = #{clockinId}
+	AND is_deleted = 0
+  </select>
+  
+  <select id="selectMachineUserList" resultMap="UserMap">
+	  <choose>
+	  	<when test="sSearch!=null and sSearch!=''">
+	  		SELECT
+				si.`name`,
+				si.id,
+				u.username,
+				'学生' AS type,
+				d. NAME AS depart_name,
+				m.`name` AS major_name,
+				g.`name` AS grade_name,
+				tc.`name` AS class_name,
+				ti.`name` AS operator_name,
+				DATE_FORMAT(
+					cmu.create_time,
+					'%Y-%m-%d %H:%i:%S'
+				) AS create_time,
+				DATE_FORMAT(
+					cmu.update_time,
+					'%Y-%m-%d %H:%i:%S'
+				) AS update_time
+			FROM
+				lab_clock_in_machine_user AS cmu
+			INNER JOIN `user` AS u ON u.id = cmu.user_id
+			INNER JOIN student_info AS si ON si.id = u.id
+			INNER JOIN tb_class AS tc ON si.tb_class_id = tc.id
+			INNER JOIN grade AS g ON g.id = tc.grade_id
+			INNER JOIN major AS m ON g.major_id = m.id
+			INNER JOIN department AS d ON d.id = m.department_id
+			INNER JOIN teacher_info AS ti ON cmu.operator_id = ti.id
+			WHERE cmu.clockin_id=#{clockinId} AND cmu.is_deleted=0
+			AND
+				(
+				
+				d. NAME LIKE CONCAT(CONCAT('%',#{sSearch}),'%')
+				OR m.`name` LIKE CONCAT(CONCAT('%',#{sSearch}),'%')
+				OR g.`name` LIKE CONCAT(CONCAT('%',#{sSearch}),'%')
+				OR tc.`name` LIKE CONCAT(CONCAT('%',#{sSearch}),'%')
+				OR si.`name` LIKE CONCAT(CONCAT('%',#{sSearch}),'%')
+				OR u.username LIKE CONCAT(CONCAT('%',#{sSearch}),'%')
+				OR ti.`name` LIKE CONCAT(CONCAT('%',#{sSearch}),'%')
+				
+				)
+			ORDER BY  cmu.create_time DESC
+			limit #{iDisplayStart},#{iDisplayLength}
+	  	</when>
+	  	<otherwise>
+			SELECT
+				si.`name`,
+				si.id,
+				u.username,
+				'学生' AS type,
+				d. NAME AS depart_name,
+				m.`name` AS major_name,
+				g.`name` AS grade_name,
+				tc.`name` AS class_name,
+				ti.`name` AS operator_name,
+				DATE_FORMAT(
+					cmu.create_time,
+					'%Y-%m-%d %H:%i:%S'
+				) AS create_time,
+				DATE_FORMAT(
+					cmu.update_time,
+					'%Y-%m-%d %H:%i:%S'
+				) AS update_time
+			FROM
+				lab_clock_in_machine_user AS cmu
+			INNER JOIN `user` AS u ON u.id = cmu.user_id
+			INNER JOIN student_info AS si ON si.id = u.id
+			INNER JOIN tb_class AS tc ON si.tb_class_id = tc.id
+			INNER JOIN grade AS g ON g.id = tc.grade_id
+			INNER JOIN major AS m ON g.major_id = m.id
+			INNER JOIN department AS d ON d.id = m.department_id
+			INNER JOIN teacher_info AS ti ON cmu.operator_id = ti.id
+			WHERE cmu.clockin_id=#{clockinId} AND cmu.is_deleted=0
+			ORDER BY  cmu.create_time DESC
+			limit #{iDisplayStart},#{iDisplayLength}
+	  	</otherwise>
+	  </choose>
+	  
+  </select>
+</mapper>

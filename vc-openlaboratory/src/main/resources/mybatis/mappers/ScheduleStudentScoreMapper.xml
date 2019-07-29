@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.vcooc.experiment.mapper.ScheduleStudentScoreMapper">
+
+	<select id="getStudentIdByClassId" resultType="int">
+		SELECT id FROM
+		student_info WHERE tb_class_id IN ( ${classIds} )
+	</select>
+	<insert id="initScore">
+		INSERT INTO schedule_student_score
+		(
+		schedule_id,
+		stipulate_sginin_time,
+		submit_status,
+		submitter_id,
+		score,
+		create_time
+		)
+		VALUES
+		<foreach collection="studentId" item="i" separator=",">
+			(
+			#{scheduleId},#{stipulateSgininTime},1,#{i},0,NOW() )
+		</foreach>
+	</insert>
+
+	<delete id="deleteScore">
+		DELETE FROM schedule_student_score WHERE submitter_id
+		IN (
+		SELECT student_id
+		FROM scourse_group_student
+		WHERE group_id =
+		#{groupId}
+		)
+		AND schedule_id = #{scheduleId}
+	</delete>
+
+	<delete id="deleteScoreByStudentId">
+		DELETE FROM schedule_student_score WHERE submitter_id
+		IN (${studentIds})
+		AND schedule_id = #{scheduleId}
+	</delete>
+
+	<!-- 实物实验分数映射 关联提交学生信息 -->
+	<resultMap id="scheduleStudentScoreMap" type="ScheduleStudentScore"
+		autoMapping="true">
+		<id column="schedule_student_score_id" property="scheduleStudentScoreId" />
+		<!--查询提交人的信息 -->
+		<association property="submitter" column="submitter_id"
+			select="selectStudentInfoByStudentInfoId" />
+	</resultMap>
+
+
+	<select id="selectByKey" resultMap="scheduleStudentScoreMap">
+		SELECT sss.*,si.name FROM
+		schedule_student_score sss
+		LEFT JOIN student_info si ON
+		sss.submitter_id = si.id
+		WHERE sss.schedule_student_score_id = #{id}
+	</select>
+
+	<!--根据学生ID，查询学生信息 -->
+	<select id="selectStudentInfoByStudentInfoId" resultType="StudentInfo">
+		SELECT
+		s.*,u.username ,gc.className AS class_name,gc.gradeName,dm.majorName,
+		dm.departmentName AS department_name
+		FROM student_info s
+		LEFT JOIN (
+		SELECT c.id AS classId,c.name AS className,g.id AS gradeId ,g.name
+		gradeName
+		,g.major_id AS majorId FROM tb_class c
+		LEFT JOIN grade g ON
+		g.id = c.grade_id
+		) gc ON gc.classId= s.tb_class_id
+		LEFT JOIN (
+		SELECT
+		m.id AS
+		majorId,m.name AS majorName,d.id AS departmentId,d.name AS
+		departmentName FROM major m
+		LEFT JOIN department d ON d.id =
+		m.department_id
+		) dm ON dm.majorId = gc.majorId
+		LEFT JOIN (
+		SELECT d.id
+		AS departmentId FROM
+		department d
+		) dt ON dt.departmentId =
+		dm.departmentId
+		LEFT JOIN USER u ON u.id = s.id WHERE
+		s.id=#{studentInfoId}
+	</select>
+	<!-- 查询该课程下 其他学生的实验信息 -->
+	<select id="selectOther" resultType="ScheduleStudentScore">
+		SELECT
+		sss.schedule_student_score_id,si.name AS student_name FROM
+		schedule_student_score sss
+		LEFT JOIN student_info si ON si.id =
+		sss.submitter_id
+		WHERE sss.schedule_id
+		= #{scheduleId} AND
+		sss.schedule_student_score_id NOT
+		IN(#{studentScoreId}) AND
+		sss.submit_status = #{code}
+	</select>
+
+	<!--批量修改学生实物实验成绩 -->
+	<update id="updateStudentScore">
+		UPDATE schedule_student_score sss
+		<set>
+			<if test="scheduleStudentScore.submitStatus !=null">
+				sss.submit_status = #{scheduleStudentScore.submitStatus},
+			</if>
+			<if test="scheduleStudentScore.score !=null">
+				sss.score = #{scheduleStudentScore.score},
+			</if>
+			<if test="scheduleStudentScore.remark !=null">
+				sss.remark = #{scheduleStudentScore.remark},
+			</if>
+			<if test="scheduleStudentScore.goodReport != null">
+				sss.good_report = #{scheduleStudentScore.goodReport},
+			</if>
+			<if test="scheduleStudentScore.checkTime != null">
+				sss.check_time = #{scheduleStudentScore.checkTime},
+			</if>
+			<if test="scheduleStudentScore.updateTime !=null">
+				sss.update_time = #{scheduleStudentScore.updateTime}
+			</if>
+		</set>
+		WHERE sss.schedule_student_score_id IN (${updateIds})
+	</update>
+
+	<!-- 根据教师权限查询学生提交但未批改的成绩信息 -->
+	<select id="selectScoreBySubmitStatus" resultType="ScheduleStudentScore">
+		SELECT
+		s.schedule_student_score_id,
+		cs.course_id,
+		ec.course_name,
+		cs.experiment_id,
+		e.experiment_name,
+		cs.operator_id,
+		sd.student_name,
+		s.update_time,
+		sd.department_id,
+		s.submit_status
+		FROM
+		schedule_student_score s
+		LEFT JOIN course_schedule cs ON cs.schedule_id = s.schedule_id
+		LEFT JOIN experiment e ON e.experiment_id = cs.experiment_id
+		LEFT JOIN experiment_course ec ON ec.experiment_course_id = cs.course_id
+		LEFT JOIN (
+		select si.id ,si.name student_name,m.department_id department_id from
+		student_info si
+		left JOIN tb_class c on c.id = si.tb_class_id
+		left JOIN grade g on g.id = c.grade_id
+		LEFT JOIN major m on m.id = g.major_id
+		) sd ON sd.id = s.submitter_id AND e.experiment_type = 3
+		<where>
+			s.submit_status in (2,4)
+			<if test="departmentId!=null">and sd.department_id=${departmentId}</if>
+			<if test="teacherId!=null">and cs.operator_id=${teacherId}</if>
+		</where>
+		order by s.update_time desc
+	</select>
+	<!--根据课程表id 查询课程表下的学生信息-->
+	<select id="selectScoreByScheduleId" resultType="ScheduleStudentScore">
+		SELECT sss.schedule_student_score_id,sss.signin,sss.signin_time,si.name as student_name,si.image_path, 
+		u.username
+		FROM schedule_student_score sss
+		LEFT JOIN student_info si ON si.id = sss.submitter_id
+		LEFT JOIN `user` u ON u.id =  sss.submitter_id
+		 WHERE sss.schedule_id = #{shceduleId}
+	</select>
+
+
+	<!--根据学生成绩id数组 查询需要导出的学生成绩信息 -->
+	<select id="selectExportDataByIds" resultMap="scheduleStudentScoreMap2">
+		SELECT
+		b.schedule_student_score_id,b.score,b.submit_status,b.submit_time,c.username,f.*,j.*
+		FROM(
+		SELECT a.* FROM schedule_student_score AS a WHERE
+		a.schedule_student_score_id IN (
+		<foreach collection="ids" separator="," item="id">
+			#{id}
+		</foreach>
+		)) AS b
+		LEFT JOIN `user` AS c ON c.id = b.submitter_id
+		LEFT JOIN
+		(SELECT d.id AS student_id , d.name AS student_name ,e.name AS clazz_name
+		FROM student_info AS d LEFT JOIN tb_class AS e ON d.tb_class_id =
+		e.id) AS f
+		ON f.student_id = b.submitter_id
+		LEFT JOIN
+		(
+		SELECT g.schedule_id AS sche_id ,g.slice,g.schooltime,g.type AS
+		schedule_type,h.course_name,i.experiment_name,k.name AS teacher_name
+		FROM course_schedule AS g
+		LEFT JOIN experiment_course AS h ON h.experiment_course_id = g.course_id
+		LEFT JOIN experiment AS i ON i.experiment_id = g.experiment_id
+		LEFT
+		JOIN teacher_info AS k ON k.id = g.operator_id
+		) AS j ON j.sche_id =
+		b.schedule_id
+	</select>
+
+
+	<resultMap id="scheduleStudentScoreMap2" type="ScheduleStudentScore"
+		autoMapping="true">
+		<id property="scheduleStudentScoreId" column="schedule_student_score_id" />
+		<association property="courseSchedule" javaType="CourseSchedule"
+			autoMapping="true">
+			<id property="scheduleId" column="sche_id" />
+			<result property="type" column="schedule_type" />
+		</association>
+	</resultMap>
+</mapper>

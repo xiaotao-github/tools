@@ -1,0 +1,52 @@
+@CHARSET "UTF-8";
+.bg-size{font-size:100px;color:#cccccc;}
+.wrong{color: red;background: #ffe3e3;}
+.wrong:before{content:'√';}
+.right{color: green;background: #def9e3;}
+.container{width:1000px;margin: 0 auto;padding:20px 0;}
+.firstTitle{background: #337779;font-size: 18px;color: #fff;padding: 3px 10px;;}
+.secondTitle{position:relative;}
+.firstTitle span{padding: 0 10px;}
+.secondTitle span{font-weight: bold; padding-left: 10px;border-left: 3px solid #337779;font-size: 14px;}
+.secondTitle i{/* position:absolute;right:0;top:0; */font-size:16px;color:#337779;cursor:pointer;}
+.fc-red{color:#bb3e3e;}
+
+.submit-title{}
+.submit-title .titlePart{font-weight:bold;color:#337779;margin:0;}
+.submit-title .titlePart .status{color:#337779; padding:2px 10px;border-radius:5px;fotn-weight:normal}
+.submit-title .titlePart .status.status1{color:#5eb95e;}
+.submit-title .titlePart .status.status2{color:#5c83bf;}
+.submit-title .titlePart .status.status3{color:#bd8b18;}
+.submit-title .titlePart .status.status4{color:#b76060;}
+.submit-title .namePart{}
+.submit-title .tablePart{}
+.submit-report .testCtrPart{padding: 20px; border: 1px solid #ccc;}
+.submit-report .testCtrPart tr{padding: 0;border: none;}
+.submit-report .testCtrPart table{border: 1px solid #333;border-right: none;border-bottom: none;border-collapse: collapse;}
+.submit-report .testCtrPart td{border: 1px solid #333;border-left: none;border-top: none;}
+.submit-report .testCtrPart td p{padding:0;margin: 0;}
+.submit-report .testCtrPart img{display:block;width:70%;margin:0 auto;}
+.resultGif{display: block;margin: 0 auto;min-width: 800px;}
+.submit-read label{padding:5px 30px;}
+.submit-read .score-text input{height:30px;border:1px solid #ccc;}
+.submit-read .tch-text textarea{display:block;width:100%;height:100px;border:1px solid #ddd;resize:none;}
+#studentSubmit-edit-sub{font-size:14px;padding:3px 15px; border:none;background:#337779;color:#fff;cursor:pointer;}
+#studentSubmit-edit-sub:hover{background:#51848a;}
+.reset{border:none;color:#fff;font-size:14px; display:none;padding:3px 15px;background:#337779;display:none;cursor:pointer;}
+.reset:hover{background:#51848a;}
+.submit-read .tch-textRecord ul{border: 1px solid #ccc;background: #f5f5f5;}
+.submit-read .tch-textRecord ul li{border:1px solid #ccc;color:#999;background:#fff;}
+.submit-read .tch-textRecord ul li.checked{color:#3aa6b1;border: 1px solid #3aa6b1;}
+.submit-read .tch-textRecord ul li p{margin:0;position:relative;}
+.submit-read .tch-textRecord ul li p span{cursor:pointer; display: block;width: 95%;}
+.submit-read .tch-textRecord ul li p i{font-style:normal;position:absolute;right:0;cursor:pointer;top:0;}
+.readList ul{margin:0 30px;}
+.readList ul li{float:left;padding:10px 20px;}
+
+.tablePart .stuInfoTable{width:100%;border: 1px solid #ccc;border-right: none;border-bottom: none;border-collapse: collapse;}
+.tablePart .stuInfoTable tr{height: 35px;padding: 0;border: none;text-align:center;}
+.tablePart .stuInfoTable tr td{border: 1px solid #ccc;border-left: none;border-top: none;font-size: 14px;}
+
+.score-text .tablePart table{width:100%;border: 1px solid #ccc;border-right: none;border-bottom: none;border-collapse: collapse;}
+.score-text .tablePart table tr{height: 35px;padding: 0;border: none;text-align:center;}
+.score-text .tablePart table tr td{border: 1px solid #ccc;border-left: none;border-top: none;}

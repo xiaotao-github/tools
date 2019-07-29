@@ -1,0 +1,30 @@
+@charset "UTF-8";
+.courseMsgBox{font-weight:bold;margin:0;margin-bottom:15px;}
+.courseMsgBox .experimentName{font-size:18px;/* font-weight:bold; */color:#4cacea;}
+
+.tipsBox{background-color: #fff9ed;}
+
+.changeMsgBox{/* background-color:#f2f2f2; */}
+
+.scheduleBox{position: relative;margin:0;margin-top:20px;}
+.schedule{}
+.classesList{background-color: #4cacea;color: #fff;padding:0}
+.classesList li{text-align: center;padding: 2em 0;border: 1px solid #ccc;font-weight: bold;}
+.classesContent{padding:0}
+.weekList{color: #fff;font-weight: bold;}
+.weekList li{background-color: #5fb3d7;text-align: center;width:14.2%;float:left;}
+.weekList li .weekBox{padding: 2em 0;border: 1px solid #ccc;}
+.schedule{}
+.schedule .schedule-row{width:14.2%;float:left;border:0;}
+.schedule .schedule-row .schedule-col{border: 1px solid #ccc;overflow: hidden;font-size: 12px;text-align: center;height:78px;cursor:pointer;}
+.schedule .schedule-row .schedule-col:hover{background-color: #fffce0;}
+
+.scheduleBox .schedule-tips{margin-top:20px;}
+.scheduleBox .schedule-tips p{display: inline-block;margin-right: 20px;}
+.scheduleBox .schedule-tips p .color-part1{padding: 0px 20px;border: 1px solid #ccc;background-color: #f5f5f5;}
+.scheduleBox .schedule-tips p .color-part2{padding: 0px 20px;border: 1px solid #ccc;background-color: #fffce0;}
+.scheduleBox .schedule-tips p .color-part3{padding: 0px 20px;border: 1px solid #ccc;background-color: #e5fff3;}
+
+.colColor-1{background-color: #f5f5f5;}
+.colColor-2{background-color: #fffce0;}
+.colColor-3{background-color: #e5fff3;}

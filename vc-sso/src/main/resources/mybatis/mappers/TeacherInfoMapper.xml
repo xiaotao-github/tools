@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.vcooc.sso.mapper.TeacherInfoMapper">
+	<!--教师信息表映射 -->
+	<resultMap type="TeacherInfo" id="TeacherInfoMap"
+		autoMapping="true">
+		<id column="id" property="id" javaType="int" jdbcType="INTEGER" />
+	
+		<association property="user" javaType="User" autoMapping="true">
+			<id column="id" property="id" javaType="int" jdbcType="INTEGER" />
+		</association>
+		<association property="department" javaType="Department">
+			<id column="department_id" property="id" javaType="int" jdbcType="INTEGER" />
+			<result column="department_name" property="name" javaType="string"
+				jdbcType="VARCHAR" />
+		</association>
+		<association property="role" javaType="Role">
+			<id column="role_id" property="id" javaType="int" jdbcType="INTEGER" />
+			<result column="role_name" property="name" javaType="string"
+				jdbcType="VARCHAR" />
+		</association>
+	</resultMap>
+	<!--根据教师id查询教师信息 -->
+	<select id="findTeacherInfoByUserId" parameterType="Integer"
+		resultMap="TeacherInfoMap">
+		SELECT
+		u.username,u.password,u.status,u.stealth,u.type,ti.*,
+		d.id department_id,d.name department_name,
+		r.id role_id,r.name
+		role_name
+		FROM teacher_info ti
+		LEFT JOIN USER u ON u.id = ti.id
+		LEFT JOIN
+		department d ON ti.department_id = d.id
+		LEFT JOIN role r ON ti.role_id
+		= r.id
+		WHERE u.stealth = 2 AND ti.id = #{userId}
+	</select>
+	<!--教师注册，添加教师信息-->
+	<insert id="addTeacher" parameterType="TeacherInfo">
+		INSERT INTO
+		`teacher_info`(
+		id,
+		role_id,
+		department_id,
+		NAME,
+		age,
+		sex,
+		phone,
+		image_path,
+		email,
+		nickname,
+		source,
+		unit,
+		teacher_presentation,
+		open_id,
+		ic_no,
+		exp1,
+		exp2,		
+		create_time,
+		update_time)
+		VALUES
+		(#{user.id},#{role.id},#{department.id},#{name},#{age},#{sex},#{phone},#{imagePath},
+		#{email},#{nickname},#{source},#{unit},#{teacherPresentation},#{openId},#{icNo},#{exp1},#{exp2},#{createTime},#{updateTime});
+	</insert>
+	<!--更新教师登录信息-->
+	<update id="updateTeacherInfoByTeacherId" parameterType="Map">
+		UPDATE teacher_info
+		<set>
+			<if test="loginNumber!=null">login_number =#{loginNumber},</if>
+			<if test="preTime">pre_time = #{preTime},</if>
+			<if test="updateTime">update_time = #{updateTime},</if>
+		</set>
+		    WHERE id = #{id};
+		UPDATE USER SET STATUS = #{status} WHERE id = #{id};
+	</update>
+	
+	<!--修改教师信息 -->
+	<update id="updateTeacherInfoById" parameterType="TeacherInfo">
+		UPDATE teacher_info
+		<set>
+		    <if test="name!=null">name =#{name},</if>
+		    <if test="sex!=null">sex =#{sex},</if>
+		    <if test="phone!=null">phone =#{phone},</if>
+		    <if test="email!=null">email =#{email},</if>
+		    <if test="unit">unit = #{unit},</if>
+		    <if test="teacherPresentation">teacher_presentation = #{teacherPresentation},</if>
+		    <if test="imagePath!=null">image_path =#{imagePath},</if>
+		    <if test="openId!=null">open_id =#{openId},</if>
+		    <if test="icNo!=null">ic_no =#{icNo},</if>
+		    <if test="exp1!=null">exp1 =#{exp1},</if>
+		    <if test="exp2!=null">exp2 =#{exp2},</if>
+			<if test="updateTime">update_time = #{updateTime}</if>
+		</set>
+		    WHERE id = #{id};
+	</update>
+	<!-- 设置教师账号密码 -->
+	<update id="updateTeacherInfoPwd">
+		UPDATE user
+		<set>
+		    <if test="pwd!=null">password =#{pwd}</if>
+		 </set>
+		    WHERE id = #{id};
+	</update>
+</mapper>

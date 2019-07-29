@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/../../vc-openlaboratory/vc-openlaboratory.iml" filepath="$PROJECT_DIR$/../../vc-openlaboratory/vc-openlaboratory.iml" />
+      <module fileurl="file://$PROJECT_DIR$/vc-vs-experiment.iml" filepath="$PROJECT_DIR$/vc-vs-experiment.iml" />
+    </modules>
+  </component>
+</project>

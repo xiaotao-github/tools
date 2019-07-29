@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.vcooc.experiment.mapper.ScheduleClassMapper">
+     <resultMap type="ScheduleClass" id="scheduleClassMapper">
+             <id column="schedule_class_id" property="scheduleClassId"/>
+             <!-- 映射班级信息 -->
+              <association property="tbClass" javaType="TbClass">
+                    <id column="class_id" property="id"/>
+                    <result column="class_name" property="name"/>
+                    <result column="nember_num" property="nemberNum"/>
+              </association>
+     </resultMap>
+
+	<insert id="insertByArray">
+		INSERT INTO schedule_class 
+			(
+				class_id, 
+				schedule_id, 
+				stealth, 
+				create_time, 
+				update_time
+			)
+		VALUES
+			<foreach  collection="classIds" item="i" separator=",">
+					(  #{i},#{scheduleId},2,#{date},#{date} )
+			</foreach>
+	</insert>
+	
+	<insert id="insertByList">
+		INSERT INTO schedule_class 
+			(
+				class_id, 
+				schedule_id, 
+				stealth, 
+				create_time, 
+				update_time
+			)
+		VALUES
+			<foreach  collection="classIds" item="i" separator=",">
+					(  #{i},#{scheduleId},2,NOW(),NOW() )
+			</foreach>
+	</insert>
+	
+	<update id="deleteByArray">
+		UPDATE   schedule_class 
+		SET      stealth = 1, update_time = NOW()
+		WHERE    schedule_id = #{scheduleId} AND class_id IN (
+			<foreach  collection="classIds" item="i" separator=",">
+				#{i}
+			</foreach>
+		) 
+	</update>
+	
+	<select id="addAllowTbClass" resultType="TbClass">
+		SELECT   tc.id,tc.name,m.name AS majorName ,
+		(select count(id) from student_info where tb_class_id= tc.id ) member_num
+		FROM 	 tb_class tc
+		LEFT JOIN grade g ON g.id=tc.grade_id
+		LEFT JOIN major m ON m.id=g.major_id
+		WHERE tc.id IN (
+							SELECT 	tb_class_id
+							FROM    experiment_course_class
+							WHERE
+							experiment_course_id IN 
+							(SELECT course_id  FROM  course_schedule  WHERE schedule_id=#{scheduleId})
+		) AND tc.id NOT IN 
+		(SELECT class_id FROM schedule_class WHERE schedule_id = #{scheduleId} AND stealth=2)
+	</select>
+	
+	<select id="addExitedTbClass" resultType="TbClass">
+		SELECT   tc.id,tc.name,m.name AS majorName 
+		FROM 	 tb_class tc
+		LEFT JOIN grade g ON g.id=tc.grade_id
+		LEFT JOIN major m ON m.id=g.major_id
+		WHERE tc.id IN 
+		(SELECT class_id FROM schedule_class WHERE schedule_id = #{scheduleId} AND stealth=2)
+	</select>
+	
+	
+	<select id="selectDeletedByScheduleIdAndClassId" resultType="ScheduleClass">
+		SELECT 	schedule_class_id, 
+				class_id, 
+				schedule_id, 
+				stealth	 
+		FROM 
+				schedule_class
+		WHERE   schedule_id=#{scheduleId} AND stealth=1 AND class_id IN (
+			<foreach  collection="classIds" item="i" separator=",">
+				#{i}
+			</foreach>
+		)
+	</select>
+	
+	<update id="updateStealth">
+		UPDATE schedule_class SET stealth = #{stealth}
+		WHERE  schedule_id=#{scheduleId} AND class_id IN (${classIds})
+	</update>
+	
+	<select id="selectScheduleClassByScheduldeId" parameterType="int" resultMap="scheduleClassMapper">
+	           select sc.`schedule_class_id`, sc.`class_id`,tc.name  class_name,
+(select count(id) from student_info where tb_class_id=sc.class_id ) nember_num
+ from schedule_class sc
+LEFT JOIN tb_class tc on tc.id = sc.class_id
+where sc.`schedule_id`=${scheduleId} and sc.stealth=2
+	           
+	</select>
+</mapper>

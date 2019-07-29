@@ -1,0 +1,132 @@
+
+
+/*S courseList page css*/
+	.courseListPageBanner{width: 100%;height: 150px; background: url(../images/233.png)center no-repeat;}
+	.courseListSwiper{padding-top: 1px;overflow: hidden;}
+	.courseList_right{overflow: hidden;}
+	.swiper-wrapper{height: auto;}
+	.courseListSlider{display: block;float: left;height: auto;min-height: 300px;}
+	.courseListSlider li{display: block;float: left;width: 198px;border: 1px solid #FFF;}
+	.courseListSlider li a{display: block;position: relative;}
+	.courseListSlider li img{display: block;width: 100%;height: 120px;}
+	.courseListSlider li .courseShadown{position: absolute;top: 0px;left: 0px;display: none;}
+	.courseListSwiperBtn{width: 150px;margin: 0 auto;}
+	.chapterTotalNumP{position: absolute;top: 0;right: 0;background: #333;display: none;}
+
+	.courseListSwiperBtn .swiperBtn-preBtn{display: block;float: left;background: url(../images/wrapperBtn.png)0 100%;width: 35px;height: 35px;cursor: pointer;}
+	.courseListSwiperBtn .swiperBtn-nextBtn{display: block;float: right;background: url(../images/wrapperBtn.png)100% 100%;width: 35px;height: 35px;cursor: pointer;}
+/*E courseList page css*/
+
+	.course_about_element{padding-top:15px}
+	.courseabout_detail{color:#333;background:#fff}
+	.courseabout_detail .courseabout_title{font-size:24px;color:#333}
+	.courseabout_detail .courseabout_text{vertical-align:middle}
+	.courseabout_detail .courseabout_text a{color:#E44}
+	.courseabout_detail .courseabout_text a:hover{color:#046399;cursor:pointer}
+	.courseabout_detail .courseabout_text span.line{margin:0 15px}
+	.courseabout_detail .video_info_show .video_box{float:left;position:relative}
+	.courseabout_detail .video_info_show .video_box img{width:100%;height:100%;}
+	.courseabout_detail .video_info_show .course_info{overflow:hidden;padding-left:30px;min-height:300px}
+	.courseabout_detail .video_info_show .course_info .course_intro{margin-bottom:23px;font-size:14px}
+	.courseabout_detail .video_info_show .course_info .course_intro .title{font-size:16px;padding-bottom:5px}
+	.courseabout_detail .video_info_show .course_info .course_intro .text{color:#999;height:40px;overflow:hidden}
+	.courseabout_detail .video_info_show .course_info .explain_box{border-top:1px solid #e0e0e0;padding-top:26px}
+	.courseabout_detail .video_info_show .course_info .explain_box .title{padding-bottom:5px}
+	.courseabout_detail .video_info_show .course_info .explain_box .title span{font-size:10px;color:#fff;height:16px;padding:0 5px;display:inline-block;line-height:16px;background:#046399;vertical-align:middle;border-radius:3px;margin-right:10px}
+	.courseabout_detail .video_info_show .course_info .explain_box .title em{font-size:16px;color:#046399;vertical-align:middle}
+	.courseabout_detail .video_info_show .course_info .explain_box .list{padding-bottom:15px}
+	.courseabout_detail .video_info_show .course_info .explain_box .list li{color:#046399;float:left;width:252px;margin-bottom:10px}
+	.courseabout_detail .video_info_show .course_info .explain_box .list li span{width:6px;height:6px;display:inline-block;font-size:0;background:#046399;border-radius:100%;margin-right:10px;vertical-align:2px}
+	.courseabout_detail .video_info_show .course_info .explain_box ul.illustrate li{width:252px;float:left;padding-bottom:8px}
+	.courseabout_detail .video_info_show .course_info .explain_box ul.illustrate li i{font-family:xt;font-style:normal;width:20px;height:20px;line-height:20px;display:inline-block;text-align:center;border-radius:100%;border:1px solid #e0e0e0;margin-right:5px}
+	.courseabout_detail .video_info_show .course_info .explain_box ul.illustrate li span span{color:#999}
+	.courseabout_detail .video_info_show .course_info .explain_box ul.illustrate li.last{width:100%;height:40px;overflow:hidden}
+	.courseabout_detail .video_info_show .course_info .explain_box ul.illustrate li.last span span{display:block;width:415px;float:right;margin-top:3px;height:35px;overflow:hidden}
+	.courseabout_detail .video_info_show .course_info .explain_box .number{margin-top:8px}
+	.courseabout_detail .video_info_show .course_info .explain_box .number span{color:#999}
+	.courseabout_detail .video_info_show .course_info .explain_box .btn_box a{margin-right:0;margin-left:17px}
+	.courseabout_detail .video_info_show .course_info .explain_box .btn_box a:first-child{margin-left:0}
+	.courseabout_detail .video_info_show .course_info .explain_box .btn_box .orange{border:1px solid #ff7d00;width:243.5px}
+	.courseabout_detail .video_info_show .course_info .explain_box .btn_box .btn_followed{background-color:#046399;width:243.5px;color:#fff}
+	.courseabout_detail .video_info_show .course_info .explain_box .btn_box .btn_followed .icon{background-image:url(/static/images/follow_heart.633779bcb01b.png);background-position:0 -198px;background-repeat:no-repeat;width:17px;height:17px;display:inline-block;vertical-align:middle}
+	.courseabout_detail .video_info_show .course_info .explain_box .btn_box .btn_followed:hover{background:#6a28ed}
+	.courseabout_detail .video_info_show .course_info .explain_box .btn_box .btn_followed:hover .icon{background-image:url(/static/images/follow_heart.633779bcb01b.png);background-position:0 -132px;background-repeat:no-repeat}
+	.courseabout_detail .video_info_show .course_info .explain_box .btn_box .btn_add_follow .icon{background-image:url(/static/images/follow_heart.633779bcb01b.png);background-position:0 0;background-repeat:no-repeat;width:17px;height:17px;display:inline-block;vertical-align:middle}
+	.courseabout_detail .video_info_show .course_info .explain_box .btn_box .btn_add_follow:hover{background:#6a28ed}
+	.courseabout_detail .video_info_show .course_info .explain_box .btn_box .btn_add_follow:hover .icon{background-image:url(/static/images/follow_heart.633779bcb01b.png);background-position:0 -198px;background-repeat:no-repeat}
+	.courseabout_detail .video_info_show .course_info .explain_box .btn_box .disabled{border:1px solid #e0e0e0!important;color:#999!important;background:#e0e0e0!important;opacity:1!important}
+	.courseabout_detail .video_info_show .course_info .explain_box .btn_box .ui.purple.button:active{background:#046399}
+	.courseabout_detail .video_info_show .course_info .explain_box .btn_box .btn_add_follow,.courseabout_detail .video_info_show .course_info .explain_box .btn_box .purple_btn{border:1px solid #046399;color:#046399;background:#fff;width:243.5px}
+	.courseabout_detail .video_info_show .course_info .explain_box .btn_box .btn_add_follow:hover,.courseabout_detail .video_info_show .course_info .explain_box .btn_box .purple_btn:hover{background:#046399;color:#fff}
+	.courseabout_detail .video_info_show .course_info .explain_box .btn_box a:only-child{width:100%!important}
+	.courseabout_detail .video_info_show .course_info .explain_box .link{margin-top:8px}
+	
+	.course_about{color:#333;padding-bottom:35px;font-size:14px}
+	.course_about .about_main{width:810px}
+	.course_about .about_main section{color:#333;background:#fff;margin-bottom:15px}
+	.course_about .about_main section div.limit{max-height:815px;overflow:hidden;position:relative}
+	.course_about .about_main section div.limit .keep_out{width:100%;height:10px;position:absolute;left:0;bottom:0;background:linear-gradient(to bottom,rgba(255,255,255,0) 0,#fff 100%)}
+	.course_about .about_main section h3 span,.course_about .about_main section h4 span{font-size:16px;display:inline-block;vertical-align:middle}
+	.course_about .about_main section h3 span.strip,.course_about .about_main section h4 span.strip{width:4px;height:16px;background:#046399;border-radius:2px;font-size:0;margin-right:10px}
+	.course_about .about_main section h4{padding-bottom:10px}
+	.course_about .about_main section h4 span.strip{background:#e0e0e0}
+	.course_about .about_main section dt{padding-left:14px;border-left:4px solid #e0e0e0;height:16px;line-height:16px;margin-bottom:20px;margin-top:10px;font-size:16px}
+	.course_about .about_main section dd,.course_about .about_main section p{line-height:2em}
+	.course_about .about_main section dd{margin-left:15px;line-height:32px}
+	.course_about .about_main section .about_info{padding-bottom:10px}
+	.course_about .about_main section .about_info p{margin-left:15px;line-height:32px}
+	.course_about .about_main section .showcontent{margin-left:15px;font-size:12px;color:#046399}
+	a:hover{cursor:pointer}
+	.course_about .about_main section .teacher_info li{padding-top:25px}
+	.course_about .about_main section .teacher_info li:first-child{padding-top:0}
+	.course_about .about_main section .teacher_info li .pic{width:110px;float:left}
+	.course_about .about_main section .teacher_info li .pic img{width:80px;height:80px;border-radius:100%}
+	.course_about .about_main section .teacher_info li .teacher_text{overflow:hidden}
+	.course_about .about_main section .teacher_info li .teacher_text h5{padding:10px 0 10px}
+	.course_about .about_main section .teacher_info li .teacher_text h5 .name{font-size:16px;margin-right:30px}
+	.course_about .about_main section .teacher_info li .teacher_text h5 span{display:inline-block;vertical-align:middle}
+	.course_about .about_main section .teacher_info li .teacher_text p{color:#999;overflow:hidden}
+	.course_about .about_main section .teacher_info li .teacher_text p.limit{height:48px}
+	.course_about .about_main section .teacher_info li .teacher_text .show_all{margin-top:5px}
+	.course_about .about_main section .teacher_info li .teacher_text .show_all a{color:#046399;font-size:12px}
+	.course_about .about_main section .teacher_info li .teacher_text .show_all a:hover{color:#6a28ed}
+	.course_about .about_main section .question_list{border-top:1px solid #e0e0e0;padding-bottom:20px;padding-top:20px}
+	.course_about .about_main section .question_list.first{border-top:none;padding-top:0}
+	.course_about .about_main section .question_list.last{padding-bottom:0}
+	
+	.course_about .about_aside{width:249px;color:#333;background:#fff;margin-bottom:15px;display:none}
+	.course_about .about_aside h3 span{font-size:16px;display:inline-block;vertical-align:middle}
+	.course_about .about_aside h3 span.strip{width:4px;height:16px;background:#046399;border-radius:2px;font-size:0;margin-right:10px}
+	.course_about .about_aside .recommend_list li{padding-top:20px}
+	.course_about .about_aside .recommend_list li:first-child{padding-top:0}
+	.course_about .about_aside .recommend_list li a{display:block}
+	.course_about .about_aside .recommend_list li a img{width:244px;height:134px;display:block}
+	.course_about .about_aside .recommend_list li a.text{font-size:16px;padding:5px 0;height:46px;overflow:hidden}
+	.course_about .about_aside .recommend_list li:hover img{box-shadow:0 0 3px 0 rgba(51,51,51,.5)}
+	.course_about .about_aside .recommend_list li:hover a{color:#046399}
+	.course_about_ceiling{height:50px;border-bottom:1px solid #e0e0e0;position:fixed;width:100%;top:0;left:0;background:#fff;display:none}
+	.course_about_ceiling nav{float:left;width:813px}
+	.course_about_ceiling nav li{float:left;width:25%;box-sizing:border-box;border-right:1px solid #e0e0e0}
+	.course_about_ceiling nav li:first-child{border-left:1px solid #e0e0e0}
+	.course_about_ceiling nav li a{display:block;line-height:50px;font-size:16px;text-align:center}
+	.course_about_ceiling nav li a:hover{color:#046399}
+	.course_about_ceiling nav .current a{background:#046399;color:#fff;border:none}
+	.course_about_ceiling nav .current a:hover{color:#fff}
+	.course_about_ceiling .btn_box{overflow:hidden;font-size:0;text-align:right}
+	.course_about_ceiling .btn_box a{font-size:12px;font-weight:400;width:130px;text-align:center;padding:13px 0;font-size:12px;margin:7px 0 0 15px}
+	.course_about_ceiling .btn_box .disabled{border:1px solid #e0e0e0!important;color:#999!important;background:#e0e0e0!important;opacity:1!important}
+	.course_about_ceiling .btn_box .btn_add_follow,.course_about_ceiling .btn_box .purple_btn{margin-left:15px;border:1px solid #046399;color:#046399;background:#fff;padding:12px 0;width:128px}
+	.course_about_ceiling .btn_box .btn_add_follow:hover,.course_about_ceiling .btn_box .purple_btn:hover{background:#046399;color:#fff}
+	.course_about_ceiling .btn_box .ui.purple.button:active{background:#6a28ed}
+	.course_about_ceiling .btn_box .ui.button:focus{box-shadow:none}
+	.course_about_ceiling .btn_box .btn_add_follow{padding:9px 0}
+	.course_about_ceiling .btn_box .btn_followed{background-color:#046399;color:#fff;padding:11px 0}
+	.course_about_ceiling .btn_box .btn_followed .icon{background-image:url(../images/follow_heart.633779bcb01b.png);background-position:0 -198px;background-repeat:no-repeat;width:17px;height:17px;display:inline-block;vertical-align:middle}
+	.course_about_ceiling .btn_box .btn_followed:hover{background:#6a28ed}
+	.course_about_ceiling .btn_box .btn_followed:hover .icon{background-image:url(../images/follow_heart.633779bcb01b.png);background-position:0 -132px;background-repeat:no-repeat}
+	.course_about_ceiling .btn_box .btn_add_follow .icon{background-image:url(../images/follow_heart.633779bcb01b.png);background-position:0 0;background-repeat:no-repeat;width:17px;height:17px;display:inline-block;vertical-align:middle}
+	.course_about_ceiling .btn_box .btn_add_follow:hover{background:#6a28ed}
+	.course_about_ceiling .btn_box .btn_add_follow:hover .icon{background-image:url(../images/follow_heart.633779bcb01b.png);background-position:0 -198px;background-repeat:no-repeat}
+	#physicalnext-table img{vertical-align:middle;margin-right:5px}
+	tr.datenext-li{line-height:3}
+	#physicalnext-table td{padding-right:15px}

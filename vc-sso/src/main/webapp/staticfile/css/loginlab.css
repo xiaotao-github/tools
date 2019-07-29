@@ -1,0 +1,103 @@
+@charset "utf-8";
+*{word-wrap:break-word}
+html,body,h1,h2,h3,h4,h5,h6,hr,p,iframe,dl,dt,dd,ul,ol,li,pre,form,button,input,textarea,th,td,fieldset{margin:0;padding:0}
+ul,ol,dl{list-style-type:none}
+html,body{*position:static}
+html{font-family: sans-serif;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%}
+address,caption,cite,code,dfn,em,th,var{font-style:normal;font-weight:400}
+input,button,textarea,select,optgroup,option{font-family:inherit;font-size:inherit;font-style:inherit;font-weight:inherit}
+input,button{overflow: visible;vertical-align:middle;outline:none}
+input,button{ margin:0; padding:0; list-style-type:none;}
+body,th,td,button,input,select,textarea{font-family:"Microsoft Yahei","Hiragino Sans GB","Helvetica Neue",Helvetica,tahoma,arial,Verdana,sans-serif,"WenQuanYi Micro Hei","\5B8B\4F53";font-size:12px;color: #333;-webkit-font-smoothing: antialiased;-moz-osx-font-smoothing:grayscale}
+body{line-height:1.6}
+h1,h2,h3,h4,h5,h6{font-size:100%}
+a,area{outline:none;blr:expression(this.onFocus=this.blur())}
+a{text-decoration:none;cursor: pointer}
+a:hover{text-decoration:underline;outline:none}
+a.ie6:hover{zoom:1}
+a:focus{outline:none}
+a:hover,a:active{outline:none}:focus{outline:none}
+sub,sup{vertical-align:baseline}
+button,input[type="button"], input[type="submit"] {line-height:normal !important}
+/*img*/
+img{border:0;vertical-align:middle}
+a img,img{-ms-interpolation-mode:bicubic}
+ 
+/*IE下a:hover 背景闪烁*/
+*html{overflow:-moz-scrollbars-vertical;zoom:expression(function(ele){ele.style.zoom = "1";document.execCommand("BackgroundImageCache",false,true)}(this))}
+ 
+/*HTML5 reset*/
+header,footer,section,aside,details,menu,article,section,nav,address,hgroup,figure,figcaption,legend{display:block;margin:0;padding:0}time{display:inline}
+audio,canvas,video{display:inline-block;*display:inline;*zoom:1}
+audio:not([controls]){display:none}
+legend{width:100%;margin-bottom:20px;font-size:21px;line-height:40px;border:0;border-bottom:1px solid #e5e5e5}
+legend small{font-size:15px;color:#999}
+svg:not(:root) {overflow: hidden}
+fieldset {border-width:0;padding: 0.35em 0.625em 0.75em;margin: 0 2px;border: 1px solid #c0c0c0}
+input[type="number"]::-webkit-inner-spin-button,input[type="number"]::-webkit-outer-spin-button {height: auto}
+input[type="search"] {-webkit-appearance: textfield; /* 1 */-moz-box-sizing: content-box;-webkit-box-sizing: content-box; /* 2 */box-sizing: content-box}
+input[type="search"]::-webkit-search-cancel-button,input[type="search"]::-webkit-search-decoration {-webkit-appearance: none}
+/*
+Name:			style_clearfix
+Example:		class="clearfix|cl"
+Explain:		Clearfix（简写cl）避免因子元素浮动而导致的父元素高度缺失能问题
+*/
+.cl:after,.clearfix:after{content:".";display:block;height:0;clear:both;visibility:hidden;font-size:0;line-height:0;}.cl,.clearfix{zoom:1}
+
+	*{margin:0;padding:0;}
+	a:link {color: #666;text-decoration: none;}
+	a:visited {color: #666;text-decoration: none;}
+	a:hover {color: #669398;text-decoration: none;}
+	img{border:0;}
+	body{font-size:14px;font-family:"微软雅黑";color:#666;}
+
+
+
+.login{}
+.login .login-head{width:960px;margin:20px auto;height: 70px;}
+.login .login-head .login-head-a{text-align: center;float: left;}
+.login .login-head .login-head-a img{display: block;height: 70px;margin: 0 auto;}
+.login .login-head .login-head-a p{font-size: 20px;margin: 0;}
+.login .login-head .login-head-b{border-left: 1px solid #666666;float: left;height: 70px;line-height: 70px;margin-left: 20px;padding-left: 30px;font-size: 32px;letter-spacing: 2px;color: #38a8e2;font-weight: bold;}
+.login .login-con{text-align: center;background: url(../images/pay-bg.png) center repeat-x;height:450px;}
+.login .login-con .login-a{background: url(../images/pay-bg-3.png)no-repeat;width:1000px;margin: 0 auto;text-align: left;padding-top: 0px;min-height: 450px;}
+.login .login-con .login-a form{}
+.login .login-con .login-a .login-b{float: right;width: 344px;height: 350px;border: solid 2px #e6e5e5;margin-top: 55px;background: #fff;}
+.login .login-con .login-a .login-b .login-b-a{height: 46px;line-height: 46px;font-size: 16px;font-weight: bold;text-align: center;}
+.login .login-con .login-a .login-b .login-b-b{height: 275px;}
+.login .login-con .login-a .login-b .login-b-b ul{padding: 20px;}
+.login .login-con .login-a .login-b .login-b-b ul li{height: 65px;_height: 60px;list-style-type: none;font-family: "微软雅黑","宋体",Arial;font-size: 14px;}
+.login .login-con .login-a .login-b .login-b-b ul li label{display: inline-block;font-size: 16px;color: #666666;}
+.login .login-con .login-a .login-b .login-b-b ul li input{width: 230px;color: rgb(153, 153, 153);height: 32px;line-height: 32px;border: solid 1px #d3d3d3;font-size: 14px;}
+.login .login-con .login-a .login-b .login-b-b ul li h1{font-weight: normal;font-size: 12px;padding-left: 90px;/* padding-top: 6px; */margin: 3px 0px 0px;line-height:2em;}
+.login .login-con .login-a .login-b .login-b-b ul li h1.wrong{color: #ff0000;background: url(../images/icon1.png)no-repeat 70px -28px;}
+.login .login-con .login-a .login-b .login-b-b ul li h1.right{color: green;background: url(../images/icon1.png)no-repeat 70px 100%;}
+.login .login-con .login-a .login-b .login-b-b ul li h1 .Validform_right{color: green;}
+.login .login-con .login-a .login-b .login-b-b ul li #checkCode{height: 32px;line-height: 32px;width: 60px;}
+.login .login-con .login-a .login-b .login-b-b ul li img{vertical-align: middle;width: 85px;height: 33px;}
+.login .login-con .login-a .login-b .login-b-b ul li a{color: #447bd6;font-family: "微软雅黑","宋体",Arial;font-size: 12px;}
+.login .login-con .login-a .login-b .login-b-b ul .login-x{padding-left: 65px;padding-top: 0px;height: 65px;}
+.login .login-con .login-a .login-b .login-b-b ul .login-x .subBtn{background: #ea9b3d;cursor: pointer;color: #fff;width: 100%;border: none;}
+.login .login-con .login-a .login-b .login-b-b ul .login-x .subBtn:hover{background: #e0953c;}
+.login .login-con .login-a .login-b .login-b-b ul .login-x .login-x-a{width: 100px;height: 50px;float: left;}
+.login .login-con .login-a .login-b .login-b-b ul .login-x .login-x-a .x{background-position: right -208px;background-image: url(../images/btn-type2.png);background-repeat: no-repeat;height: 37px;float: left;width: 3px;}
+.login .login-con .login-a .login-b .login-b-b ul .login-x .login-x-a input{width:80px;float: left;border: none;background-position: 0 -120px;background-image: url(../images/btn-type2.png);background-repeat: no-repeat;height: 37px;line-height: 37px;color: #fff;font-size: 14px;font-weight: bold;
+}
+.login .login-con .login-a .login-b .login-b-b ul .login-x .login-x-b{}
+.login .login-con .login-a .login-b .login-b-c{text-align: center;padding-top: 10px;border-top: solid 1px #f0f0f0;}
+.login .login-con .login-a .login-b .login-b-c a{color: #447bd6;font-family: "微软雅黑","宋体",Arial;font-size: 12px;}
+.login .login-con .login-a .login-b .login-b-c a:hover{color: #f3ab3a;}
+.login .login-foot{ text-align: center;font-size: 14px;color: #666666;margin-top: 50px;}
+
+.code{      
+	background-image:url(../images/w1.jpg);
+	font-family:Arial;
+	font-style:italic;
+	color:Red;
+	border:0;
+	padding:2px 3px;
+	letter-spacing:3px;
+	font-weight:bolder;
+}
+#param{width: 140px;}
+.verification{cursor: pointer;}

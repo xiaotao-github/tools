@@ -1,0 +1,83 @@
+.color-add {
+    color: #fff;
+    background-color: #5a98de;
+    border-color: #5a98de;
+}
+
+.color-add:hover {
+    color: #fff;
+    background-color: #0a6999;
+    border-color: #0a6999;
+}
+
+.color-addlist {
+    color: #fff;
+    background-color: #3d89de;
+    border-color: #3d89de;
+}
+
+.color-addlist:hover {
+    color: #fff;
+    background-color: #0a6999;
+    border-color: #0a6999;
+}
+
+.color-start {
+    color: #fff;
+    background-color: #429842;
+    border-color: #429842;
+}
+
+.color-start:hover {
+    color: #fff;
+    background-color: #0c6d0c;
+    border-color: #0c6d0c;
+}
+
+.color-stop {
+    color: #fff;
+    background-color: #f37b1d;
+    border-color: #f37b1d;
+}
+
+.color-stop:hover {
+    color: #fff;
+    background-color: #c85e0b;
+    border-color: #c85e0b;
+}
+
+.color-delete {
+    color: #fff;
+    background-color: #dd514c;
+    border-color: #dd514c;
+}
+
+.color-delete:hover {
+    color: #fff;
+    background-color: #c62b26;
+    border-color: #c62b26;
+}
+
+.color-allot {
+    color: #fff;
+    background-color: #0f9ae0;
+    border-color: #0f9ae0;
+}
+
+.color-allot:hover {
+    color: #fff;
+    background-color: #0e74a7;
+    border-color: #0e74a7;
+}
+
+.color-export {
+    color: #fff;
+    background-color: #30b3d8;
+    border-color: #30b3d8;
+}
+
+.color-export:hover {
+    color: #fff;
+    background-color: #0a8baf;
+    border-color: #0a8baf;
+}

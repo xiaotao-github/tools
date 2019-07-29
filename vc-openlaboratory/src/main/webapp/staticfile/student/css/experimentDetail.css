@@ -1,0 +1,73 @@
+.contain-part{width: 900px;}
+
+.experimentMsg{background: url(../images/opacity_bg.png) repeat;background: rgba(255,255,255,0.8);padding-right: 120px;}
+.experimentMsg .experimentMsg-name {letter-spacing: 1px;}
+.experimentMsg .experimentMsg-difficulty{}
+.experimentMsg .experimentMsg-course span:nth-child(2){padding: 0 15px;border: 1px solid #ccc;border-radius: 15px;}
+.experimentMsg .experimentMsg-teachers ul li{display: inline-block;margin-right: 15px;}
+.experimentMsg .experimentMsg-teachers ul li .teacherAvatar img{display: block;width: 50px;height: 50px;border-radius: 50%;}
+.experimentMsg .experimentMsg-contain div{width: 600px;line-height: 24px;}
+.experimentMsg .experimentMsg-contain div.experimentContent{width:100%;}
+.experimentMsg .experimentMsg-contain div.experimentContent img{display:block;max-width:100%;}
+
+.experimentContain .report-part{padding-right: 120px;}
+.experimentContain .report-part .uploadReport .uploadReport-path{width: 300px;}
+.experimentContain .report-part .uploadReport .uploadReport-btn input{top:0;width: 110px;opacity: 0;height: 30px;cursor: pointer;}
+.experimentContain .report-part .uploadGif .uploadGif-path{width: 205px;}
+.experimentContain .report-part .uploadGif .uploadGif-btn input{top:0; width: 150px;opacity: 0;height: 30px;cursor: pointer;}
+.experimentContain .report-part .reportUploaded .reportUploaded-experimentText img{display:block;max-width:100%;}
+.experimentContain .report-part .reportUploaded .reportUploaded-report a{display: block;border: 1px dashed #ccc;width: 70px;/* margin: 0 auto; */}
+.experimentContain .report-part .reportUploaded .reportUploaded-report a img{display:block;width: 40px;height: 40px;background: #ccc;margin: 5px;padding: 10px;}
+.experimentContain .report-part .reportUploaded .reportUploaded-report a:hover img{background: #4ca3bc}
+.experimentContain .report-part .reportUploaded .reportUploaded-gif a{display: block;border: 1px dashed #ccc;width: 70px;/* margin: 0 auto; */}
+.experimentContain .report-part .reportUploaded .reportUploaded-gif a img{display:block;width: 40px;height: 40px;background: #ccc;margin: 5px;padding: 10px;}
+.experimentContain .report-part .reportUploaded .reportUploaded-gif a:hover img{background: #4ca3bc}
+
+.experimentContain .bottom-part .resources-nav li{background: #4ca3bc;color: #fff;cursor: pointer;}
+.experimentContain .bottom-part .resources-nav li.on{background: #fff;color: #4ca3bc;font-weight: bold;}
+.experimentContain .bottom-part .resources-list{height: 300px;overflow: auto;}
+.experimentContain .bottom-part .resources-list::-webkit-scrollbar{width:2px;}
+.experimentContain .bottom-part .resources-list::-webkit-scrollbar-thumb {background: #4ca3bc;}
+.experimentContain .bottom-part .resources-list .resources-list-each{display: none;}
+.experimentContain .bottom-part .resources-list .resources-list-each.on{display: block;}
+.experimentContain .bottom-part .resources-list .resources-list-each .btn-success,.experimentContain .bottom-part .resources-list .resources-list-each .btn-warning{cursor: pointer;}
+
+.experimentContain .bottom-part .note-list{height: 280px;overflow: auto;}
+.experimentContain .bottom-part .note-list::-webkit-scrollbar{width:2px;}
+.experimentContain .bottom-part .note-list::-webkit-scrollbar-thumb {background: #4ca3bc;}
+.experimentContain .bottom-part .note-list li{border: 1px dashed #ddd;margin-right: 5px;}
+.experimentContain .bottom-part .note-list li a{display: block;}
+.experimentContain .bottom-part .note-list li i{position:absolute;top:-5px;right:-5px;cursor:pointer;}
+.experimentContain .bottom-part .note-list li .date{height: 50px;width: 60px;background: #fff url(../images/date_bg.png)top center no-repeat;border: 1px solid #4ca3bc;}
+.experimentContain .bottom-part .note-list li .date span{display: block;text-align: center;}
+.experimentContain .bottom-part .note-list li .date .span1{height: 22px;}
+.experimentContain .bottom-part .note-list li .date .span2{height: 28px;}
+.experimentContain .bottom-part .note-list li .noteText{padding-left:70px;padding-right: 10px;}
+
+.controlBtn{bottom: 0;right: 0;margin-right: -63px;}
+.controlBtn .eachBtn{cursor:pointer;width: 50px;height: 50px;padding: 5px;letter-spacing: 2px;text-align: center;}
+.controlBtn .eachBtn:hover{background: #fff;}
+
+.labMsg .labMsg-img img{display: block;width: 100%;height: 100%;}
+.labMsg .labMsg-name{padding: 2px 15px;background: #ffc76f;border-radius: 15px;}
+
+.attence .attence-type{width: 160px;height: 40px;background: #ffc76f;margin: 0 auto;line-height: 40px;border-radius: 5px;}
+.attence .attence-type.bc-ccc{background-color: #ccc;}
+.attence .attence-type.bc-red{background-color: #b10e0e;}
+
+
+.float-part{width: 300px;right: 20px;top: 80px;}
+
+.experimentNote{display: none;}
+.experimentNote textarea{resize: none;border-color: #ddd;width: 100%;}
+.experimentNote .experimentNote-button span{display: block;padding: 0 15px;border-radius: 3px;background-color: #4480ae;cursor: pointer}
+.experimentNote .experimentNote-button span:hover{background-color: #4989ba;}
+
+.QRCode,.uploadGif_QR,.showImg{display: none;}
+.QRCode img,.uploadGif_QR img,.showImg img{display: block;width: 100%;}
+
+.resources-list i.stuEx-icon{font-size: 16px;}
+.resources-list i.stuEx-icon.doc{color: #5a98de;}
+.resources-list i.stuEx-icon.video{color: #5eb95e;}
+.resources-list i.stuEx-icon.pic{color: #f37b1d;}
+.resources-list i.stuEx-icon.other{color: #ff3131;}

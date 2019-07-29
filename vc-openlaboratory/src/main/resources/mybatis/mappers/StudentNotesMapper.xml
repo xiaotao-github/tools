@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+     <mapper namespace="com.vcooc.experiment.mapper.StudentNotesMapper">
+
+      <!-- 查询学生课程中某实验的笔记 -->
+     <select id="selectNote" resultType="StudentNotes">
+	 	 SELECT sn.*,e.experiment_name FROM student_notes sn 
+	   	LEFT JOIN 
+	  	experiment e ON e.experiment_id = sn.relevance_id
+	   <where>
+	   	<if test="relevanceId!=null">sn.relevance_id=#{relevanceId}</if>
+	   	<if test="studentInfoId!=null"> AND sn.student_info_id=#{studentInfoId}</if>
+	   	<if test="noteType!=null">AND sn.note_type=#{noteType}</if>
+	   </where>
+        ORDER BY sn.update_time DESC;
+     </select>
+  </mapper>

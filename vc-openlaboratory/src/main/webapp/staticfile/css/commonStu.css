@@ -1,0 +1,221 @@
+*{padding:0;margin:0}
+li,ul{list-style-type:none}
+a{color:#fff;text-decoration:none;border:none}
+.clear{clear:both}
+
+.inner{width: 1120px;margin: 0 auto;}
+
+/*S hesder css*/
+.header{width:100%;height:34px;background-color:#2e2e2e}
+.header .top{width:1120px;height:34px;margin:0 auto;color:#fff}
+.header .top .left{float:left;padding-left:15px}
+.header .top .left .title{float:left;font-size:12px;line-height:34px}
+.header .top .left .content{float:left;width:600px;height:34px;line-height:34px;overflow:hidden;font-size:12px}
+.header .top .left .content ul li{line-height:34px}
+.header .top .right{float:right;font-size:14px;line-height:34px;position:relative;padding-right:15px;cursor:pointer}
+.header .top .right span{float:left}
+.header .top .right .avatar{width:30px;height:30px;margin-top:2px;margin-right:10px}
+.header .top .right .avatar img{display:block;width:30px;height:30px;border-radius:50%}
+.header .top .right .name{display:block;height:34px;float:left}
+.header .top .right i{display:block;float:left;margin-left:5px}
+.header .top .right ul{position:absolute;right:0;top:34px;text-align:center;height:64px;font-size:14px;background-color:#2e2e2e}
+.header .top .right ul li{height:32px;line-height:32px;padding:0 20px;background-color:#2e2e2e}
+.header .top .right ul .info{border-bottom:1px dashed #4C4C4C}
+.header .top .right ul li:hover{background-color:#1b1b1b}
+/*E hesder css*/
+
+/*S nav css*/
+.nav{width:100%;height:65px;background:url(../images/1.png) center bottom}
+.nav .bottom{width:1120px;height:65px;margin:0 auto}
+.nav .bottom .logo{padding:5px 0}
+.nav .bottom .logo img{border:none;display:block;width:55px;height:55px;border-radius:50%}
+/*E nav css*/
+
+/*S footer css*/
+.footer{background-color:#2e2e2e;width:100%;height:70px;bottom:0}
+.footer .footer_content{width:1160px;height:55px;margin:0 auto;padding-top:15px}
+.footer .footer_content ul li{text-align:center;font-size:14px;line-height:22px;color:#fff}
+/*E footer css*/
+
+
+
+/*icon-fonts*/
+    
+
+@font-face {font-family: "iconfont";
+  src: url('../fonts/iconfont.eot?t=1499219127402'); /* IE9*/
+  src: url('../fonts/iconfont.eot?t=1499219127402#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('../fonts/iconfont.woff?t=1499219127402') format('woff'), /* chrome, firefox */
+  url('../fonts/iconfont.ttf?t=1499219127402') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
+  url('../fonts/iconfont.svg?t=1499219127402#iconfont') format('svg'); /* iOS 4.1- */
+}
+
+.iconfont {
+  font-family:"iconfont" !important;
+  font-size:16px;
+  font-style:normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-ziliaoku:before { content: "\e600"; }
+
+.icon-wanchengyuan:before { content: "\e601"; }
+
+.icon-right:before { content: "\e628"; }
+
+.icon-erweima:before { content: "\e602"; }
+
+.icon-wendang:before { content: "\e607"; }
+
+.icon-iconset0119:before { content: "\e612"; }
+
+.icon-qita:before { content: "\e78c"; }
+
+.icon-wendang1:before { content: "\e748"; }
+
+.icon-iconwancheng01:before { content: "\e64c"; }
+
+.icon-weikaishi:before { content: "\e613"; }
+
+.icon-cuowu:before { content: "\e84c"; }
+
+.icon-shalou:before { content: "\e67d"; }
+
+.icon-shuben:before { content: "\e603"; }
+
+.icon-ziliao:before { content: "\e81d"; }
+
+.icon-cuowu20:before { content: "\e610"; }
+
+.icon-zhengque:before { content: "\e634"; }
+
+.icon-jinxingzhong:before { content: "\e627"; }
+
+.icon-shipin:before { content: "\e629"; }
+
+.icon-111111:before { content: "\e90a"; }
+
+.icon-weikaishi1:before { content: "\e87d"; }
+
+.icon-lianjie:before { content: "\e61c"; }
+
+.icon-user:before { content: "\e604"; }
+
+.icon-chengjiweikaishi:before { content: "\e729"; }
+
+.icon-tupian:before { content: "\e614"; }
+
+.icon-half-cirle:before { content: "\e606"; }
+
+.icon-wancheng:before { content: "\e626"; }
+
+.icon-bofang:before { content: "\e605"; }
+
+.icon-zhongxinbofang:before { content: "\e61a"; }
+
+.icon-zanting:before { content: "\e6ab"; }
+
+.icon-shalou1:before { content: "\e623"; }
+
+
+
+
+/*public css*/
+.fs-12{font-size: 12px}
+.fs-14{font-size: 14px}
+.fs-16{font-size: 16px}
+.fs-18{font-size: 18px}
+.fs-20{font-size: 20px}
+.fs-22{font-size: 22px}
+.fs-24{font-size: 24px}
+
+
+.fc-white{color: #FFF}
+.fc-lightBlue{color: #50a5be}
+.fc-green{color: #439a56}
+.fc-red{color: #9a4346}
+
+
+.bc-white{background:#FFF;}
+.bc-gray{background: #e6e8ee}
+.bc-lightBlue{background: #50a5be}
+.bc-darkGray{background:#ccc}
+
+
+.pd-0{padding: 0;}
+.pd-5{padding: 5px;}
+.pd-10{padding:10px;}
+.pd-15{padding:15px;}
+.pd-20{padding:20px;}
+
+.pdt-0{padding-top: 0}
+.pdt-5{padding-top: 5px;}
+.pdt-10{padding-top: 10px;}
+.pdt-15{padding-top: 15px;}
+.pdt-20{padding-top: 20px;}
+
+.pdb-0{padding-bottom: 0}
+.pdb-5{padding-bottom: 5px;}
+.pdb-10{padding-bottom: 10px;}
+.pdb-15{padding-bottom: 15px;}
+.pdb-20{padding-bottom: 20px;}
+
+.pdl-0{padding-left: 0}
+.pdl-5{padding-left: 5px;}
+.pdl-10{padding-left: 10px;}
+.pdl-15{padding-left: 15px;}
+.pdl-20{padding-left: 20px;}
+
+.pdr-0{padding-right: 0}
+.pdr-5{padding-right: 5px;}
+.pdr-10{padding-right: 10px;}
+.pdr-15{padding-right: 15px;}
+.pdr-20{padding-right: 20px;}
+
+
+.mr-0{margin: 0}
+.mr-5{margin: 5px;}
+.mr-10{margin:10px;}
+.mr-15{margin:15px;}
+.mr-20{margin:20px;}
+
+.mrt-0{margin-top: 0}
+.mrt-5{margin-top: 5px;}
+.mrt-10{margin-top: 10px;}
+.mrt-15{margin-top: 15px;}
+.mrt-20{margin-top: 20px;}
+
+.mrb-0{margin-bottom: 0}
+.mrb-5{margin-bottom: 5px;}
+.mrb-10{margin-bottom: 10px;}
+.mrb-15{margin-bottom: 15px;}
+.mrb-20{margin-bottom: 20px;}
+
+.mrl-0{margin-left: 0}
+.mrl-5{margin-left: 5px;}
+.mrl-10{margin-left: 10px;}
+.mrl-15{margin-left: 15px;}
+.mrl-20{margin-left: 20px;}
+
+.mrr-0{margin-right: 0}
+.mrr-5{margin-right: 5px;}
+.mrr-10{margin-right: 10px;}
+.mrr-15{margin-right: 15px;}
+.mrr-20{margin-right: 20px;}
+
+
+.fw-bold{font-weight: bold;}
+.fw-normal{font-weight: normal;}
+.fw-bolder{font-weight: bolder;}
+
+
+
+.textIndent-1{text-indent: 1em}
+.textIndent-2{text-indent: 2em}
+
+.fl {float: left}
+.fr {float: right}
+
+
+.boxBorder{border: 1px solid #DDD;border-left: none;border-top: none;}

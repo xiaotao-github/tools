@@ -1,0 +1,221 @@
+.loginPage{
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	background: url(../images/loginBg.png) center no-repeat;
+}
+
+
+
+/*loginHeader css start*/
+.loginHeader{
+	width: 100%;
+	height: 180px;
+	background: url(../images/loginheader.png) center no-repeat;
+}
+
+.collegeLogo{
+	display: inline-block;
+	width: 126px;
+	height: 126px;
+	margin-left: 15px;
+	margin-top: 29px;
+	float: left;
+}
+
+.collegeTitle{
+	display:inline-block;
+	float:left;
+}
+
+.collegeTitle img{
+	height:40px;
+	margin-top: 6px;
+}
+
+.loginTitle{
+	display:inline-block;
+	float:left;
+}
+
+.loginTitle img{
+	height:50px;
+	margin-top:4px;
+}
+
+.headerTxt{
+	display: inline-block;
+	float: left;
+	margin-top: 56px;
+	margin-left: 30px;
+}
+
+.loginNav{
+	display: inline-block;
+	float: right;
+	margin-top: 56px;
+	padding: 13px 0;
+}
+
+.loginNav li{
+	display: inline-block;
+	width: 70px;
+	text-align: center;
+}
+
+.loginNav li a{
+	color: #FFF;
+}
+
+.loginNav li a:hover{
+	color: #f9ad1b;
+}
+/*loginHeader css end*/
+
+
+
+
+/*loginContain css start*/
+.loginContain{
+	width: 100%;
+}
+
+.loginBox{
+	margin: 30px auto;
+	width: 660px;
+	height: 340px;
+	background: url(../images/loginBoxBg.png) center no-repeat;
+}
+
+.loginform{
+	margin-left: 180px;
+	margin-top: 50px;
+}
+
+.loginUserform{
+	display: block;
+	width: 100%;
+	height: 100%;
+}
+
+.loginUserform li{
+	display: block;
+	margin-top: 20px;
+}
+
+.loginUserform li .span{
+	display: inline-block;
+	float: left;
+	width: 100px;
+	font-size: 20px;
+	line-height: 30px;
+	text-align: right;
+}
+
+.loginUserform li .div{
+	display: inline-block;
+	float: left;
+	width: 180px;
+	height: 30px;
+	border: none;
+	position: relative;
+}
+
+.loginUserform li .div i{
+	margin-left: 20px;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+/*.loginUserform li .div i:before{
+	content: '##';
+}*/
+
+.loginUserform li .input{
+	display: inline-block;
+	float: left;
+	width: 150px;
+	height: 28px;
+	border: 1px solid #ccc;
+	margin-left: 20px;
+	text-indent: 2em;
+	*padding-left:30px;
+}
+
+.loginUserform li .Validform_checktip{
+	display: inline-block;
+	float: left;
+	width: 150px;
+	height: 30px;
+	padding-left: 10px;
+}
+
+.loginUserform .userVerification .input{
+	width: 70px;
+	font-size: 14px;
+}
+
+.loginUserform .userVerification .verification{
+	display: inline-block;
+	float: left;
+	margin-left: 10px;
+	width: 70px;
+	height: 30px;
+}
+
+.subBtn{
+	margin-top: 0px;
+	margin-left: 120px;
+	font-size: 20px;
+	color: #FFF;
+	width: 150px;
+	height: 35px;
+	background: #346783;
+	cursor: pointer;
+}
+
+.subBtn:hover{
+	background: #24425b;
+}
+/*loginContain css end*/
+
+
+
+
+/*loginFooter css start*/
+.loginFooter{
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	height: 70px;
+	background: url(../images/loginfooter.png) center no-repeat;
+}
+
+.loginFooter .inner{
+	width: 100%;
+	text-align: center;
+	color: #3d3936;
+	font-size:12px;
+	line-height:18px;
+	margin-top: 25px;
+}
+/*loginFooter css end*/
+
+
+.Validform_wrong{
+	color: #d20d04;
+}
+
+.Validform_wrong:before{
+	content: '*';
+}
+
+.Validform_right{
+	color: #265b7b;
+}
+
+.Validform_right:before{
+	content: ' ';
+}

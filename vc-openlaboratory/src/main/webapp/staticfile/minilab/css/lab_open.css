@@ -1,0 +1,16 @@
+body{background: #fff url(../images/scenesBg.jpg) center top no-repeat;}
+
+.container-page{width: 640px;width: 6.4rem; margin: 60px auto;margin: 0.6rem auto;}
+.lab_msg{color: #c69335;}
+.lab_text{display: none;}
+.jump_btn{background: url(../images/lab_mobile_jump_btnBg.png) center center no-repeat;background-size: 85%;}
+.lab_mobile_jump_btn{display: block;}
+.lab_mobile_jump_btn img{width: 180px;width: 1.8rem;}
+.jump_btn{opacity: 1;transition: 0.3s;}
+.jump_btn.btn_hide{opacity: 0;transform: rotate(-180deg);}
+.show_btn{width: 200px;width: 2rem;height: 200px;height: 2rem;background-color: #fff;border-radius: 50%;top: 200px;top:2rem;left: 50%;margin-left: -100px;margin-left: -1rem;}
+.show_btn img{width: 200px;width: 2rem;}
+
+@media(max-width: 1024px) {
+	.container-page{width: 90%;}
+}

@@ -1,0 +1,392 @@
+* {
+    padding: 0px;
+    margin: 0px;
+}
+
+ul, li {
+    list-style-type: none;
+}
+
+a {
+    color: #fff;
+    text-decoration: none;
+    border: none;
+}
+
+body{
+	font-size: 14px;
+    font-family: 微软雅黑;
+	min-width:1200px;
+}
+
+.clear {
+    clear: both;
+}
+
+.clearfix:after{
+	content:".";
+	display:block;
+	height:0;
+	clear:both;
+	visibility:hidden
+}
+.clearfix{
+	*zoom:1;
+	overflow: hidden;
+}
+
+/*顶部*/
+.header {
+    width: 100%;
+    height: 34px;
+    background-color: #2e2e2e;
+}
+
+.header .top {
+    width: 1200px;
+    height: 34px;
+    margin: 0px auto;
+    color: #fff;
+}
+
+.header .top .left {
+    float: left;
+    padding-left: 15px;
+}
+
+.header .top .left .title {
+    float: left;
+    font-size: 12px;
+    line-height: 34px;
+}
+
+.header .top .left .content {
+    float: left;
+    width: 600px;
+    height: 34px;
+    line-height: 34px;
+    overflow: hidden;
+    font-size: 12px;
+}
+
+.header .top .left .content ul li {
+    line-height: 34px;
+}
+
+.header .top .right {
+    float: right;
+    font-size: 14px;
+    line-height: 34px;
+    position: relative;
+    padding-right: 15px;
+    cursor: pointer;
+}
+
+.header .top .right span {
+    float: left;
+}
+
+.header .top .right .avatar{
+    width: 30px;
+    height: 30px;
+    margin-top: 2px;
+    margin-right: 10px;
+}
+
+.header .top .right .avatar img{
+    display: block;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+}
+
+.header .top .right .name {
+    display: block;
+    height: 34px;
+    float: left;
+}
+
+.header .top .right i{
+    display: block;
+    float: left;
+    margin-left: 5px;
+}
+
+.header .top .right ul {
+    position: absolute;
+    right: 0px;
+    top: 34px;
+    text-align: center;
+    /* height: 64px; */
+    font-size: 14px;
+    background-color: #2e2e2e;
+}
+
+.header .top .right ul li {
+    height: 32px;
+    line-height: 32px;
+    padding: 0px 20px;
+    background-color: #2e2e2e;
+}
+
+.header .top .right ul .info {
+    border-bottom: 1px dashed #4C4C4C;
+}
+
+.header .top .right ul li:hover {
+    background-color: #1b1b1b;
+}
+
+/*logo栏*/
+.nav {
+    width: 100%;
+    height: 65px;
+    /*background-color: #4c8260;*/
+    background: url(../images/student/1.png) center bottom;
+}
+
+.nav .bottom {
+    width: 1200px;
+    height: 65px;
+    margin: 0px auto;
+}
+
+.nav .bottom .logo {
+    padding: 5px 0px;
+    float:left;
+}
+
+.nav .bottom .logo img {
+    border: none;
+    display: block;
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+}
+
+.nav .bottom .title {
+	float:left;
+	font-size:24px;
+	color:#fff;
+	line-height:65px;
+	margin-left:20px;
+	letter-spacing:1px;
+	
+}
+
+/*中心区域*/
+.core {
+    width: 100%;
+    height: auto;
+    background-color: #ffffff;
+}
+
+.core .content {
+    width: 1200px;
+    height: auto;
+    margin: 0px auto;
+}
+
+.core .content .title {
+    text-align: center;
+    line-height: 60px;
+    color: #ff7f26;
+    font-size: 22px;
+}
+
+.core .content .subtitle {
+    text-align: center;
+    color: #020106;
+    font-size: 14px;
+    line-height: 20px;
+    /* margin-bottom: 10px; */
+}
+
+.core .content ul li {
+    float: left;
+    width: 240px;
+    /* height: 222px; */
+    padding: 10px 0px;
+    overflow: hidden;
+}
+
+.core .content ul li img {
+    /*border-radius: 50%;*/
+    border: none;
+    width: 150px;
+    height: 150px;
+    display: block;
+    margin: 0px auto;
+}
+
+.core .content ul li .corename {
+    text-align: center;
+    color: #666;
+    line-height: 40px;
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    display: block;
+}
+
+.core .content ul li .corename-other {
+    text-align: center;
+    color: #999;
+    line-height: 40px;
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    display: block;
+}
+
+.core .content ul li .coreintroduce {
+    padding: 0px 25px;
+    font-size: 12px;
+    text-align: center;
+}
+
+/*长图部分*/
+.picture {
+    width: 100%;
+    height: 270px;
+    background-image: url("../images/student/33333333333.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    /* margin-top: 20px; */
+    margin-bottom: 40px;
+}
+
+.picture .content {
+    width: 1200px;
+    height: 270px;
+    margin: 0px auto;
+    position: relative;
+}
+
+.picture .content .title {
+    text-align: center;
+    line-height: 50px;
+    color: #fff;
+    font-size: 22px;
+    padding-top: 10px;
+}
+
+.picture .content .subtitle {
+    text-align: center;
+    color: #333;
+    font-size: 14px;
+    line-height: 20px;
+}
+
+.picture .content ul {
+    position: absolute;
+    bottom: 15px;
+    margin-top: 20px;
+}
+
+.picture .content ul li {
+    float: left;
+    width: 500px;
+    height: 160px;
+    background-image: url("../images/student/123.png");
+    background-repeat: no-repeat;
+    background-size: 100% 160px;
+}
+
+.picture .content ul li:hover {
+    box-shadow: 1px 4px 10px 2px #CCCCCC;
+    -webkit-box-shadow: 1px 4px 10px 2px #CCCCCC;
+    transform: translateY(-2%);
+    -moz-transform: translateY(-2%);
+    -webkit-transform: translateY(-2%);
+    -o-transform: translateY(-2%);
+    -ms-transform: translateY(-2%);
+    transition: all .4s;
+    -webkit-transition: all .4s;
+    -moz-transition: all .4s;
+    -o-transition: all .4s;
+    -ms-transition: all .4s;
+    *border-right: 2px solid #FFF;
+    *border-bottom: 1px solid #FFF;
+}
+
+.picture .content ul li .icon {
+    display: block;
+    width: 90px;
+    height: 90px;
+    float: left;
+    margin: 30px 40px auto 40px;
+    border: none;
+}
+
+.picture .content ul .web,
+.picture .content ul .resource {
+    margin: 0 50px;
+}
+
+.picture .content ul .exchange {
+    /* margin-left: 170px; */
+}
+
+.picture .content ul li .fonts {
+    float: left;
+    padding: 38px 0px;
+    width: 280px;
+    cursor:pointer;
+}
+
+.picture .content ul li .fonts .corename1,
+.picture .content ul li .fonts .corename2,
+.picture .content ul li .fonts .corename3 {
+    /* padding-left: 15px; */
+    line-height: 35px;
+    font-size: 18px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    display: block;
+}
+
+.picture .content ul li .fonts .corename1 {
+    color: #d81c69;
+}
+
+.picture .content ul li .fonts .corename2 {
+    color: #00752b;
+}
+
+.picture .content ul li .fonts .corename3 {
+    color: #00849e;
+}
+
+.picture .content ul li .fonts .coreintroduce {
+    font-size: 12px;
+    line-height: 25px;
+}
+
+/*脚部*/
+.footer {
+   /*  position: fixed; */
+    background-color: #222;
+    width: 100%;
+    height: 55px;
+    bottom: 0px;
+	color:#fff;
+}
+
+.footer .footer_content {
+    width: 1200px;
+    height: 45px;
+    margin: 0px auto;
+    padding-top: 15px;
+}
+
+.footer .footer_content ul li {
+    text-align: center;
+    font-size: 14px;
+    line-height: 22px;
+}
+
+
+/*修改部分页面样式*/
+/* .core{margin: 60px auto 120px;}
+.core .content ul li{width: 300px;} */

@@ -1,0 +1,727 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.vcooc.experiment.mapper.CourseScheduleMapper">
+	<!--课程表映射 -->
+	<resultMap type="CourseSchedule" id="myCourseScheduleList_map" autoMapping="true">
+		<id column="schedule_id" property="scheduleId" /> 
+		<association property="experimentCourse" javaType="ExperimentCourse">
+			<id column="experiment_course_id" property="experimentCourseId" javaType="int"
+				jdbcType="INTEGER" />
+			<result column="course_name" property="courseName" javaType="string"
+				jdbcType="VARCHAR" />
+		</association>
+		<!-- 实验 -->
+		<association property="experiment" javaType="Experiment">
+			<id column="experiment_id" property="experimentId" javaType="int"
+				jdbcType="INTEGER" />
+			<result column="experiment_name" property="experimentName"
+				javaType="string" jdbcType="VARCHAR" />
+		</association>
+		<!-- 映射实验室 -->
+		<!-- 实验室的信息 -->
+		<association property="experimentLab" javaType="ExperimentLab">
+			<!--实验室Id -->
+			<id column="lab_id" property="labId" javaType="int" jdbcType="INTEGER"></id>
+			<!-- 实验室名称 -->
+			<result column="lab_name" property="labName" javaType="string"
+				jdbcType="VARCHAR" />
+		</association>
+		<!--映射教师表 -->
+		<association property="teacherInfo" javaType="TeacherInfo">
+			<id column="operator_id" property="id" />
+			<result column="th_name" property="name" />
+		</association>
+
+	</resultMap>
+
+	<!-- 映射班级下的课程信息明细 -->
+	<resultMap type="CourseSchedule" id="getCourseScheduleClassData_map"
+		autoMapping="true">
+		<id column="schedule_id" property="scheduleId" />
+		<!-- 映射自主预约表 -->
+		<association property="scheduleClass" javaType="ScheduleClass" >
+			<id column="schedule_class_id" property="scheduleClassId" />
+			<result column="class_id" property="classId" />
+			<result column="schedule_id" property="scheduleId" />
+		</association>
+	</resultMap>
+	
+	<!--课程表映射 实验室详细统计 -->
+	<resultMap type="CourseSchedule" id="CourseSchedule_List_map"
+		autoMapping="true">
+		<!--课程表班级标识id 避免单个课程多个班级数据覆盖 -->
+		<id column="schedule_class_id" property="courseScheduleClassId" />
+
+		<!--映射教师表 -->
+		<association property="teacherInfo" javaType="TeacherInfo">
+			<id column="operator_id" property="id" />
+			<result column="name" property="name" />
+		</association>
+
+		<association property="experimentCourse" javaType="ExperimentCourse">
+			<id column="course_id" property="experimentCourseId" javaType="int"
+				jdbcType="INTEGER" />
+			<result column="course_name" property="courseName" javaType="string"
+				jdbcType="VARCHAR" />
+		</association>
+
+		<!--映射课程 -->
+		<!-- <association property="tbcourse" javaType="Course"> <id column="id" 
+			property="courseId" /> <result column="course_name" property="courseName" 
+			/> </association> -->
+
+		<!--映射班级 -->
+		<collection property="tbClassList" javaType="ArrayList"
+			ofType="TbClass">
+			<id column="class_id" property="id" />
+			<result column="class_name" property="name" />
+			<result column="number" property="memberNum"></result>
+		</collection>
+	</resultMap>
+
+
+	<!--课程表映射 -->
+	<resultMap type="CourseSchedule" id="schedule_course_teacher_map"
+		autoMapping="true">
+		<id column="schedule_id" property="scheduleId" />
+		<association property="experimentCourse" javaType="ExperimentCourse">
+			<id column="course_id" property="experimentCourseId" javaType="int"
+				jdbcType="INTEGER" />
+			<result column="course_name" property="courseName" javaType="string"
+				jdbcType="VARCHAR" />
+			<result column="presentationText" property="presentation" javaType="string"
+				jdbcType="VARCHAR" />
+			<!-- 课程封面信息 -->
+			<association property="resourceFile" javaType="ResourceFile">
+				<id column="course_img_id" property="fileId" javaType="int"
+					jdbcType="INTEGER" />
+				<result column="file_format_path" property="fileFormatPath"
+					javaType="string" jdbcType="VARCHAR" />
+			</association>
+			<!-- 任课教师信息 -->
+			<collection property="teacherInfoList" ofType="TeacherInfo"
+				javaType="ArrayList">
+				<id column="teacher_id" property="id" />
+				<result column="teacher_name" property="name" />
+			</collection>
+		</association>
+
+		<association property="teacherInfo" javaType="TeacherInfo">
+			<id column="operator_id" property="id" javaType="int" jdbcType="INTEGER" />
+			<result column="teacher_name" property="name" javaType="string"
+				jdbcType="VARCHAR" />
+		</association>
+		<!-- 实验信息 -->
+		<association property="experiment" javaType="Experiment">
+			<id column="experiment_id" property="experimentId" javaType="int"
+				jdbcType="INTEGER" />
+			<result column="experiment_name" property="experimentName"
+				javaType="string" jdbcType="VARCHAR" />
+			<result column="standard_identify" property="standardIdentify"
+				javaType="string" jdbcType="VARCHAR" />
+			<result column="experiment_presentation" property="experimentPresentation"
+				javaType="string" jdbcType="VARCHAR" />
+		</association>
+		
+			<association property="experimentLab" javaType="ExperimentLab">
+			<!--实验室Id -->
+			<id column="lab_id" property="labId" javaType="int" jdbcType="INTEGER"></id>
+			<!-- 实验室名称 -->
+			<result column="lab_name" property="labName" javaType="string"
+				jdbcType="VARCHAR" />
+			<result column="lab_number" property="labNumber" javaType="string"
+				jdbcType="VARCHAR" />
+			<result column="labSeat" property="labSeat" javaType="INTEGER" jdbcType="INTEGER"/>
+		</association>
+		
+
+		<collection property="tbClassList" javaType="ArrayList"
+			ofType="TbClass">
+			<id column="class_id" property="id" />
+		</collection>
+	</resultMap>
+
+	<!-- 班级——学生——学号——考勤——成绩 -->
+	<resultMap type="TbClass" id="tbclass_stuent_user_score"
+		autoMapping="true">
+		<id column="tb_class_id" property="id" />
+		<result column="tc_class_name" property="name" />
+		<collection property="studentInfoList" ofType="StudentInfo"
+			javaType="ArrayList">
+			<id column="stu_id" property="id" />
+			<result column="stu_name" property="name" />
+			<!-- 黑名单id -->
+			<result column="blacklist_id" property="blacklistId" />
+			<!-- 关联账号 -->
+			<association property="user" javaType="User">
+				<id column="stu_id" property="id" javaType="int" jdbcType="INTEGER" />
+				<result column="username" property="username" javaType="string"
+					jdbcType="VARCHAR" />
+			</association>
+
+			<!-- 关联考勤 -->
+		<!-- 	<association property="clockingIn" javaType="ClockingIn"
+				autoMapping="true">
+				<id column="clocking_id" property="clockingId" />
+				<result column="clocking_status" property="status" />
+				<result column="clocking_time" property="clockingTime" />
+			</association> -->
+			<!-- 关联成绩 -->
+			<association property="scheduleStudentScore" javaType="ScheduleStudentScore"
+				autoMapping="true">
+				<id column="schedule_student_score_id" property="scheduleStudentScoreId" />
+				<result column="score" property="score" />
+				<result column="submit_status" property="submitStatus" />
+				<result column="signin" property="signin" />
+				<result column="signin_time" property="signinTime" />
+				<result column="submit_time" property="submitTime" />
+				<result column="lab_myseat" property="labMyseat" />
+				<result column="TimeOfAppointment" property="timeOfAppointment" />
+			</association>
+			
+		</collection>
+	</resultMap>
+
+	<!-- 班级——小组——实验——学生——学号——考勤——成绩 -->
+	<resultMap type="TbClass" id="tbclass_group_experiment_member_user_score"
+		autoMapping="true">
+		<id column="tb_class_id" property="id" />
+		<result column="tc_class_name" property="name" />
+		<!-- 关联小组 -->
+		<collection property="scourseGroup" ofType="ScourseGroup"
+			javaType="ArrayList">
+			<id column="group_id" property="groupId" />
+			<result column="group_name" property="groupName" />
+			<result column="g_create_time" property="createTime" />
+			<!-- 关联实验 -->
+			<association property="experiment" javaType="Experiment"
+				autoMapping="true">
+				<id column="experiment_id" property="experimentId" javaType="int"
+					jdbcType="INTEGER" />
+			</association>
+			<!-- 关联组员 -->
+			<collection property="groupMember" ofType="StudentInfo"
+				javaType="ArrayList">
+				<id column="stu_id" property="id" />
+				<result column="stu_name" property="name" />
+				<result column="username" property="username" />
+				<!-- 关联考勤,有自动映射，上面的group_id,即使没有学生，也会映射进来，如果要改，请测试 -->
+				<association property="clockingIn" javaType="ClockingIn">
+					<id column="clocking_id" property="clockingId" />
+					<result column="clocking_status" property="status" />
+					<result column="clocking_time" property="clockingTime" />
+				</association>
+				<!-- 关联成绩 -->
+				<association property="scheduleStudentScore" javaType="ScheduleStudentScore"
+					autoMapping="true">
+					<id column="schedule_student_score_id" property="scheduleStudentScoreId" />
+				</association>
+			</collection>
+		</collection>
+	</resultMap>
+
+
+	<select id="AselectByLabId" resultMap="schedule_course_teacher_map">
+		SELECT
+		<!-- 实验课程表 -->
+		cs.schedule_id,cs.course_id,cs.experiment_id,cs.operator_id,
+		cs.lab_id,cs.type,cs.slice,cs.schooltime,
+		cs.presentation,cs.seats,cs.stealth,cs.create_time,cs.update_time,
+		<!-- 实验课程 -->
+		ec.course_name,
+		<!-- 实验 -->
+		e.experiment_name,
+		<!-- 教师 -->
+		ti.image_path,ti.name teacher_name,
+		<!-- 关联班级 -->
+		sc.schedule_class_id,sc.class_id
+		FROM course_schedule cs
+		LEFT JOIN
+		(SELECT schedule_class_id,class_id,schedule_id FROM schedule_class
+		WHERE stealth=2) sc ON sc.schedule_id=cs.schedule_id
+		LEFT JOIN
+		experiment_course ec ON ec.experiment_course_id=cs.course_id
+		LEFT JOIN
+		teacher_info ti ON ti.id = cs.operator_id
+		LEFT JOIN experiment e on
+		e.experiment_id= cs.experiment_id
+		WHERE cs.schooltime BETWEEN
+		#{startTime} AND #{endTime} AND cs.lab_id=#{exprimentLabId}
+		<if test="stealth != null">AND cs.stealth=#{stealth} </if>
+		<if test="type != null">AND cs.type IN (${type}) </if>
+	</select>
+
+
+	<select id="selectByLabIdAndSliceAndSchooltimeAndType"
+		resultMap="schedule_course_teacher_map">
+		SELECT
+		<!-- 实验课程表 -->
+		cs.schedule_id,cs.course_id,cs.experiment_id,cs.operator_id,
+		cs.lab_id,cs.type,cs.slice,cs.schooltime,
+		cs.presentation,cs.exp1,cs.stealth,cs.create_time,cs.update_time,
+		<!-- 实验课程 -->
+		ec.course_name,
+		<!-- 教师 -->
+		ti.image_path,ti.name
+		FROM course_schedule cs
+		LEFT JOIN
+		experiment_course ec ON ec.experiment_course_id=cs.course_id
+		LEFT JOIN
+		teacher_info ti ON ti.id = cs.operator_id
+		WHERE
+		cs.schooltime=#{schooltime}
+		AND cs.lab_id=#{exprimentLabId}
+		AND cs.slice
+		=#{slice}
+		<if test="stealth != null">AND cs.stealth=#{stealth}</if>
+		<if test="type != null">AND cs.type IN (${type})</if>
+	</select>
+
+
+	<select id="getTbClassAndStudent" resultMap="tbclass_stuent_user_score">
+		SELECT 	<!-- 查询班级 -->
+		tc.id AS tb_class_id,tc.number,tc.name as tc_class_name,
+		<!-- 学生 -->
+		si.id AS stu_id,si.name AS stu_name,si.image_path,
+		<!-- 学号 -->
+		u.username,
+		<!-- 考勤 -->
+		ci.clocking_id,ci.status AS clocking_status,ci.clocking_time,
+		<!-- 成绩 -->
+		sef.schedule_student_score_id,sef.score,sef.submit_status,
+		sef.signin,sef.signin_time,sef.submit_time,
+		<!--专业 -->
+		m.name major_name
+		FROM tb_class tc
+		LEFT JOIN student_info si ON tc.id =
+		si.tb_class_id
+		LEFT JOIN USER u ON u.id = si.id
+		LEFT JOIN grade g on
+		g.id = tc.grade_id
+		LEFT JOIN major m on m.id = g.major_id
+		LEFT JOIN
+		(SELECT * FROM clocking_in WHERE schedule_id = #{scheduleId}) ci ON
+		ci.student_id = si.id
+		LEFT JOIN (SELECT * FROM schedule_student_score
+		WHERE schedule_id = #{scheduleId}) sef ON sef.submitter_id = si.id
+		WHERE tc.id IN (
+		SELECT distinct(class_id)
+		FROM schedule_class
+		WHERE
+		stealth =2
+		AND schedule_id=#{scheduleId}
+		)
+		AND tc.stealth=2
+	</select>
+
+	<select id="getGroupStudent" resultMap="tbclass_group_experiment_member_user_score">
+		SELECT
+		<!-- 关联班级 -->
+		tc.id AS tb_class_id,tc.number,tc.name AS tc_class_name,
+		<!-- 关联小组 -->
+		sg.group_id,sg.group_name,sg.create_time g_create_time,
+		<!-- 关联实验 -->
+		e.experiment_id,e.experiment_name,e.experiment_presentation,
+		<!-- 关联成员 -->
+		sgs.group_student_id,
+		<!-- 学生个人 -->
+		si.id AS stu_id,si.name AS stu_name,
+		<!-- 学号 -->
+		u.username,
+		<!-- 考勤 -->
+		ci.clocking_id,ci.status AS clocking_status,ci.clocking_time,
+		<!--专业 -->
+		m.name major_name,
+		<!-- 成绩 -->
+		sef.schedule_student_score_id,sef.submit_status,
+		(select count(id) from
+		student_info where tb_class_id = tc.id) member_num
+		FROM tb_class tc
+		LEFT JOIN (SELECT * FROM scourse_group where
+		schedule_id=#{scheduleId}) sg ON sg.class_id = tc.id
+		LEFT JOIN
+		experiment e ON e.experiment_id = sg.experiment_id
+		LEFT JOIN
+		scourse_group_student sgs ON sgs.group_id = sg.group_id
+		LEFT JOIN
+		student_info si ON si.id = sgs.student_id
+		LEFT JOIN USER u ON u.id =
+		si.id
+		LEFT JOIN grade g on g.id = tc.grade_id
+		LEFT JOIN major m on m.id
+		= g.major_id
+		LEFT JOIN (SELECT * FROM clocking_in WHERE schedule_id =
+		#{scheduleId}) ci ON ci.student_id = si.id
+		LEFT JOIN (SELECT * FROM
+		schedule_student_score WHERE schedule_id = #{scheduleId}) sef ON
+		sef.submitter_id = si.id
+		WHERE<!-- tc.id IN ( SELECT DISTINCT(class_id) 
+			FROM scourse_group WHERE schedule_id = #{scheduleId} ) AND -->
+		tc.stealth=2 and tc.id in (
+		select class_id from schedule_class where
+		schedule_id=#{scheduleId} and
+		stealth=2
+		)
+	</select>
+
+	<select id="getAppointStudent" resultMap="tbclass_stuent_user_score">
+		<!-- SELECT
+		班级
+		tc.id AS tb_class_id,tc.number,tc.name AS tc_class_name,
+		学生
+		si.id AS stu_id,si.name AS stu_name,si.image_path,
+		账号
+		u.username,
+		考勤
+		ci.clocking_id,ci.status AS clocking_status,ci.clocking_time,
+		成绩
+		sef.schedule_student_score_id,sef.score,sef.submit_status,
+		sef.signin,sef.signin_time,sef.submit_time
+		FROM tb_class
+		tc
+		LEFT JOIN student_info si ON tc.id = si.tb_class_id
+		LEFT JOIN USER u
+		ON u.id = si.id
+		LEFT JOIN (SELECT * FROM clocking_in WHERE schedule_id
+		= #{scheduleId}) ci ON ci.student_id = si.id
+		LEFT JOIN (select * from
+		schedule_student_score where schedule_id = #{scheduleId}) sef ON
+		sef.submitter_id = si.id
+		WHERE tc.id IN (
+		SELECT DISTINCT(tb_class_id)
+		FROM student_info
+		WHERE id IN
+		( SELECT DISTINCT(student_id)
+		FROM
+		scourse_student
+		WHERE schedule_id = #{scheduleId}
+		)
+		)
+		AND tc.stealth=2
+		AND
+		si.id IN (
+		SELECT DISTINCT(student_id)
+		FROM scourse_student
+		WHERE
+		schedule_id = #{scheduleId}
+		) -->
+		SELECT
+		tc.id AS tb_class_id,tc.number,tc.name AS tc_class_name,
+		si.id AS stu_id,si.name AS stu_name,si.image_path,
+		u.username,
+		sef.schedule_student_score_id,sef.score,sef.submit_status,
+		sef.signin,sef.signin_time,sef.submit_time,ss.lab_myseat,
+		ss.create_time as TimeOfAppointment,
+		lbl.blacklist_id
+		FROM tb_class AS tc
+		
+		LEFT JOIN student_info si ON tc.id = si.tb_class_id
+		LEFT JOIN USER u
+		ON u.id = si.id
+		LEFT JOIN (SELECT * FROM scourse_student WHERE schedule_id = #{scheduleId} ) ss ON ss.student_id = si.id
+		LEFT JOIN (select * from
+		schedule_student_score where schedule_id = #{scheduleId}) sef ON
+		sef.submitter_id = si.id
+		LEFT JOIN lab_blacklist AS lbl
+		ON  lbl.student_id = si.id
+		WHERE tc.id IN (
+		SELECT DISTINCT(tb_class_id)
+		FROM student_info
+		WHERE id IN
+		( SELECT DISTINCT(student_id)
+		FROM
+		scourse_student
+		WHERE schedule_id = #{scheduleId}
+		)
+		)
+		AND tc.stealth=2
+		AND
+		si.id IN (
+		SELECT DISTINCT(student_id)
+		FROM scourse_student
+		WHERE
+		schedule_id = #{scheduleId}
+		) GROUP BY si.id
+		
+	</select>
+
+
+
+	<select id="getExperimentByScheduleId" resultType="Experiment">
+		SELECT
+		experiment_id,author_id,experiment_name,experiment_type,LEVEL,
+		open_status,experiment_presentation,need_hour,expand_context,
+		experiment_instructor,experiment_instructor_bag,stealth,keyword,
+		answer_show_way,create_time,update_time,standard_identify
+		FROM
+		experiment,(
+		SELECT experiment_id AS tempId
+		FROM course_schedule
+		WHERE
+		schedule_id=#{scheduleId} AND stealth=2
+		) tempStu
+		WHERE
+		experiment_id=tempId
+	</select>
+
+
+	<select id="myCourseSchedule" resultMap="schedule_course_teacher_map">
+		SELECT
+		<!-- 实验课程表 -->
+		cs.schedule_id,cs.course_id,cs.experiment_id,cs.operator_id,
+		cs.lab_id,cs.type,cs.slice,cs.schooltime,
+		cs.presentation,cs.exp1,cs.stealth,cs.create_time,cs.update_time,
+		<!-- 实验课程 -->
+		ec.course_name,
+		<!-- 教师 -->
+		ti.image_path,ti.name
+		FROM course_schedule cs
+		LEFT JOIN
+		experiment_course ec ON ec.experiment_course_id=cs.course_id
+		LEFT JOIN
+		teacher_info ti ON ti.id = cs.operator_id
+		WHERE
+		cs.operator_id=#{teacherInfoId} AND cs.stealth=2
+	</select>
+
+
+	<!-- 获取教师个人课程表明细 -->
+	<select id="myCourseScheduleList" resultMap="myCourseScheduleList_map">
+	 SELECT
+		cs.schedule_id,cs.course_id,cs.experiment_id,cs.operator_id,
+		cs.lab_id,cs.type,cs.slice,cs.schooltime,
+		cs.presentation,cs.seats,cs.stealth,cs.remaining_seats,cs.create_time,cs.update_time,
+		ec.experiment_course_id,ec.course_name,
+		ti.name AS th_name,
+		e.experiment_id,e.experiment_name,
+		el.lab_id,el.lab_name
+		FROM course_schedule cs
+		LEFT JOIN
+		experiment_course ec ON ec.experiment_course_id=cs.course_id
+		LEFT JOIN
+		teacher_info ti ON ti.id = cs.operator_id
+		LEFT JOIN (SELECT experiment_id,experiment_name,author_id, stealth FROM
+		experiment WHERE experiment_type = 3 AND stealth = 2 ) AS e ON
+		e.experiment_id = cs.experiment_id
+		LEFT JOIN (SELECT lab_number,lab_name,lab_id,stealth  FROM experiment_lab WHERE stealth =2 )
+		AS el ON el.lab_id = cs.lab_id 
+		WHERE cs.operator_id=#{teacherInfoId} AND  cs.stealth=2  AND cs.type IN(1,3) 
+		
+	</select>
+
+
+	<select id="AselectMyScheduleByLabId" resultMap="schedule_course_teacher_map">
+		SELECT
+		<!-- 实验课程表 -->
+		cs.schedule_id,cs.course_id,cs.experiment_id,cs.operator_id,
+		cs.lab_id,cs.type,cs.slice,cs.schooltime,
+		cs.presentation,cs.seats,cs.stealth,cs.create_time,cs.update_time,
+		<!-- 实验课程 -->
+		ec.course_name,
+		<!-- 教师 -->
+		ti.image_path,ti.name,
+		<!-- 关联班级 -->
+		sc.schedule_class_id,sc.class_id
+		FROM course_schedule cs
+		LEFT JOIN
+		(SELECT schedule_class_id,class_id,schedule_id FROM schedule_class
+		WHERE stealth=2) sc ON sc.schedule_id=cs.schedule_id
+		LEFT JOIN
+		experiment_course ec ON ec.experiment_course_id=cs.course_id
+		LEFT JOIN
+		teacher_info ti ON ti.id = cs.operator_id
+		WHERE cs.schooltime BETWEEN
+		#{startTime} AND #{endTime} AND cs.lab_id=#{exprimentLabId}
+		<if test="stealth != null">AND cs.stealth=#{stealth} </if>
+		<if test="teacherId != null">AND cs.operator_id=#{teacherId} </if>
+	</select>
+
+	<!--根据实验室id和时间段 查询实验室的课表信息 -->
+	<select id="selectScheduleByLabIdAndTime" resultMap="schedule_course_teacher_map">
+		SELECT
+		cs.schedule_id,cs.course_id,cs.experiment_id,cs.operator_id,
+		cs.lab_id,cs.type,cs.slice,cs.schooltime,
+		cs.presentation,cs.seats,cs.stealth,cs.create_time,cs.update_time,
+		e.experiment_name,
+		ec.course_name,
+		ti.image_path,ti.name as teacher_name
+		FROM course_schedule cs
+		LEFT JOIN experiment_course ec
+		ON
+		ec.experiment_course_id=cs.course_id
+		LEFT JOIN experiment e ON
+		e.experiment_id = cs.experiment_id
+		LEFT JOIN teacher_info ti ON ti.id =
+		cs.operator_id
+		WHERE cs.schooltime BETWEEN #{startTime} AND #{endTime}
+		AND cs.lab_id=#{exprimentLabId}
+		<if test="stealth != null">AND cs.stealth=#{stealth} </if>
+	</select>
+
+
+	<!-- 查询一个实验室使用次数 -->
+	<select id="selectLabUseCountByLabId" parameterType="int"
+		resultType="int">
+		select count(schedule_id) from course_schedule
+		where
+		lab_id=#{labId} and stealth=2
+	</select>
+
+	<!-- 查询课程表详细信息想 包含 实验-课程-任课教师信息 -->
+	<select id="selectScheduleInfoById" resultMap="schedule_course_teacher_map">
+		SELECT
+		cs.`schedule_id`,
+		cs.`course_id`,
+		cs.`experiment_id`,
+		cs.`lab_id`,
+		cs.`type`,
+		cs.`class_id`,
+		cs.`slice`,
+		cs.`schooltime`,
+		cs.deputy,
+		cs.presentation,
+		cs.create_time,
+		ec.experiment_course_id,
+		ec.course_name,
+		ec.course_img_id,
+		ec.presentation presentationText,
+		rf.file_format_path,
+		e.experiment_name,
+		e.experiment_presentation,
+		e.standard_identify,
+		e.experiment_instructor_bag,
+		cs.operator_id teacher_id,
+		t.`name`
+		teacher_name,
+		la.lab_name,
+		la.lab_number,
+		la.lab_seat labSeat,
+		la.lab_id
+		FROM
+		course_schedule cs
+		LEFT JOIN experiment_course ec on
+		ec.experiment_course_id =
+		cs.course_id
+		LEFT JOIN resource_file rf on
+		rf.file_id =
+		ec.course_img_id
+		LEFT JOIN experiment e on e.experiment_id
+		=
+		cs.experiment_id
+		LEFT JOIN teacher_info t on t.id = cs.operator_id
+		LEFT JOIN  experiment_lab la on la.lab_id = cs.lab_id
+		where cs.`schedule_id` =#{scheduleId} AND cs.stealth = 2
+	</select>
+	<select id="getAppointStudentSize" resultType="int">
+		SELECT
+		COUNT(scourse_student_id) FROM scourse_student WHERE schedule_id =
+		#{scheduleId}
+	</select>
+	<!-- 根据实验室Id 统计该实验室详情  -->
+	<select id="selectfinAllTeacherCourseTypeCalssList" resultMap="CourseSchedule_List_map">
+		SELECT a.*,b.name class_name ,t.name ,ec.course_name,d.number FROM
+		(
+		SELECT sc.schedule_class_id,
+		sc.schedule_id,sc.class_id,cs.course_id,cs.lab_id,cs.operator_id,cs.slice,cs.type,cs.schooltime,cs.stealth
+		FROM
+		schedule_class sc
+		LEFT JOIN course_schedule cs on cs.schedule_id =
+		sc.schedule_id
+		WHERE sc.stealth = 2 and cs.stealth = 2 and cs.lab_id = #{labId} and cs.type IN(1,3) GROUP BY
+		sc.schedule_class_id) as a
+		LEFT JOIN
+		tb_class as b on a.class_id = b.id
+		LEFT JOIN teacher_info as t on t.id = a.operator_id
+		LEFT JOIN
+		(select count(id) number,tb_class_id from student_info GROUP by
+		tb_class_id
+		) d on d.tb_class_id = a.class_id
+		LEFT JOIN (select course_name ,experiment_course_id from experiment_course
+		) ec on ec.experiment_course_id =
+		a.course_id
+	</select>
+	<!-- 班级id 获取 对应的课程信息  -->
+	<select id="getCourseScheduleClassData" resultMap="getCourseScheduleClassData_map">
+		SELECT schooltime,slice,sc.schedule_id,sc.schedule_id,sc.schedule_class_id,sc.class_id FROM course_schedule AS cs
+		INNER JOIN (SELECT class_id,schedule_id,schedule_class_id FROM schedule_class WHERE stealth =
+		2 )AS sc ON sc.schedule_id = cs.schedule_id
+		WHERE cs.stealth = 2 AND sc.class_id = #{classId} AND cs.type IN (1,3 )
+	</select>
+
+
+
+		<!-- 根据实验室Id 教师id  统计该实验室详情  -->
+	<select id="selectFinMyCourseTypeCalssList" resultMap="CourseSchedule_List_map">
+		SELECT a.*,b.name class_name ,t.name ,ec.course_name,d.number FROM
+		(
+		SELECT sc.schedule_class_id,
+		sc.schedule_id,sc.class_id,cs.course_id,cs.lab_id,cs.operator_id,cs.slice,cs.type,cs.schooltime,cs.stealth
+		FROM
+		schedule_class sc
+		LEFT JOIN course_schedule cs on cs.schedule_id =
+		sc.schedule_id
+		WHERE sc.stealth = 2 and cs.stealth = 2 and cs.lab_id = #{labId} and cs.operator_id = #{thId} and cs.type IN(1,3) GROUP BY
+		sc.schedule_class_id) as a
+		LEFT JOIN
+		tb_class as b on a.class_id = b.id
+		LEFT JOIN teacher_info as t on t.id = a.operator_id
+		LEFT JOIN
+		(select count(id) number,tb_class_id from student_info GROUP by
+		tb_class_id
+		) d on d.tb_class_id = a.class_id
+		LEFT JOIN (select course_name ,experiment_course_id from experiment_course
+		) ec on ec.experiment_course_id =
+		a.course_id
+	</select>
+
+	<select id="selectFinMyCourseNumber" resultType="int" >
+	SELECT COUNT(a.schedule_id) FROM
+		(
+		SELECT sc.schedule_class_id,
+		sc.schedule_id,sc.class_id,cs.course_id,cs.lab_id,cs.operator_id,cs.slice,cs.type,cs.schooltime,cs.stealth
+		FROM
+		schedule_class sc
+		LEFT JOIN course_schedule cs on cs.schedule_id =
+		sc.schedule_id
+		WHERE sc.stealth = 2 and cs.stealth = 2 and cs.lab_id = #{labId} and cs.operator_id = #{thId} and cs.type IN(1,3) GROUP BY
+		sc.schedule_class_id) as a
+		LEFT JOIN
+		tb_class as b on a.class_id = b.id
+		LEFT JOIN teacher_info as t on t.id = a.operator_id
+		LEFT JOIN
+		(select count(id) number,tb_class_id from student_info GROUP by
+		tb_class_id
+		) d on d.tb_class_id = a.class_id
+		LEFT JOIN (select course_name ,experiment_course_id from experiment_course
+		) ec on ec.experiment_course_id =
+		a.course_id
+	</select>
+	
+	
+	<select id="exportMyAllLabdata" resultMap="CourseSchedule_List_map">
+		SELECT a.*,b.name class_name ,t.name ,ec.course_name,d.number FROM
+		(
+		SELECT sc.schedule_class_id,
+		sc.schedule_id,sc.class_id,cs.course_id,cs.lab_id,cs.operator_id,cs.slice,cs.type,cs.schooltime,cs.stealth
+		FROM
+		schedule_class sc
+		LEFT JOIN course_schedule cs on cs.schedule_id =
+		sc.schedule_id
+		WHERE sc.stealth = 2 and cs.stealth = 2 and cs.operator_id = #{thId} and cs.type IN(1,3) GROUP BY
+		sc.schedule_class_id) as a
+		LEFT JOIN
+		tb_class as b on a.class_id = b.id
+		LEFT JOIN teacher_info as t on t.id = a.operator_id
+		LEFT JOIN
+		(select count(id) number,tb_class_id from student_info GROUP by
+		tb_class_id
+		) d on d.tb_class_id = a.class_id
+		LEFT JOIN (select course_name ,experiment_course_id from experiment_course
+		) ec on ec.experiment_course_id =
+		a.course_id
+	</select>
+
+</mapper>

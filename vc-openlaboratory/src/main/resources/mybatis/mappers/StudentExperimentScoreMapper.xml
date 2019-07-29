@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.vcooc.experiment.mapper.StudentExperimentScoreMapper">
+
+	<!-- 根据 实验成绩id 实验评分标准id 查询 实验评定分数成绩 -->
+	<select id="selectExperimentStandardStudentscoreByWhere" resultType="ExperimentStandard">
+		SELECT a.standard_id,a.standard_identify,a.stand_title,a.exp1,a.number,a.presentation,a.score,a.stealth,c.score AS student_score FROM experiment_standard AS a
+		LEFT JOIN 
+		(SELECT b.score,b.standard_id,b.experiment_type FROM student_experiment_score AS b WHERE b.submit_id = #{submitId} AND b.experiment_type = #{experimentType} ) AS c 
+		ON a.standard_id = c.standard_id 
+		WHERE  a.standard_identify = #{standardId} AND a.stealth = 2  ORDER BY a.number
+	</select>
+	
+	<!--批量删除学生实验评定-->
+	<delete id="deleteStudentScoreByWhere">
+		DELETE FROM student_experiment_score WHERE experiment_type = #{experimentType} AND submit_id IN
+			(${submitIds}) 
+	</delete>
+	
+		<!--批量载入学生实验评定分数-->
+ 	<insert id="insertStudentListScore">
+		INSERT INTO student_experiment_score(experiment_score_id,submit_id,standard_id,score,experiment_type)
+		VALUES
+			<foreach  collection="studentExperimentScores" item="studentExperimentScore" separator=",">
+				(#{studentExperimentScore.experimentScoreId},#{studentExperimentScore.submitId},#{studentExperimentScore.standardId},#{studentExperimentScore.score},#{experimentType})
+			</foreach>
+	</insert> 
+</mapper>

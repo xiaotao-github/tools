@@ -1,0 +1,10 @@
+body{background: url(../images/welcome_bg.png) center no-repeat;}
+.welcomeContain{width: 710px;margin: 0 auto;}
+.welcomeContain .part1{background: url(../images/welcome_part1_bg.png) no-repeat;height: 324px;cursor: pointer;position: relative;}
+.welcomeContain .part1 .containTxt{width: 350px;padding: 90px 60px 0px 100px;}
+.welcomeContain .part1 .containTxt p{line-height: 24px;}
+.welcomeContain .part1 .containName{position: absolute; bottom:60px; right: 0;padding-right: 40px;}
+.welcomeContain .part2{background: url(../images/welcome_part2_bg.png) no-repeat;height: 324px;cursor: pointer;position: relative;}
+.welcomeContain .part2 .containTxt{width: 350px;padding: 70px 60px 0 260px;}
+.welcomeContain .part2 .containTxt p{line-height: 24px;}
+.welcomeContain .part2 .containName{position: absolute; bottom:70px; left: 0;padding-left: 40px;}

@@ -1,0 +1,24 @@
+p.p1{
+ font-size: 22px;
+}
+p.p1 .span1{
+ font-size: 24px;
+ color: #f37b1d;
+}
+p.p1 .span2{
+ font-size: 15px;
+}
+p.p1 .span3{
+ font-size: 12px;
+ float: right;
+ margin-top: 58px;
+ color: #999;
+}
+p.p1 .span4{
+ margin-left: 14px;
+}
+.file-upload-tip {
+	/* margin-left: -64px; */
+	font-size: 13px;
+	color: #1f636a;
+}

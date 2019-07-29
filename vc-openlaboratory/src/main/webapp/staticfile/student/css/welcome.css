@@ -1,0 +1,38 @@
+.stuMsg{padding-top:20px;padding-bottom:20px;background: url(../images/top_bg.png) center;}
+.stuMsg .stu-avatar img{width: 110px;height: 110px;border-radius: 50%;}
+
+.schedule{background: url(../images/opacity_bg.png) repeat;background: rgba(255,255,255,0.8);}
+
+.schedule .courseSwiper{margin: 0 auto;padding: 20px 0; overflow: hidden;width:950px;}
+.schedule .courseSwiper .swiper-slide{background: url(../images/welcome1_grid_bg.png) center center no-repeat;}
+.schedule .swiper-btn{width: 40px;height: 40px;position: absolute;cursor: pointer;}
+.schedule .swiper-btn.swiper-prev{background: url(../images/welcome1_prevBtn.png) center no-repeat;left: 0px;}
+.schedule .swiper-btn.swiper-next{background: url(../images/welcome1_nextBtn.png) center no-repeat;right: 0px;}
+
+.count .count-num{line-height: 90px;height: 90px;width: 120px;border-radius: 5px;background: #facd89;}
+.count .count-text{line-height: 90px;}
+
+.jump p{height: 100px;background: #ccc;cursor:pointer;}
+.jump p.p1{background: #c9e3eb url(../images/jumpBtn_01.png) center center no-repeat;}
+.jump p.p1:hover{background: #c9e3eb url(../images/jumpBtn_01_hover.png) center center no-repeat;}
+.jump p.p2{background: #ffe399 url(../images/jumpBtn_02.png) center center no-repeat;;}
+.jump p.p2:hover{background: #ffe399 url(../images/jumpBtn_02_hover.png) center center no-repeat;;}
+.jump p.p3{background: #ffe399 url(../images/jumpBtn_03.png) center center no-repeat;;}
+.jump p.p3:hover{background: #ffe399 url(../images/jumpBtn_03_hover.png) center center no-repeat;;}
+.jump p.p4{background: #c9e3eb url(../images/jumpBtn_04.png) center center no-repeat;;}
+.jump p.p4:hover{background: #c9e3eb url(../images/jumpBtn_04_hover.png) center center no-repeat;;}
+
+.swiper-nav{text-align: center;padding-bottom: 30px;}
+.swiper-nav li{height: 12px;width: 12px;background: url(../images/welcome1_slide_normal.png) center no-repeat;display: inline-block;*display: inline;padding: 0 5px;cursor: pointer;}
+.swiper-nav li.checked{height: 12px;width: 24px;background: url(../images/welcome1_slide_active.png) center no-repeat;}
+.eachCourse{width: 400px;border: 1px solid #3c807d;}
+.eachCourse .coursePost{width: 180px;height: 100px;position: relative;}
+.eachCourse .coursePost img{display: block;width: 100%;height: 100%;}
+.eachCourse .coursePost p{position: absolute;bottom: 0;left: 0;background: url(../images/courseName_bg.png) repeat;}
+.eachCourse .courseContainer .coursePercent .track{width: 150px;height: 6px;border: 2px solid #ddd;border-radius: 5px;}
+.eachCourse .courseContainer .coursePercent .track .courseProgress{height: 6px;background: #32b16c;width: 0;}
+
+/*============ daypilot css ==============*/
+.scheduler_default_rowheader_inner{display: table;text-align: center;width: 96%;height: 99%;margin: 0 auto;font-size: 14px;color: #3c817e;font-weight: bold;}
+.scheduler_default_rowheader_inner div{display: table-cell;vertical-align: middle;}
+.scheduler_default_corner{display: table-cell;vertical-align: middle;text-align: center;font-size: 16px;font-weight: bold;}

@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.vcooc.experiment.mapper.ExperimentMapper">
+	<!-- 查询全部实验映射 -->
+	<resultMap type="Experiment" id="experimentListMap" autoMapping="true">
+		<id column="experiment_id" property="experimentId" />
+		<!--作者 -->
+		<association property="author" javaType="TeacherInfo">
+			<id column="teacher_info_id" property="id" javaType="int"
+				jdbcType="INTEGER" />
+			<result column="name" property="name" javaType="string"
+				jdbcType="VARCHAR" />
+		</association>
+			<!-- 映射课程 -->
+		<association property="experimentCourse" javaType="ExperimentCourse">
+        	<id column="experiment_course_id" property="experimentCourseId"  javaType="int" jdbcType="INTEGER" />
+            <result column="course_name" property="courseName" javaType="string" jdbcType="VARCHAR"/>                
+		</association>
+		<!-- 映射院系 -->
+			<association property="department" javaType="Department">
+				<id column="department_id" property="id" javaType="int" jdbcType="INTEGER" />
+				<result column="department_name" property="name" javaType="string"
+					jdbcType="VARCHAR" />
+			</association>
+		
+	</resultMap>
+	
+	
+	<!--实验映射 -->
+	<resultMap type="Experiment" id="experimentMap" autoMapping="true">
+		<id column="experiment_id" property="experimentId" />
+		<!--作者 -->
+		<association property="author" javaType="TeacherInfo">
+			<id column="teacher_info_id" property="id" javaType="int"
+				jdbcType="INTEGER" />
+			<result column="teacher_info_name" property="name" javaType="string"
+				jdbcType="VARCHAR" />
+			<result column="image_path" property="imagePath" javaType="string"
+				jdbcType="VARCHAR"/>
+			<association property="department" javaType="Department">
+				<id column="department_id" property="id" javaType="int" jdbcType="INTEGER" />
+				<result column="department_name" property="name" javaType="string"
+					jdbcType="VARCHAR" />
+			</association>
+		</association>
+		<!--实验指导书映射 -->
+		<association property="instructor" javaType="ResourceFile" column="experiment_id" select="selectInstructorByExperimentId"/>
+		<!--映射所属课程 -->
+		<association property="experimentCourse" javaType="ExperimentCourse">
+        	<id column="experiment_course_id" property="experimentCourseId"  javaType="int" jdbcType="INTEGER" />
+            <result column="course_name" property="courseName" javaType="string" jdbcType="VARCHAR"/>                
+		</association>
+		   <!-- 查询实验下的步骤信息 -->
+		<collection property="steps"  javaType="ArrayList" ofType="ExperimentStep">
+		       <id column="step_id" property="stepId"/>
+		       <result column="title" property="title"/>
+		       <result column="content" property="content"/>
+		       <result column="file_path" property="filePath"/>
+		       <result column="step_num" property="stepNum"/>
+		</collection>
+		<!--实验资源映射 -->
+		<collection property="fileList"  ofType="ResourceFile"  javaType="ArrayList" autoMapping="true">
+		         <id column="file_id" property="fileId"/>
+		</collection> 
+	</resultMap>
+	
+	
+	<!--根据条件查询实验信息 -->
+	<select id="selectExperimentByWhere" resultMap="experimentMap"
+		parameterType="int">
+		SELECT e.*,exeCourse.experiment_course_id,exeCourse.course_name,ti.id teacher_info_id,ti.name teacher_info_name,ti.image_path ,d.id department_id,d.name department_name ,
+		ref.file_id,ref.file_name,ref.file_title,ref.file_path,ref.file_format_path,ref.file_size
+		,step_info.* FROM experiment e
+		LEFT JOIN  teacher_info ti ON e.author_id = ti.id
+		LEFT JOIN department d ON  ti.department_id = d.id
+		left join (
+           select ce.experiment_course_id,ce.experiment_id,ec.course_name from course_experiment ce 
+           LEFT JOIN experiment_course ec on ec.experiment_course_id = ce.experiment_course_id
+          ) exeCourse on exeCourse.experiment_id = e.experiment_id
+         LEFT JOIN (
+            select rf.file_id,ef.experiment_id,rf.file_name,rf.file_title,rf.file_format_path,rf.file_path , rf.file_size from experiment_file ef 
+            left join resource_file rf on rf.file_id=ef.resource_file_id
+          ) ref on ref.experiment_id=e.experiment_id
+       	left join (
+		select step_id , experiment_id s_experiment_id , title ,content,file_path,step_num from experiment_step
+		where stealth  = 2 ORDER BY step_num 
+		) step_info on step_info.s_experiment_id = e.experiment_id
+		<where>
+			<if test="stealth!=null">e.stealth = #{stealth}</if>
+			<if test="departmentId!=null">AND d.id = #{departmentId}</if>
+			<if test="teacherInfoId!=null">AND ti.id = #{teacherInfoId}</if>
+			<if test="experimentId!=null">AND e.experiment_id = #{experimentId}</if>
+			<if test="systemIdentify!=null"> 
+			       and
+			       <choose>
+			         <!-- <when test="systemIdentify==1">e.experiment_type in (1,2)</when> -->
+			      	 <when test="systemIdentify==2">e.experiment_type = 3 </when>
+			       </choose>
+			</if>
+			<!-- LIMIT 1000 -->
+		</where>
+	</select>
+
+	<!--实验下的资源文件映射 -->
+	<resultMap type="ResourceFile" id="resourceFileMap"
+		autoMapping="true">
+		<id column="file_id" property="fileId" javaType="int" jdbcType="INTEGER" />
+		<!-- 映射资源库 -->
+		<association property="resourceLibrary" javaType="ResourceLibrary">
+			<id column="library_id" property="libraryId" javaType="int"
+				jdbcType="INTEGER" />
+			<result column="library_name" property="libraryName" javaType="string"
+				jdbcType="VARCHAR" />
+			<!-- 映射院系 -->
+			<association property="department" javaType="Department">
+				<id column="department_id" property="id" javaType="int" jdbcType="INTEGER" />
+				<result column="department_name" property="name" javaType="string"
+					jdbcType="VARCHAR" />
+			</association>
+		</association>
+		<!--映射作者 -->
+		<association property="author" javaType="TeacherInfo">
+			<id column="author_id" property="id" javaType="int" jdbcType="INTEGER" />
+			<result column="author_name" property="name" javaType="string"
+				jdbcType="VARCHAR" />
+		</association>
+	</resultMap>
+	<!--查询实验下的资源信息 -->
+	<select id="selectExperimentFileByExperimentId" resultMap="resourceFileMap">
+		SELECT rf.*,ef.is_instructor,ti.name AS author_name,rl.library_name AS
+		library_name,d.id AS department_id,d.name department_name
+		FROM
+		resource_file AS rf
+		LEFT JOIN teacher_info ti ON ti.id=rf.author_id
+		LEFT JOIN resource_library rl ON rl.library_id=rf.library_id
+		LEFT JOIN department d ON d.id = rl.department_id
+		LEFT JOIN experiment_file
+		ef ON ef.resource_file_id = rf.file_id
+		WHERE rf.file_id IN (
+		SELECT
+		ef2.resource_file_id FROM experiment_file ef2 WHERE ef2.experiment_id
+		= #{experimentId} 
+		)
+	</select>
+	<select id="selectExperimentByExperimentCourseId" resultType="Experiment">
+		SELECT * FROM experiment e WHERE e.experiment_id IN
+		 (SELECT ce.experiment_id FROM course_experiment ce WHERE ce.experiment_course_id = #{experimentCourseId}) AND e.experiment_type = 3 GROUP BY e.experiment_name
+	    
+	</select>
+	
+		<select id="selectExperimentByExperimentCourseIdAndStealth" resultType="Experiment">
+		SELECT * FROM experiment e WHERE e.experiment_id IN
+		 (SELECT ce.experiment_id FROM course_experiment ce WHERE ce.experiment_course_id = #{experimentCourseId})  AND e.stealth = #{stealth}
+		        <choose>
+		        <!--     <when test="identify==1">and e.experiment_type in (1,2) </when> -->
+		            <when test="identify==2">and e.experiment_type in (3) </when>
+		        </choose>
+		  GROUP BY e.experiment_name
+	    
+	</select>
+
+	
+	<!-- ————————————————————————————————————学生前端———————————————————————————————————————————— -->
+	<resultMap type="Experiment" id="webExperimentMap"
+		autoMapping="true">
+		<id column="experiment_id" property="experimentId" />
+		<!--实验指导书映射 -->
+		<association property="instructor" javaType="ResourceFile" column="experiment_id" select="selectInstructorByExperimentId"/>
+		<!--实验标准答案映射-->
+		<association property="solution" javaType="ResourceFile" column="experiment_id" select="selectSolutionByExperimentId"/>
+		<!--其他资源文件映射 -->
+		<collection property="fileList"  javaType="ArrayList" ofType="ResourceFile" column="experiment_id"  select="selectOtherResourceFileByExperimentId"/>
+	    <!-- 查询实验下的步骤信息 -->
+		<collection property="steps"  javaType="ArrayList" ofType="ExperimentStep">
+		       <id column="step_id" property="stepId"/>
+		       <result column="title" property="title"/>
+		       <result column="content" property="content"/>
+		       <result column="file_path" property="filePath"/>
+		       <result column="step_num" property="stepNum"/>
+		</collection>
+	</resultMap>
+	<select id="selectExperimentByExperimentId" resultMap="webExperimentMap">
+		SELECT e.*
+			FROM experiment e
+		 WHERE e.experiment_id = #{experimentId}
+	 </select>
+	 <!-- 查询实验以及实验步骤信息 -->
+   <select id="selectExperimentAndStepByExperimentId" resultMap="webExperimentMap">
+	SELECT e.*,step_info.*
+		FROM experiment e
+		left join (
+		select step_id , experiment_id s_experiment_id , title ,content,file_path,step_num from experiment_step
+		where stealth  = 2 ORDER BY step_num 
+		) step_info on step_info.s_experiment_id = e.experiment_id
+	 WHERE e.experiment_id = #{experimentId}
+	</select>
+	<select id="selectInstructorByExperimentId" resultType="ResourceFile">
+		SELECT
+		rf.*,ef.is_instructor,ef.experiment_file_id
+		FROM resource_file AS rf
+		LEFT JOIN experiment_file ef
+		ON ef.resource_file_id = rf.file_id
+		WHERE ef.experiment_file_id IN(SELECT
+		ef2.experiment_file_id
+		FROM experiment_file ef2
+		WHERE ef2.experiment_id =#{experimentId} AND ef2.is_instructor = 1
+		) AND ef.is_instructor = 1 LIMIT 1
+	</select>
+	<select id="selectSolutionByExperimentId" resultType="ResourceFile">
+		SELECT
+		rf.*,ef.is_instructor,ef.experiment_file_id
+		FROM resource_file AS rf
+		LEFT JOIN experiment_file ef
+		ON ef.resource_file_id = rf.file_id
+		WHERE ef.experiment_file_id IN(SELECT
+		ef2.experiment_file_id
+		FROM experiment_file ef2
+		WHERE ef2.experiment_id =#{experimentId} AND ef2.is_instructor = 5
+		) AND ef.is_instructor = 5 LIMIT 1
+	</select>
+	<select id="selectOtherResourceFileByExperimentId" resultType="ResourceFile">
+		SELECT
+		rf.*,ef.is_instructor
+		FROM resource_file AS rf
+		LEFT JOIN experiment_file ef
+		ON ef.resource_file_id = rf.file_id
+		WHERE ef.experiment_file_id IN(SELECT
+		ef2.experiment_file_id
+		FROM experiment_file ef2
+		WHERE ef2.experiment_id = #{experimentId} AND  ef2.is_instructor !=1
+		) AND ef.is_instructor NOT IN(1,5) 
+	</select>
+	<!--修改实验开放状态-->
+	<update id="updateExperimentStatus">
+		UPDATE experiment e SET e.open_status =#{status},e.update_time =#{updateTime}
+		WHERE e.experiment_id  IN
+		<foreach collection="experimentIds" item="experimentId" separator="," open="(" close=")">
+			#{experimentId}
+		</foreach>
+	</update>
+	
+	
+	<select id="selectExperimentByScheduleId" resultType="Experiment">
+		SELECT 	 experiment_id,experiment_name
+		FROM     experiment 
+		WHERE    stealth=2  AND  experiment_type =1 
+		AND      experiment_id IN (
+						SELECT experiment_id FROM  course_experiment
+						WHERE  experiment_course_id IN 
+						(SELECT course_id FROM course_schedule WHERE schedule_id=#{scheduleId})
+				)
+	</select>
+	<resultMap id="experimentMapA" type="experiment" autoMapping="true">
+		<id column="experiment_id" property="experimentId"/>
+			<!--实验资源映射 -->
+		<collection property="experimentStandards"  ofType="ExperimentStandard"  javaType="ArrayList">
+		 	<id column="standard_id" property="standardId"/>
+		 	<result column="number" property="number"/>
+		 	<result column="presentation" property="presentation"/>
+		 	<result column="score" property="score"/>
+		</collection> 
+	</resultMap>
+	
+	<select id="selectExperimentAndStandByExperimentId" resultMap="experimentMapA">
+		SELECT a.*,b.standard_id,b.number,b.presentation,b.score FROM experiment AS a
+		LEFT JOIN experiment_standard b ON a.standard_identify = b.standard_identify
+		WHERE a.experiment_id = #{experimentId}
+		ORDER BY b.number ASC  
+	</select>
+	<!-- 查询全部实验 详细情况-->
+	<select id="selectExperimentList" resultMap="experimentListMap">
+ 	SELECT * FROM experiment   AS e 
+  	LEFT JOIN course_experiment AS c ON  c.experiment_id = e.experiment_id 
+ 	LEFT JOIN experiment_course AS s ON s.experiment_course_id = c.experiment_course_id  
+  	LEFT JOIN teacher_info AS t  ON t.id = s.teacher_info_id	
+  	LEFT JOIN (SELECT  NAME department_name ,id,stealth FROM  department )  d ON d.id = s.department_id
+  	WHERE e.stealth =2 AND d.stealth = 2  AND experiment_type = 3 GROUP BY e.experiment_id 
+	</select>
+	
+	
+</mapper>

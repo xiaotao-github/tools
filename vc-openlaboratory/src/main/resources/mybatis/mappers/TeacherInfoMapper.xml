@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.vcooc.experiment.mapper.TeacherInfoMapper">
+	<!--教师信息表映射 -->
+	<!--教师映射 教师账号，教师姓名，所属院系，教师角色，性别，邮箱，录入时间，当前状态 -->
+	<resultMap type="TeacherInfo" id="TeacherInfoMap" autoMapping="true">
+		<id column="id" property="id"/>
+		<association property="user" javaType="user">
+			<id column="user_id" property="id" />
+			<result column="teacher_username" property="username" />
+			<result column="stealth" property="stealth" />
+		</association>
+
+		<association property="department" javaType="Department">
+			<id column="department_id" property="id" />
+			<result column="department_name" property="name" javaType="string"
+				jdbcType="VARCHAR" />
+		</association>
+		<association property="role" javaType="Role">
+			<result column="role_id" property="id" javaType="int" jdbcType="INTEGER" />
+			<result column="role_name" property="name" javaType="string"
+				jdbcType="VARCHAR" />
+		</association>
+	</resultMap>
+	<!--根据教师id查询教师信息 -->
+		<select id="findTeacherInfoByUserId" parameterType="Integer"
+		resultMap="TeacherInfoMap">
+		SELECT u.id AS user_id,u.username AS teacher_username,
+		ti.open_id,ti.ic_no,ti.exp1,ti.exp2,
+		ti.name AS
+		teacher_name,u.stealth,d.id AS department_id,d.name AS
+		department_name,r.id AS role_id,r.name AS role_name,
+		ti.sex,ti.email,ti.update_time,u.status AS STATUS FROM teacher_info ti
+		LEFT JOIN USER u ON u.id=ti.id
+		LEFT JOIN department d ON d.id= ti.department_id
+		LEFT JOIN role r ON r.id= ti.role_id WHERE u.stealth=2  AND u.id = #{userId}
+	</select>
+	<!--根据实验课程ID，查询课程下的任课教师信息-->
+	<select id="selectExperimentCourseTeacher" parameterType="Integer" resultMap="TeacherInfoMap">
+		SELECT
+		ti.*,
+		d.id department_id,d.name department_name
+		FROM teacher_info ti
+		LEFT JOIN USER u ON u.id = ti.id
+		LEFT JOIN department d ON ti.department_id = d.id
+		WHERE u.stealth = 2 AND ti.id IN(
+		SELECT ect.teacher_info_id FROM experiment_course_teacher ect 
+		WHERE ect.experiment_course_id = #{experimentCourseId})
+	</select>
+	
+	<select id="findTeacherIdByName" resultType="Integer">
+		SELECT `id` FROM teacher_info WHERE `name`='sSearch'	
+	</select>
+	
+</mapper>

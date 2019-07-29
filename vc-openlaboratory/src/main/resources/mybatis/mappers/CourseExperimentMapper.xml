@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.vcooc.experiment.mapper.CourseExperimentMapper">
+	<!--实验下的资源文件映射-->
+	<resultMap type="ExperimentCourse" id="experimentCourseMap"
+		autoMapping="true">
+		<id column="experiment_course_id" property="experimentCourseId" />
+		<!--查询课程下的实验信息 -->
+ 	    <collection property="experimentList"   column="experiment_course_id" select="selectExperimentsByExperimentCourseId"/>
+	</resultMap>
+	<!--实验映射-->
+	<resultMap type="Experiment" id="experimentMap" autoMapping="true">
+		<id column="experiment_id" property="experimentId" />
+		<!--作者-->
+		<association property="author" javaType="TeacherInfo">
+			<id column="teacher_info_id" property="id" javaType="int"
+				jdbcType="INTEGER" />		
+			<result column="teacher_info_name" property="name" javaType="string"
+				jdbcType="VARCHAR" />
+		</association>
+	</resultMap>	
+	<!--根据教师ID，查询教师所带的实验课程信息  -->
+	<select id="selectExperimentCourseAndExperimentByUserId" resultMap="experimentCourseMap">
+		SELECT ec.* FROM experiment_course  ec
+		WHERE ec.experiment_course_id
+		IN (SELECT ect.experiment_course_id FROM experiment_course_teacher ect WHERE ect.teacher_info_id = #{teacherInfoId}) AND ec.stealth = 2
+	</select>
+	<!--根据实验课程ID，查询该实验课程下的实验信息、包括作者-->
+	<select id="selectExperimentsByExperimentCourseId" resultMap="experimentMap">
+		SELECT e.* ,ti.name AS teacher_info_name FROM experiment  e 
+		LEFT JOIN teacher_info ti
+		ON e.author_id = ti.id
+		WHERE e.experiment_id IN 
+		(SELECT ce.experiment_id FROM course_experiment ce WHERE ce.experiment_course_id = #{experimentCourseId})  AND e.stealth = 2
+	</select>
+	<!--根据院系ID、作者ID、实验课程ID，查询不在该实验课下的实验信息-->
+	<select id="selectOtherExperimentByExperimentCourseId" resultMap="experimentMap">
+		SELECT e.* ,ti.name AS teacher_info_name FROM experiment  e 
+		LEFT JOIN teacher_info ti
+		ON e.author_id = ti.id
+		<where>
+			e.experiment_id NOT IN 
+			(SELECT ce.experiment_id FROM course_experiment ce WHERE ce.experiment_course_id = #{experimentCourseId}) AND e.stealth =2
+			<if test="teacherInfoId!=null">AND e.author_id = #{teacherInfoId}</if>
+			<if test="departmentId!=null">AND e.author_id IN (SELECT ti.id FROM teacher_info ti WHERE ti.department_id = #{departmentId})</if>
+		</where>		
+	</select>
+	<!--根据实验课程ID和院系ID，查询不属于该课程下的，院系开放和完全开放的实验-->
+	<select id="selectOtherExperimentByOpenStatus" resultMap="experimentMap">
+		SELECT e.* ,ti.name AS teacher_info_name FROM experiment  e 
+		LEFT JOIN teacher_info ti
+		ON e.author_id = ti.id
+		<where>
+			e.experiment_id NOT IN 
+			(SELECT ce.experiment_id FROM course_experiment ce WHERE ce.experiment_course_id = #{experimentCourseId}) AND e.stealth =2
+			<if test="departmentId!=null">
+					AND (e.open_status = 3 OR (e.open_status = 2 AND e.author_id IN (SELECT ti.id FROM teacher_info ti WHERE ti.department_id = #{departmentId})))
+			</if>  
+		</where>		
+	</select>
+	<insert id="distributeExperimentToCourse">
+		INSERT INTO course_experiment(course_experiment_id,experiment_course_id,experiment_id)
+		VALUE 
+		<foreach collection="experimentIds" item="experimentId" separator=",">
+			(NULL,#{experimentCourseId},#{experimentId})
+		</foreach>
+	</insert>
+	<!--根据班级id，实验id，查询该班级下的其它实验-->
+	<select id="selectClassOtherExperiment" resultType="Experiment">
+		select e.* from experiment e  
+		left join experiment_group eg on (eg.experiment_id = e.experiment_id and eg.tb_class_id = #{classId})
+					where e.experiment_id in (
+						select ce.experiment_id from  course_experiment ce where ce.experiment_course_id in (
+						select ecc.experiment_course_id from experiment_course_class ecc where ecc.tb_class_id = #{classId})) 
+		and e.experiment_id !=#{experimentId}  and eg.experiment_group_id is not null  group by e.experiment_id 
+	</select>
+</mapper>

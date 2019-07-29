@@ -1,0 +1,224 @@
+/*主体*/
+.coresurvey {
+    width: 100%;
+    height: auto;
+    background-color: #f5f5f5;
+    padding-bottom: 40px;
+}
+
+/*位置导航*/
+.coresurvey-bar {
+    width: 1120px;
+    height: 20px;
+    line-height: 20px;
+    color: #848484;
+    margin: 0px auto 10px auto;
+    padding-top: 10px;
+}
+
+.coresurvey-bar span {
+    float: left;
+}
+
+.coresurvey-bar span i {
+    color: #1781b3;
+}
+
+.coresurvey-bar a {
+    color: #848484;
+    float: left;
+}
+
+.coresurvey-bar a:hover {
+    text-decoration: underline;
+    color: #c03;
+}
+
+/*内容*/
+.coresurvey .coresurvey_main {
+    width: 1120px;
+    height: auto;
+    margin: 0px auto;
+    overflow: hidden;
+    background-color: #fff;
+    border: 1px solid #d8d8d8;
+}
+
+/*左边部分*/
+.coresurvey .coresurvey_main .coresurvey_main_left {
+    float: left;
+    border-right: 1px dashed #d8d8d8;
+    width: 219px;
+    min-height: 700px;
+    position: relative;
+}
+
+/*中心概况*/
+.coresurvey .coresurvey_main .coresurvey_main_left .top {
+    width: 220px;
+}
+
+.coresurvey .coresurvey_main .coresurvey_main_left .top .title {
+    background: #1781b3;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    font-size: 16px;
+    color: #fff;
+    letter-spacing: 2px;
+}
+
+.coresurvey .coresurvey_main .coresurvey_main_left .top .list li {
+    margin-top: 1px;
+}
+
+.coresurvey .coresurvey_main .coresurvey_main_left .top .list li .name {
+    display: block;
+    text-align: center;
+    line-height: 40px;
+    font-size: 14px;
+    letter-spacing: 1px;
+    cursor: pointer;
+    color: #000;
+    background-color: #d8d8d8;
+}
+
+.coresurvey .coresurvey_main .coresurvey_main_left .top .list .on .name {
+    background-color: #1781b3;
+    color: #fff;
+}
+
+/*相关链接*/
+.coresurvey .coresurvey_main .coresurvey_main_left .bottom {
+    width: 220px;
+    position: absolute;
+    bottom: 0px;
+}
+
+.coresurvey .coresurvey_main .coresurvey_main_left .bottom .title {
+    background: #d8d8d8;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    font-size: 16px;
+    color: #000;
+    letter-spacing: 2px;
+    cursor: pointer;
+}
+
+.coresurvey .coresurvey_main .coresurvey_main_left .bottom .list li {
+    margin-top: 1px;
+}
+
+.coresurvey .coresurvey_main .coresurvey_main_left .bottom .list li .name {
+    display: block;
+    text-align: center;
+    line-height: 40px;
+    font-size: 14px;
+    letter-spacing: 1px;
+    cursor: pointer;
+    background-color: #f5f5f5;
+    color: #000;
+}
+
+.coresurvey .coresurvey_main .coresurvey_main_left .bottom .list li .name:hover {
+    color: #c03;
+}
+
+/*右边部分*/
+.coresurvey .coresurvey_main .coresurvey_main_right {
+    float: right;
+    width: 879px;
+    padding-top: 20px;
+}
+
+/*平台中心简介*/
+.coresurvey .coresurvey_main .coresurvey_main_right .system .top {
+
+}
+
+.coresurvey .coresurvey_main .coresurvey_main_right .system .top .name1 {
+    float: left;
+    font-size: 24px;
+    margin-left: 300px;
+    line-height: 40px;
+    margin-right: 10px;
+    letter-spacing: 1px;
+    color: #1781b3;
+    font-weight: bold;
+}
+
+.coresurvey .coresurvey_main .coresurvey_main_right .system .top .name2 {
+    float: left;
+    font-size: 16px;
+    line-height: 46px;
+    letter-spacing: 1px;
+    color: #1781b3;
+}
+
+.coresurvey .coresurvey_main .coresurvey_main_right .system .border {
+    width: 840px;
+    margin: 0px auto;
+    height: 30px;
+    background: linear-gradient(to right, #1781b3, #e5e5e5);
+    background: -moz-linear-gradient(left, #1781b3, #e5e5e5); /* Mozilla*/
+    background: -webkit-linear-gradient(left, #1781b3, #e5e5e5); /*Webkit*/
+    background: -o-linear-gradient(top, #1781b3, #e5e5e5); /*Opera*/
+    filter: progid:DXImageTransform.Microsoft.gradient(GradientType=1, startColorstr=#1781b3, endColorstr=#e5e5e5); /*IE<9>*/
+    -ms-filter: "progid:DXImageTransform.Microsoft.gradient (GradientType=1, startColorstr=#1781b3, endColorstr=#e5e5e5)"; /*IE8+*/
+}
+
+.coresurvey .coresurvey_main .coresurvey_main_right .system .bottom {
+    width: 800px;
+    margin: 20px auto;
+}
+
+.coresurvey .coresurvey_main .coresurvey_main_right .system .bottom .title {
+    text-indent: 30px;
+}
+
+/*学院简介*/
+.coresurvey .coresurvey_main .coresurvey_main_right .education .top {
+
+}
+
+.coresurvey .coresurvey_main .coresurvey_main_right .education .top .name1 {
+    float: left;
+    font-size: 24px;
+    margin-left: 300px;
+    line-height: 40px;
+    margin-right: 10px;
+    letter-spacing: 1px;
+    color: #1781b3;
+    font-weight: bold;
+}
+
+.coresurvey .coresurvey_main .coresurvey_main_right .education .top .name2 {
+    float: left;
+    font-size: 16px;
+    line-height: 46px;
+    letter-spacing: 1px;
+    color: #1781b3;
+}
+
+.coresurvey .coresurvey_main .coresurvey_main_right .education .border {
+    width: 840px;
+    margin: 0px auto;
+    height: 30px;
+    background: linear-gradient(to right, #1781b3, #e5e5e5);
+    filter: progid:DXImageTransform.Microsoft.gradient(GradientType=1, startColorstr=#1781b3, endColorstr=#e5e5e5); /*IE<9>*/
+    -ms-filter: "progid:DXImageTransform.Microsoft.gradient (GradientType=1, startColorstr=#1781b3, endColorstr=#e5e5e5)"; /*IE8+*/
+
+}
+
+.coresurvey .coresurvey_main .coresurvey_main_right .education .bottom {
+    width: 800px;
+    margin: 20px auto;
+}
+
+.coresurvey .coresurvey_main .coresurvey_main_right .education .bottom .title {
+    text-indent: 30px;
+}
+
+
+

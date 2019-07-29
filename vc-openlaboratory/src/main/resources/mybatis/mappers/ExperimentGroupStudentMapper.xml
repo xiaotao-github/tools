@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.vcooc.experiment.mapper.ExperimentGroupStudentMapper">
+	<!--映射 -->
+	<!--实验小组映射 -->
+	<resultMap type="ExperimentGroup" id="experimentGroupMap"
+		autoMapping="true">
+		<id column="experiment_group_id" property="experimentGroupId" />
+		<id column="experiment_id" property="experimentId" />
+		<id column="experiment_course_id" property="experimentCourseId" />
+		<!--实验课程映射 -->
+		<association property="experimentCourse" javaType="ExperimentCourse"
+			column="experiment_course_id" select="selectExperimentCourseAndVisiExperimentByExperimentCourseId" />
+		<!--实验映射 -->
+		<association property="experiment" javaType="Experiment"
+			column="experiment_id" select="selectExperimentByExperimentId" />
+		<!--实验成绩 -->
+		<association property="submitExperimentFile" javaType="SubmitExperimentFile">
+			<id column="submit_experiment_file_id" property="submitExperimentFileId" />
+			<result column="submit_status" property="submitStatus"/>
+			<result column="lab_report" property="labReport"/>
+			<result column="project_file" property="projectFile"/>
+			<result column="gif_file" property="gifFile"/>
+			<result column="other_file" property="otherFile"/>
+			<result column="submitter_id" property="submitterId"/>
+			<result column="score" property="score"/>
+			<result column="remark" property="remark"/>
+			<result column="create_time" property="createTime"/>
+			<result column="update_time" property="updateTime"/>
+		</association>
+		<!--创建小组的教师-->
+		 <association property="teacherInfo" javaType="TeacherInfo" column="teacher_info_id" select="selectTeacherInfoByTeacherInfoId"/>
+	</resultMap>
+	<!--实验课程映射 -->
+	<resultMap type="ExperimentCourse" id="experimentCourseMap"
+		autoMapping="true">
+		<id column="experiment_course_id" property="experimentCourseId" />
+		<!--院系映射 -->
+		<association property="department" javaType="Department">
+			<id column="department_id" property="id" />
+			<result column="department_name" property="name" />
+		</association>
+		<!--课程封面映射 -->
+		<association property="resourceFile" javaType="ResourceFile">
+			<id column="course_img_id" property="fileId" />
+			<result column="file_format_path" property="fileFormatPath" />
+		</association>
+		<!--任课教师 -->
+		<collection property="teacherInfoList" ofType="TeacherInfo"
+			javaType="ArrayList" column="experiment_course_id" select="selectCourseTeacherByCourseId" />
+		<!--参考实验 -->
+		<collection property="visitExperimentList" ofType="Experiment"
+			javaType="ArrayList" column="experiment_course_id"
+			select="selectVisiExperimentByExperimentCourseId" />
+	</resultMap>
+	<!--实验映射-->
+	<resultMap type="Experiment" id="experimentMap" autoMapping="true">
+		<id column="experiment_id" property="experimentId"/>
+		<result column="teacher_info_id" property="teacherInfoId"/>
+		<association property="author" javaType="TeacherInfo">
+			<id column="teacher_info_id" property="id" javaType="int"
+				jdbcType="INTEGER" />
+			<result column="teacher_info_name" property="name" javaType="string"
+				jdbcType="VARCHAR" />
+		</association>
+	</resultMap>
+	<!--sql语句 -->
+	<sql id="experimentAndCourseLeftJoin">
+     LEFT JOIN experiment ex ON  ex.experiment_id = eg.experiment_id
+     LEFT JOIN experiment_course ec ON ec.experiment_course_id = eg.experiment_course_id
+	</sql>
+	<sql id="experimentAndCourseWhere">
+     AND ex.stealth = 2 AND ec.stealth = 2
+	</sql>
+	
+	<!--根据学生ID，查询学生相关联的小组信息 -->
+	<select id="selectStudentGroupAndCourseAndExperiment"
+		parameterType="int" resultMap="experimentGroupMap">
+		SELECT
+		eg.*,sef.submit_status,sef.submit_experiment_file_id FROM
+		experiment_group eg
+		<include refid="experimentAndCourseLeftJoin"/>
+		LEFT JOIN submit_experiment_file sef ON
+		(sef.experiment_group_id =
+		eg.experiment_group_id AND sef.submitter_id
+		= #{studentInfoId})
+		<where>
+			eg.experiment_group_id IN(SELECT
+			egs.experiment_group_id FROM
+			experiment_group_student egs WHERE
+			egs.student_info_id
+			=#{studentInfoId})
+			<if test="experimentCourseId!=null">AND eg.experiment_course_id !=#{experimentCourseId}</if>			
+			<include refid="experimentAndCourseWhere"/>
+		</where>
+	</select>
+	<!--根据实验课程ID，查询实验课程信息 -->
+	<select id="selectExperimentCourseAndVisiExperimentByExperimentCourseId"
+		parameterType="int" resultMap="experimentCourseMap">
+		SELECT
+		c.*,d.name
+		department_name,rf.file_format_path
+		FROM
+		experiment_course c
+		LEFT JOIN
+		department d ON d.id=c.department_id
+		LEFT JOIN resource_file rf ON
+		rf.file_id=c.course_img_id
+		WHERE c.experiment_course_id =
+		#{experimentCourseId}
+	</select>
+	<!--根据实验课程ID，查询任课教师信息 -->
+	<select id="selectCourseTeacherByCourseId" parameterType="int"
+		resultType="TeacherInfo">
+		SELECT * FROM teacher_info WHERE id IN (
+		SELECT
+		teacher_info_id FROM experiment_course_teacher WHERE
+		experiment_course_id = #{experimentCourseId}
+		)
+	</select>
+	<select id="selectExperimentByExperimentId" resultType="Experiment">
+		SELECT e.* FROM experiment e WHERE e.experiment_id =#{experimentId}
+	</select>
+	<!--根据实验课程ID 查询实验课程下的参考实验 -->
+	<select id="selectVisiExperimentByExperimentCourseId"
+		parameterType="int" resultMap="experimentMap">
+		SELECT e.* ,ti.name AS
+		teacher_info_name FROM experiment e
+		LEFT JOIN teacher_info ti
+		ON
+		e.author_id = ti.id
+		WHERE e.experiment_id IN
+		(SELECT ce.experiment_id
+		FROM course_experiment ce WHERE
+		ce.experiment_course_id =
+		#{experimentCourseId}) AND e.stealth = 2
+		AND
+		e.experiment_type = 2
+	</select>
+	<!--查询正在进行中的实验小组 -->
+	<select id="selectExperimentGroupAndExperimentByStudentInfoId"
+		resultMap="experimentGroupMap">
+		SELECT eg.*,sef.submit_status,sef.submit_experiment_file_id
+		FROM
+		experiment_group eg
+		<include refid="experimentAndCourseLeftJoin"/>
+		LEFT JOIN submit_experiment_file sef ON
+		sef.experiment_group_id = eg.experiment_group_id
+		WHERE
+		eg.experiment_group_id IN(SELECT egs.experiment_group_id FROM
+		experiment_group_student egs WHERE egs.student_info_id
+		=#{studentInfoId}) AND eg.end_time &gt; #{nowTime} AND eg.start_time
+		&lt;#{nowTime}
+		<include refid="experimentAndCourseWhere"/>
+	</select>
+	<!--学生批量加入小组-->
+	<insert id="insertStudentToGroup">
+		INSERT into experiment_group_student(`experiment_group_student_id`,`experiment_group_id`,`student_info_id`) VALUES
+		<foreach collection="studentIds" item="studentId" separator=",">
+			(null,#{experimentGroupId},#{studentId})
+		</foreach>
+	</insert>
+	
+	<!-- ————————————————————————————————————学生前端———————————————————————————————————————————— -->
+	<resultMap type="ExperimentGroup" id="experimentGroupMap2"
+		autoMapping="true">
+		<id column="experiment_group_id" property="experimentGroupId" />
+		<!--实验课程映射 -->
+		<association property="experimentCourse" javaType="ExperimentCourse">
+			<id column="experiment_course_id" property="experimentCourseId" />
+			<result column="course_name" property="courseName"/>	
+		</association>
+		<!--实验映射 -->
+		<association property="experiment" javaType="Experiment">
+			<id column="experiment_id" property="experimentId" />
+			<result column="experiment_name" property="experimentName"/>	
+		</association>
+		<!--实验成绩 -->
+		<association property="submitExperimentFile" javaType="SubmitExperimentFile">
+			<id column="submit_experiment_file_id" property="submitExperimentFileId" />
+			<result column="submit_status" property="submitStatus"/>
+			<result column="lab_report" property="labReport"/>
+			<result column="project_file" property="projectFile"/>
+			<result column="gif_file" property="gifFile"/>
+			<result column="other_file" property="otherFile"/>
+			<result column="submitter_id" property="submitterId"/>
+			<result column="score" property="score"/>
+			<result column="remark" property="remark"/>
+			<result column="create_time" property="createTime"/>
+			<result column="update_time" property="updateTime"/>
+		</association>
+		<association property="teacherInfo" javaType="TeacherInfo">
+			<id column="teacher_id" property="id"/>
+			<result column="teacher_name" property="name"/>
+		</association>
+		
+	</resultMap>
+	<!--根据学生ID和实验课程ID，查询实验小组信息-->
+	<select id="selectExperimentGroupByCourseIdAndStudentId"
+		resultMap="experimentGroupMap2">
+		SELECT eg.*,sef.submit_experiment_file_id,sef.submit_status,sef.score ,ex.experiment_name,ec.course_name,
+		ti.id  teacher_id,ti.name  teacher_name 
+		FROM experiment_group eg
+		LEFT JOIN teacher_info ti ON ti.id = eg.teacher_info_id 
+		LEFT JOIN experiment ex ON  ex.experiment_id = eg.experiment_id
+     	LEFT JOIN experiment_course ec ON ec.experiment_course_id = eg.experiment_course_id
+		LEFT JOIN submit_experiment_file sef ON
+		(sef.experiment_group_id =
+		eg.experiment_group_id AND sef.submitter_id
+		= #{studentInfoId})
+		WHERE eg.experiment_group_id IN (SELECT
+		egs.experiment_group_id FROM
+		experiment_group_student egs WHERE
+		egs.student_info_id = #{studentInfoId}) AND
+		eg.experiment_course_id =
+		#{experimentCourseId}
+		<include refid="experimentAndCourseWhere"/>
+	</select>
+	<!--根据实验小组ID，查询是实验小组信息-->
+	<select id="selectExperimentGroupByStudentInfoIdAndExperimentGroupId"
+		resultMap="experimentGroupMap">
+		SELECT
+		eg.experiment_group_id,
+		eg.experiment_course_id,
+		eg.experiment_id,
+		eg.group_name,
+		eg.group_type,
+		eg.start_time,
+		eg.end_time,
+		eg.tb_class_id,
+		eg.teacher_info_id,
+		sef.submit_experiment_file_id,
+		sef.submit_status,
+		sef.lab_report,
+		sef.project_file,
+		sef.gif_file,
+		sef.other_file,
+		sef.submitter_id,
+		sef.score,
+		sef.remark,
+		sef.good_report,
+		sef.create_time,
+		sef.update_time
+		FROM experiment_group eg
+		<include refid="experimentAndCourseLeftJoin"/>
+		LEFT JOIN submit_experiment_file sef
+		ON (sef.experiment_group_id = eg.experiment_group_id
+		AND sef.submitter_id = #{studentInfoId})
+		WHERE eg.experiment_group_id =
+		#{experimentGroupId}
+		<include refid="experimentAndCourseWhere"/>
+	</select>
+	<!--根据实验课程ID，实验ID，学生ID，查询该学生在该实验课程下的其他实验-->
+	<select
+		id="selectOtherExperimentGroupByExperimentGroupIdAndExperimentCourse"
+		resultMap="experimentGroupMap">
+		SELECT eg.*,sef.submit_status,sef.submit_experiment_file_id
+		FROM
+		experiment_group eg
+		<include refid="experimentAndCourseLeftJoin"/>
+		LEFT JOIN submit_experiment_file sef ON
+		sef.experiment_group_id = eg.experiment_group_id
+		WHERE
+		eg.experiment_group_id IN(SELECT egs.experiment_group_id FROM
+		experiment_group_student egs
+		<where>
+		egs.student_info_id
+		=#{studentInfoId}) AND eg.end_time &gt;#{nowTime} AND eg.start_time
+		&lt; #{nowTime}
+		<if test="experimentCourseId!=null">AND eg.experiment_course_id = #{experimentCourseId}</if> 
+		<if test="experimentGroupId!=null">AND eg.experiment_group_id !=#{experimentGroupId}</if>
+		<include refid="experimentAndCourseWhere"/> 
+		</where>
+	</select>
+	<!--根据教师ID，查询教师信息-->
+	<select id="selectTeacherInfoByTeacherInfoId" resultType="TeacherInfo">
+		SELECT * FROM teacher_info  WHERE id = #{teacherInfoId}
+	</select>
+	<resultMap type="ExperimentGroup" id="groupIdAndCourseNameAndStatusMap" >
+		<id  column="experiment_group_id" property="experimentGroupId"/>
+		<result column="submit_status" property="submitStatus"/>
+		<!--实验课程映射 -->
+		<association property="experimentCourse" javaType="ExperimentCourse">
+			<id column="experiment_course_id" property="experimentCourseId"/>
+			<result column="course_name" property="courseName"/>
+			<result column="presentation" property="presentation"/>
+			<result column="img_path" property="imgPath"/>
+			<result column="class_hour" property="classHour"/>
+			<result column="semester" property="semester"/>
+			<!--课程教师映射-->
+			<collection property="teacherInfoList" javaType="ArrayList" ofType="TeacherInfo">
+				<id property="id" column="teacher_id"/>
+				<result property="name" column="teacher_name"/>
+			</collection>
+		</association>
+	</resultMap>
+	
+	<select id="selectStudentGroupByStudentId" resultMap="groupIdAndCourseNameAndStatusMap">
+		SELECT b.experiment_group_id,f.experiment_course_id,f.course_name,f.presentation, f.class_hour,f.semester, f.img_path, f.teacher_name,f.teacher_id ,g.submit_status FROM experiment_group AS b 
+		LEFT JOIN 
+			(SELECT d.experiment_course_id,d.course_name,d.stealth,d.presentation,d.class_hour,d.semester, e.name AS teacher_name ,e.id AS teacher_id ,g.file_format_path AS img_path FROM experiment_course_teacher AS  c
+				LEFT JOIN experiment_course AS  d ON c.experiment_course_id = d.experiment_course_id 
+				LEFT JOIN teacher_info AS e ON c.teacher_info_id = e.id					
+				LEFT JOIN resource_file AS g ON d.course_img_id = g.file_id
+				)AS f ON f.experiment_course_id = b.experiment_course_id
+		   LEFT JOIN submit_experiment_file AS g ON g.experiment_group_id = b.experiment_group_id
+		   LEFT JOIN experiment ex on ex.experiment_id = g.experiment_id
+		WHERE b.experiment_group_id IN (
+		SELECT a.experiment_group_id FROM experiment_group_student AS a  WHERE a.student_info_id = #{studentInfoId}) AND f.stealth =2 and ex.stealth = 2 GROUP BY b.experiment_group_id,f.teacher_id
+		AND f.stealth = 2 
+		
+	</select>
+</mapper>

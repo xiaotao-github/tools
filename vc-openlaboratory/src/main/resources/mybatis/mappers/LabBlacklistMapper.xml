@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.vcooc.experiment.mapper.LabBlacklistMapper">
+
+	<resultMap id="labBlacklistMap"  type="LabBlacklist" autoMapping="true">
+		<id column="blacklist_id" property="blacklistId" />
+		<result column="create_time" property="createTimeStr" javaType="string"
+					jdbcType="VARCHAR" />
+		<association property="studentInfo"  column="student_id" select="selectStudentInfoById"/>
+	</resultMap>
+	
+		<!--学生信息表映射 -->
+	<resultMap type="StudentInfo" id="studentInfoMap"
+		autoMapping="true">
+			<id column="id" property="id" javaType="int" jdbcType="INTEGER" />
+		<association property="user" javaType="User" autoMapping="true">
+			<id column="id" property="id" javaType="int" jdbcType="INTEGER" />
+		</association>
+		<association property="tbClass" javaType="TbClass">
+			<id column="class_id" property="id" javaType="int" jdbcType="INTEGER" />
+			<result column="class_name" property="name" javaType="string"
+				jdbcType="VARCHAR" />
+			<association property="grade" javaType="Grade">
+				<id column="grade_id" property="id" javaType="int" jdbcType="INTEGER" />
+				<result column="grade_name" property="name" javaType="string"
+					jdbcType="VARCHAR" />
+				<association property="major" javaType="Major">
+					<id column="major_id" property="id" javaType="int" jdbcType="INTEGER" />
+					<result column="major_name" property="name" javaType="string"
+						jdbcType="VARCHAR" />
+					<association property="department" javaType="Department">
+						<id column="department_id" property="id" javaType="int"
+							jdbcType="INTEGER" />
+						<result column="department_name" property="name" javaType="string"
+							jdbcType="VARCHAR" />
+					</association>
+				</association>
+			</association>
+		</association>
+	</resultMap>
+	
+	<select id="list" resultMap="labBlacklistMap">
+		SELECT blacklist_id,student_id,DATE_FORMAT(create_time,'%Y-%m-%d %H:%i:%s') AS create_time FROM lab_blacklist
+	</select>
+	
+	<select id="selectStudentInfoById" resultMap="studentInfoMap">
+			SELECT
+			u.username,u.password,u.status,u.stealth,u.type,si.*,cgmd.* FROM student_info si
+			LEFT JOIN
+			(SELECT
+			cgm.*,d.name department_name FROM department d
+			LEFT JOIN (
+			SELECT
+			tg.*,m.name major_name,m.department_id FROM major m LEFT JOIN (
+			SELECT
+			tc.id class_id ,tc.name class_name,g.id grade_id,g.name
+			grade_name,g.major_id major_id FROM tb_class tc LEFT JOIN grade g ON
+			tc.grade_id = g.id)tg
+			ON m.id = tg.major_id) cgm
+			ON d.id =
+			cgm.department_id) cgmd
+			ON si.tb_class_id = cgmd.class_id
+			LEFT JOIN USER u
+			ON si.id = u.id
+			WHERE u.stealth = 2 AND si.id = #{studentId}
+	</select>
+	
+	<select id="selectByUserId" resultType="com.vcooc.base.pojo.LabBlacklist">
+		SELECT *
+		from lab_blacklist
+		WHERE student_id =#{studentId}
+		
+	</select>
+</mapper>

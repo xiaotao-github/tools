@@ -1,0 +1,114 @@
+body{min-width: 1160px;}
+
+/*S chapter list page css*/
+	.courseDetail{border-right: 1px solid #ddd;border-bottom: 1px solid #ddd;}
+	.courseDetail-up{}
+	.coursePost{float: left;display: block;width: 280px;height: 180px;}
+	.coursePost img{width: 100%;height: 100%}
+	.courseIntro{float: left;width: 759px;height: 180px;}
+	.courseIntro .courseTxt{border-bottom: 1px solid #CCC;}
+	.courseIntro .stuIconPart ul{display: block;width: 100%;height: 100%}
+	.courseIntro .stuIconPart ul li{float: left;display: block; cursor: pointer;}
+	.theQRcode{color: #439a56}
+	.theQRcode .theQRcodeBtn:hover{color: #43b75c}
+	.theLink{color: #43719a}
+	.theLink .theLinkBtn:hover{color: #5a97ce}
+	.theResource{color: #9a4346}
+	.theResource .theResourceBtn:hover{color: #c5575b}
+	.courseDetail-down{}
+	.courseDetail-down .eachTeacher .title{display: block;float: left;}
+	.courseDetail-down .eachTeacher ul{display: block;float: left;}
+	.courseDetail-down .eachTeacher ul li{cursor: default; background: #f2f2f2; float: left;display: block;width: 140px;border-right: 1px solid #ddd;border-bottom: 1px solid #ddd;}
+	.courseDetail-down .eachTeacher ul li:hover{background: #50a5be;color: #FFF;border-right:1px solid #51889c;border-bottom: 1px solid #51889c;}
+	.courseDetail-down .eachTeacher .avatar{width: 40px;height: 40px;border-radius: 50%;border:1px solid #CCC;display: block;float: left}
+	.courseDetail-down .eachTeacher .teacherName{display: block;float: left;}
+
+
+	.chapterList{border-right: 1px solid #ddd;border-bottom: 1px solid #ddd;}
+	.chapterList li{padding-left: 100px;position: relative;}
+	.chapterPost{width: 150px;height: 110px;float: left;}
+	.chapterPost img{display: block;width: 100%;height: 100%;}
+	.chapterIntro{display: block;float: left;width: 800px;height: 110px;position: relative;background: #f0f0f0;}
+	.chapterIntro .chapterBtn{position: absolute;bottom: 10px;right: 10px;}
+	.chapterIntro .chapterBtn a{color: #FFF;}
+	.chapterSignOfType{position: absolute;left: 10px;top: 63px;width: 80px;}
+	.chapterLine{position: absolute;left: 70px;top: 55px;}
+	.chapterLine:before{content:' ';background:url(../images/line.png) repeat;width: 1px;height: 130px;display: block; position: absolute;top: 30px;left: 12px;}
+	.chapterLine.last:before{display: none;}
+/*E chapter list page css*/
+
+
+
+/*S chapter detail page css*/
+	.chapterIntroDetail{border-right: 1px solid #ddd;border-bottom: 1px solid #ddd;}
+	.chapterIntroDetail-up{}
+	.chapterDetailPost{float: left;display: block;width: 280px;height: 180px;}
+	.chapterDetailPost img{width: 100%;height: 100%}
+	.chapterDetailIntro{float: left;width: 759px;height: 180px;}
+	.chapterDetailIntro .chapterDetailTxt{border-bottom: 1px solid #CCC;}
+	.chapterDetailIntro .stuIconPart{display: block;float: right;width: 300px;}
+	.chapterDetailIntro .stuIconPart ul{display: block;width: 100%;height: 100%}
+	.chapterDetailIntro .stuIconPart ul li{float: right;display: block; cursor: pointer;}
+	.chapterDetailIntro .eachTeacher{display: block;float: left;width: 300px;}
+	.chapterDetailIntro .eachTeacher .title{display: block;float: left;}
+	.chapterDetailIntro .eachTeacher ul{display: block;float: left;}
+	.chapterDetailIntro .eachTeacher ul li{cursor: default; background: #f2f2f2; float: left;display: block;width: 140px;border-right: 1px solid #ddd;border-bottom: 1px solid #ddd;}
+	.chapterDetailIntro .eachTeacher ul li:hover{background: #50a5be;color: #FFF;border-right:1px solid #51889c;border-bottom: 1px solid #51889c;}
+	.chapterDetailIntro .eachTeacher .avatar{width: 40px;height: 40px;border-radius: 50%;border:1px solid #CCC;display: block;float: left}
+	.chapterDetailIntro .eachTeacher .teacherName{display: block;float: left;}
+
+	.chapterDetail_leftPart{width: 750px;float: left;}
+	.chapterDetailResourceView{background: #FFF;border-right: 1px solid #ddd;border-bottom: 1px solid #ddd;}
+	.chapterResourceTypeNav{text-align: center;float: left;}
+	.chapterResourceTypeNav li{line-height: 1em;width: 20px;cursor: pointer;background: #50a5be;color: #FFF;display: none;border:1px solid #50a5be; border-right: none;}
+	.chapterResourceTypeNav .check{display: block;}
+	.chapterResourceTypeNav li.checked{background: #fff;color: #50a5be;border-right: 1px solid #FFF;margin-right: -1px;position: relative;}
+	.chapterResourceChangeBox{float: left;border: 1px solid #50a5be;width: 696px;height: 480px;}
+	.chapterResourceChangeBox .li{display: none;}
+	.chapterResourceChangeBox .li.checked{display: block;}
+	.resourceOrderNav{display: block;border-right: 1px solid #DDD}
+	.resourceOrderNav li{display: block;float: right;cursor: pointer; border-top: 1px solid #DDD;border-left: 1px solid #DDD;background: #f2f2f2;padding: 0 15px;border-bottom: 1px solid #f2f2f2;margin-bottom: -1px;}
+	.resourceOrderNav li.checked{background: #FFF;position: relative;border-bottom: 1px solid #fff;}
+	.resourceOrderChangeBox li{border: 1px solid #ddd;display: none;}
+	.resourceOrderChangeBox li.checked{display: block;}
+	.resourceContent{}
+
+	.showPicDetail,.previewPics{float: right;}
+	.previewPics{position: relative;}
+	.previewPicsCut{height: 360px;overflow: hidden;margin: 30px auto;position: relative;background: #eee;}
+	.casePicNavList{width: 100px;}
+	.casePicNav{height: 50px;overflow: hidden;border: 5px solid #eee;cursor: pointer;}
+	.casePicNav img{width: 100%;display: block;width: 100%;}
+	.chapterDetailPrevBtn{position: absolute;top: 0px;width: 100%;height: 30px;background: #eee;cursor: pointer;}
+	.chapterDetailPrevBtn:hover{background: #e2e2e2;}
+	.chapterDetailPrevBtn p{background: url(../images/picBtn.png)top center;width: 100%;height: 100%;}
+	.chapterDetailNextBtn{position: absolute;bottom: 0px;width: 100%;height: 30px;background: #eee;cursor: pointer;}
+	.chapterDetailNextBtn:hover{background: #e2e2e2;}
+	.chapterDetailNextBtn p{background: url(../images/picBtn.png)bottom center;width: 100%;height: 100%;}
+	.chapterDetailHover{border: 5px solid #0569a2;}
+	.showPicDetail{width: 500px;height: 360px;margin-right: 30px;margin-top: 30px;}
+	.showPicDetail img{width: 100%;max-height: 100%;}
+	.eachEssayQuestion.odd{background: #e9f5ff}
+	.eachEssayQuestion.even{background: #fff7e9}
+	.eachEssayQuestion.wrong{background: #ffe6e6}
+	.eachEssayQuestion .fillBoxs textarea{width: 620px;height: 30px;resize: none;border: 1px solid #ccc;}
+	.testSignUp .testSubBtn{margin: 0 auto;text-align: center;width: 100px;cursor: pointer;display:block;border:none;}
+	.eachChoiceQuestion .ask p{display: inline;}
+	.eachChoiceQuestion.odd{background: #e9f5ff}
+	.eachChoiceQuestion.even{background: #fff7e9}
+	.eachChoiceQuestion.wrong{background: #ffe6e6}
+	.eachChoiceQuestion .options span{display: block;float: left;}
+	.trueOption,.choiceTrueAnswer,.essayTrueAnswer{display: none;}
+	.essayTrueAnswer span{display: block;float: left;}
+
+	.chapterDetail_rightPart{width: 350px;float: left;}
+	.chapterDetailNote textarea{width: 308px;height: 80px;resize: none;display: block;border: none;border-bottom: 1px solid #ddd;}
+	.chapterDetailNote input[type="submit"]{border: none;display: block;float: right;cursor: pointer;}
+	.chapterDetailNote ul{display: block;}
+	.chapterDetailNote ul li{border: 1px solid #ccc;font-size: 0;}	
+	.chapterDetailNote ul li:hover{color:#628da2;cursor: default;}
+	.noteAddedTime{font-size: 12px;display: inline-block;width: 64px;height: 50px;background: #7ecef4;color: #FFF;margin: 2%;float: left;}	
+	.noteAddedTime .span1{font-size:12px;text-align:center;display: block;border-bottom: 2px solid #FFF;}
+	.noteAddedTime .span2{text-align:center;display: block;line-height: 28px;}
+	.noteContain{width: 76%;display: inline-block;float: left;}
+/*E chapter detail page css*/

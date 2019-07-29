@@ -1,0 +1,15 @@
+body{background: url(../images/experimentDetail_bg.png) top center repeat;}
+.dborder{border: 1px solid #3c817e;}
+.second-title span:before{content: '';width: 3px;height: 20px;background: #3c807d;display: block;float: left;margin-top: 7px;margin-right: 10px;}
+.second-title span.fc-white:before{background: #fff;}
+
+.resourcesPreviewContainer{padding-bottom: 75px;}
+.resourcesPreviewContainer .head{background: url(../images/title_bg.png) center no-repeat;padding: 1px 0;}
+
+.leftPart{width: 780px;}
+.leftPart .resourceBox{height: 500px;}
+.leftPart .resourceText{border-top: 1px solid #ccc;}
+
+.rightPart{width: 300px;margin-left: 40px;background: url(../images/resourceMsg_bg.png) repeat;}
+.rightPart .s1,.rightPart .s2{display: block;}
+.rightPart .s2{padding-left: 90px;}

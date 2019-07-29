@@ -1,0 +1,182 @@
+* {
+    padding: 0px;
+    margin: 0px;
+}
+
+ul, li {
+    list-style-type: none;
+}
+
+a {
+    color: #fff;
+    text-decoration: none;
+    border: none;
+}
+
+a:link {
+    color: #fff;text-decoration: none;
+}
+
+a:visited {
+    color: #fff;text-decoration: none;
+}
+
+a:hover {
+    color: #fff;text-decoration: none;
+}
+
+.clear {
+    clear: both;
+}
+
+/*顶部*/
+.header {
+    width: 100%;
+    height: 34px;
+    background-color: #2e2e2e;
+}
+
+.header .top {
+    width: 1200px;
+    height: 34px;
+    margin: 0px auto;
+    color: #fff;
+}
+
+.header .top .left {
+    float: left;
+    padding-left: 15px;
+}
+
+.header .top .left .title {
+    float: left;
+    font-size: 12px;
+    line-height: 34px;
+}
+
+.header .top .left .content {
+    float: left;
+    width: 600px;
+    height: 34px;
+    line-height: 34px;
+    overflow: hidden;
+    font-size: 12px;
+}
+
+.header .top .left .content ul li {
+    line-height: 34px;
+}
+
+.header .top .right {
+    float: right;
+    font-size: 14px;
+    line-height: 34px;
+    position: relative;
+    padding-right: 15px;
+    cursor: pointer;
+}
+
+.header .top .right span {
+    float: left;
+}
+
+.header .top .right .avatar{
+    width: 30px;
+    height: 30px;
+    margin-top: 2px;
+    margin-right: 10px;
+}
+
+.header .top .right .avatar img{
+    display: block;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+}
+
+.header .top .right .name {
+    display: block;
+    height: 34px;
+    float: left;
+}
+
+.header .top .right i{
+    display: block;
+    float: left;
+    margin-left: 5px;
+}
+
+.header .top .right ul {
+    position: absolute;
+    right: 0px;
+    top: 34px;
+    text-align: center;
+    /* height: 64px; */
+    font-size: 14px;
+    background-color: #2e2e2e;
+}
+
+.header .top .right ul li {
+    height: 32px;
+    line-height: 32px;
+    padding: 0px 20px;
+    background-color: #2e2e2e;
+}
+
+.header .top .right ul .info {
+    border-bottom: 1px dashed #4C4C4C;
+}
+
+.header .top .right ul li:hover {
+    background-color: #1b1b1b;
+}
+
+/*logo栏*/
+.nav {
+    width: 100%;
+    height: 65px;
+    /*background-color: #4c8260;*/
+    background: url(../images/student/1.png) center bottom;
+}
+
+.nav .bottom {
+    width: 1200px;
+    height: 65px;
+    margin: 0px auto;
+}
+
+.nav .bottom .logo {
+    padding: 5px 0px;
+}
+
+.nav .bottom .logo img {
+    border: none;
+    display: block;
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+}
+
+/*脚部*/
+.footer {
+    /*margin-top: 90px;*/
+    background-color: #2e2e2e;
+    width: 100%;
+    height: 70px;
+    position: fixed;
+    bottom: 0;
+}
+
+.footer .footer_content {
+    width: 1200px;
+    height: 55px;
+    margin: 0px auto;
+    padding-top: 15px;
+}
+
+.footer .footer_content ul li {
+    text-align: center;
+    font-size: 14px;
+    line-height: 22px;
+    color: #ffffff;
+}

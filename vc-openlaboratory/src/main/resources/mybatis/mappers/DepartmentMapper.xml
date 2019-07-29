@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.vcooc.experiment.mapper.DepartmentMapper">
+<!--院系映射 -->
+	<resultMap type="Department" id="departmentMap" autoMapping="true">
+		<id column="id" property="id" />
+		<association property="teacherInfo" javaType="TeacherInfo">
+			<id column="teacher_info_id" property="id" javaType="int" jdbcType="INTEGER" />
+			<result column="teacher_info_name" property="name" javaType="string"
+				jdbcType="VARCHAR" />
+		</association>
+ 	    <collection property="teacherInfoList"  ofType="TeacherInfo" javaType="ArrayList"  column="id" select="selectTeacherInfoByDepartmentId"/>
+	</resultMap>
+	
+	<!-- 院系/教师映射 -->
+	<resultMap type="Department" id="department_teacher_map" autoMapping="true">
+		<id column="id" property="id" />
+ 	    <collection property="teacherInfoList"  ofType="TeacherInfo" javaType="ArrayList">
+ 	    	<id column="teacher_id" property="id"/>
+			<result column="teacher_name" property="name"/>
+ 	    </collection>
+	</resultMap>
+	
+	
+	
+	<!--根据院系id查询院系信息 -->
+	<select id="selectAllDepartmentsAndTeachersByWhere" resultMap="departmentMap">
+		SELECT
+		d.id,d.name,d.number,d.presentation,d.teacher_info_id,d.stealth,d.create_time,d.update_time,ti.name
+		AS teacher_info_name FROM department d
+		LEFT JOIN teacher_info ti ON
+		d.teacher_info_id = ti.id 
+		<where>
+			<if test="stealth != null">d.stealth=#{stealth}</if>
+			<if test="departmentId != null">and d.id=#{departmentId}</if>
+		</where>
+	</select>
+	<!-- 根据院系的ID，查询教师信息-->
+	<select id="selectTeacherInfoByDepartmentId" parameterType="int" resultType="TeacherInfo">
+		select ti.id,ti.name from teacher_info ti
+		left join `user` u on u.id = ti.id
+		 where ti.department_id = #{departmentId} and u.stealth = 2
+	</select>
+	
+	
+	<select id="selectTeacherByDepartmentId" resultMap="department_teacher_map">
+		SELECT 	  d.id,d.number,d.name,
+				  ti.id AS teacher_id,ti.name AS teacher_name
+		FROM      department d
+		LEFT JOIN teacher_info ti ON ti.department_id = d.id
+		LEFT JOIN USER u ON u.id = ti.id
+		WHERE d.stealth=2 AND u.stealth=2
+		<if test="departmentId != null">AND d.id=#{departmentId} </if>
+	</select>
+</mapper>

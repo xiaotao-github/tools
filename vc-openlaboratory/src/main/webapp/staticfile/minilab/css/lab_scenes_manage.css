@@ -1,0 +1,24 @@
+body{background: #fff url(../images/scenesBg.jpg) center top no-repeat;}
+
+.scenes_title{width: 640px;width: 6.4rem;margin: 0 auto;}
+
+.btn_bar{width: 640px;width: 6.4rem; margin: 60px auto;margin: 0.6rem auto;margin-top: 20px;margin-top: 0.2rem;}
+.btn_bar .lab_msg{color: #c69335;}
+.btn_bar .lab_text{display: none;}
+.btn_bar ul{background-color: rgba(255,255,255,0.3);}
+.btn_bar ul li{background-color: rgba(250,250,255,0.8);text-align: center;border: 1px solid #ddd;cursor: pointer;}
+.btn_bar ul li:hover{background-color: rgba(250,250,255,0.7);}
+
+@media(max-width: 1024px) {
+	.scenes_title{width: 80%;}
+	.btn_bar{width: 80%;}
+}
+
+
+.body_shadow{width: 100%;height: 100vh;background-color: rgba(0,0,0,0.4);top: 0;left: 0;display: none;}
+.jump_btn{bottom: 20px;bottom: 0.2rem;right: 20px;right:0.2rem;display: none;}
+.jump_btn a{display: block;}
+.jump_btn a img{width: 80px;width: 0.8rem;}
+.jump_btn_tip{background-color: rgba(0,0,0,0.5);width: 100px; border-radius: 5px;border-radius: 0.05rem;margin-left: -110px;float: left;margin-bottom: 0;}
+.jump_btn_sel{bottom: 20px;bottom: 0.2rem;right: 20px;right:0.2rem;}
+.jump_btn_sel img{width: 80px;width: 0.8rem;}

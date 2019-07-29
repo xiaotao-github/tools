@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.vcooc.experiment.mapper.ExperimentFileMapper">
+	<!--实验下的资源文件映射-->
+	<resultMap type="ResourceFile" id="resourceFileMap"
+		autoMapping="true">
+		<id column="file_id" property="fileId" javaType="int" jdbcType="INTEGER" />
+		<!--  映射资源库-->
+		<association property="resourceLibrary" javaType="ResourceLibrary">
+			<id column="library_id" property="libraryId" javaType="int" jdbcType="INTEGER" />
+			<result column="library_name" property="libraryName" javaType="string" jdbcType="VARCHAR" />
+			<!-- 映射院系 -->
+			<association property="department" javaType="Department">
+				<id column="department_id" property="id" javaType="int" jdbcType="INTEGER" />
+				<result column="department_name" property="name" javaType="string" jdbcType="VARCHAR" />
+			</association>
+		</association>
+		<!--映射作者  -->
+		<association property="author" javaType="TeacherInfo">
+			<id column="author_id" property="id" javaType="int" jdbcType="INTEGER" />
+			<result column="author_name" property="name" javaType="string" jdbcType="VARCHAR" />
+		</association>
+	</resultMap>
+	<!--查询实验下的资源信息  -->
+	<select id="selectExperimentFileByExperimentFileId" resultMap="resourceFileMap">
+		SELECT a1.*,a2.name AS author_name,a3.library_name AS library_name,a4.id AS department_id,a4.name department_name,a5.is_instructor,a5.experiment_id
+		FROM resource_file AS a1
+		LEFT JOIN teacher_info a2 ON a2.id=a1.author_id
+		LEFT JOIN resource_library a3 ON a3.library_id=a1.library_id 
+		LEFT JOIN department a4 ON a4.id = a3.department_id
+		LEFT JOIN  (
+		SELECT b1.resource_file_id,b1.is_instructor,b1.experiment_id FROM experiment_file b1 
+		) a5 ON a5.resource_file_id = a1.file_id
+		WHERE experiment_id = #{experimentId}
+	</select>
+	<!--将资源分配给实验  -->
+	<insert id="distributeFilesToExperiment">
+		INSERT INTO experiment_file(experiment_file_id,experiment_id,resource_file_id,is_instructor) VALUES
+		<foreach collection="resourceFileIds" item="resourceFileId"   separator=",">
+			(NULL,#{experimentId},#{resourceFileId},#{fileType})
+		</foreach>
+	</insert>
+	<!--s删除已经去除的资源文件ID-->
+	<delete id="deleteOldFile">
+		DELETE s FROM experiment_file s 
+		INNER JOIN (SELECT ef.resource_file_id,ef.experiment_file_id FROM experiment_file ef WHERE ef.experiment_id = #{experimentId} AND ef.resource_file_id NOT IN 
+		<foreach collection="resourceFileIds" open="(" close=")" separator="," item="fileId">
+		#{fileId}
+		</foreach>
+		 )n 
+		ON n.resource_file_id =s.resource_file_id AND n.experiment_file_id = s.experiment_file_id
+		WHERE s.experiment_id = #{experimentId}
+	</delete>
+	<!--根据实验，查询旧的实验ID-->
+	<select id="selectOldFileId" resultType="Integer" parameterType="int">
+		 SELECT ef.resource_file_id FROM experiment_file ef WHERE ef.experiment_id = #{experimentId} 
+	</select>
+	<!-- 根据实验ID和资源文件第，查询结果集数量  -->
+	<select id="selectExperimentFile" resultType="Integer">
+		SELECT ef.experiment_file_id FROM experiment_file ef WHERE ef.experiment_id = #{experimentId} AND ef.resource_file_id = #{resourceFileId} 
+	</select>
+	<!--根据实验ID和类型查询对应的资源文件ID 只限查询一条  否则保存-->
+	<select id="selectExperimentFileIdByExperimentIdAndType" resultMap="resourceFileMap">
+		SELECT * FROM resource_file rf WHERE rf.file_id IN (
+		SELECT ef.resource_file_id FROM experiment_file ef WHERE  ef.experiment_id = #{experimentId} AND ef.is_instructor = #{fileType})
+	</select>
+	<!--修改实验资源文件类型-->
+	<update id="updateExperimentInstructorFileToOtherFile" flushCache="true">
+		UPDATE experiment_file ef SET ef.is_instructor =#{IsInstructor} WHERE ef.experiment_id =#{experimentId} AND ef.resource_file_id =#{resourceFileId} 
+	</update>
+	<!--根据实验id-->
+	<select id="selectFileByEperimentId" resultType="ResourceFile">
+		SELECT * FROM resource_file WHERE file_id IN (
+		SELECT resource_file_id FROM experiment_file
+		<where>
+			experiment_id = #{experimentId}
+			<if test="type!=null">
+				AND is_instructor IN (#{type}) 			
+			</if>
+		</where> 
+		)
+	</select>
+</mapper>

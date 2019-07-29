@@ -1,0 +1,41 @@
+body, th, td, button, input, select, textarea {font-family: "Microsoft Yahei","Hiragino Sans GB","Helvetica Neue",Helvetica,tahoma,arial,"WenQuanYi Micro Hei",Verdana,sans-serif,"\5B8B\4F53";font-size: 12px;color: #333;-webkit-font-smoothing: antialiased;-moz-osx-font-smoothing: grayscale;}
+
+input[type=search]{-webkit-appearance:textfield}
+.input-text,.textarea{box-sizing:border-box;border:solid 1px #ddd;width:100%;-webkit-transition:all .2s linear 0s;-moz-transition:all .2s linear 0s;-o-transition:all .2s linear 0s;transition:all .2s linear 0s}
+.container-page .btn,.btn.size-M,.input-text,.input-text.size-M{font-size:14px;height:31px;line-height:1.42857;padding:4px}
+.dataTables_wrapper .dataTables_length .select{width:50px}
+.select,.size-M .select{font-size:14px}
+.select{border:solid 1px #ddd;box-sizing:border-box;cursor:pointer;line-height:normal;font-weight:400;width:100%;white-space:nowrap}
+
+.dataTables_wrapper .dataTables_length{float:left;padding-bottom:20px}
+.dataTables_wrapper .dataTables_filter{float:right;text-align:right}
+.dataTables_wrapper .dataTables_filter .input-text{width:auto}
+.dataTables_wrapper .dataTables_info{clear:both;float:left;padding-top:10px;font-size:14px;color:#666}
+.dataTables_wrapper .dataTables_paginate{float:right;padding-top:10px;text-align:right}
+.dataTables_wrapper .dataTables_paginate .paginate_button {border: 1px solid #ccc;cursor: pointer;display: inline-block;margin-left: 2px;text-align: center;text-decoration: none;color: #666;height: 26px;line-height: 26px;text-decoration: none;margin: 0 0 6px 6px;padding: 0 10px;font-size: 14px;}
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover, .dataTables_wrapper .dataTables_paginate .paginate_button.current, .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {background: #539baf;color: #fff;}
+.dataTable td.sorting_1{background-color:#f5fafe}
+table{width:100%;empty-cells:show;background-color:transparent;border-collapse:collapse;border-spacing:0}
+table.dataTable{border-collapse:separate;border-spacing:0;clear:both}
+table.dataTable thead .sorting {background-image: url(../images/dataTable/sort_both.png);}
+table.dataTable thead .sorting_asc {background-image: url(../images/dataTable/sort_asc.png);}
+table.dataTable thead .sorting_desc{background-image:url(../images/dataTable/sort_desc.png)}
+table.dataTable thead .sorting,table.dataTable thead .sorting_asc,table.dataTable thead .sorting_desc{cursor:pointer;background-repeat:no-repeat;background-position:right center}
+table th{text-align:left;font-weight:400}
+.table th{font-weight:700;}
+.table td{text-align:left}
+.table td,.table th{padding:8px;line-height:20px;word-break:break-all}
+.table td,.table th{padding:8px;line-height:20px;word-break:break-all}
+.table td.text-c,.table th.text-c{text-align:center!important;vertical-align:middle}
+.table .text-c td,.table .text-c th{text-align:center;vertical-align:middle}
+.table-bordered{border:1px solid #ddd;border-collapse:separate;border-left:0}
+.table-border{border-top:1px solid #ddd}
+.table-border.table-bordered{border-bottom:0}
+.table-bordered td,.table-bordered th{border-left:1px solid #ddd}
+.table-border td,.table-border th{border-bottom:1px solid #ddd}
+.table-bordered td,.table-bordered th{border-left:1px solid #ddd}
+.table-border td,.table-border th{border-bottom:1px solid #ddd}
+.table-bg thead th{background-color:#f5fafe}
+
+/* bootstrap cover S */
+.table-bordered > thead > tr > th, .table-bordered > tbody > tr > th, .table-bordered > tfoot > tr > th, .table-bordered > thead > tr > td, .table-bordered > tbody > tr > td, .table-bordered > tfoot > tr > td {border-top: 0;border-right: 0;}

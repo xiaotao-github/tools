@@ -1,0 +1,122 @@
+body{background: url(../images/experimentDetail_bg.png) top center repeat;}
+.dborder{border: 1px solid #3c817e;}
+.second-title span:before{content: '';width: 3px;height: 20px;background: #3c807d;display: block;float: left;margin-top: 7px;margin-right: 10px;}
+.second-title span.fc-white:before{background: #fff;}
+
+.experimentDetailContainer{padding-bottom: 75px;}
+
+.part1 .head{background: url(../images/title_bg.png) center no-repeat;padding: 1px 0;}
+
+.part2{background: url(../images/experimentDetail_bg_part1.png) bottom center no-repeat;}
+.part2-contain{height: 228px;}
+.part2-contain .coursePost,.part1-contain .courseMsg,.part1-contain .courseContent{height: 100%;}
+.part2-contain .coursePost{position: relative;width: 358px;}
+.part2-contain .coursePost img{display: block;width: 100%;height: 100%;}
+.part2-contain .coursePost p{position: absolute;bottom: 0;left: 0;width: 100%;background: url(../images/courseName_bg.png) repeat;line-height: 40px;}
+.part2-contain .courseMsg{width: 220px;height: 228px;}
+.part2-contain .courseContent{width: 455px;height: 228px;}
+.part2-contain .courseContent .courseContent-text{min-height: 60px;max-height: 80px; overflow-y: auto;}
+.part2-contain .courseContent ul li{width: 60px;}
+.part2-contain .courseContent ul li img{display: block;width: 40px;height: 40px;border-radius: 50%;margin: 0 auto;}
+.part2-contain .courseContent ul li span{display: block;text-align: center;}
+
+.part3{/* background: #666; */}
+.part3 .left-part{width: 770px;}
+.part3 .right-part{width: 290px;}
+.part3 .right-part .otherExperiment li{cursor: pointer;border-bottom: 1px solid #ccc;}
+.part3 .right-part .otherCourse li{cursor: pointer;}
+.part3 .right-part .otherCourse .otherCoursePost{width: 100px;height: 60px;display: block;}
+.part3 .right-part .otherCourse .otherCourseName{width: 170px;}
+.part3 .left-part .experimentStep .stepContain{display:none;}
+
+.part3 tr{padding: 0;border: none;}
+.part3 table{border: 1px solid #ddd;border-right: none;border-bottom: none;border-collapse: collapse;}
+.part3 td{border: 1px solid #ddd;border-left: none;border-top: none;}
+.part3 td p{padding:0;margin: 0;}
+.part3 img{display:block;width:70%;margin:0 auto;}
+
+.experimentInstructor .instructorContain{max-height: 400px;}
+
+.experimentStep{margin: 30px 0;}
+.experimentStep li{position: relative;margin-bottom: 30px;}
+.experimentStep li .stepOrder{width: 40px;height: 40px;position: absolute;top: -20px;left: 0;border: 2px solid #3C807D;text-align: center;vertical-align: middle;cursor: pointer;}
+.experimentStep li .stepOrder p{padding-top: 4px;}
+.experimentStep li .stepTitle{cursor: pointer;}
+.experimentStep li .stepContent{display: none;}
+
+.otherExperiment{}
+.otherExperiment .otherExperimentBox{overflow-x: hidden;}
+.otherExperiment .otherExperimentBox ul{max-height: 350px;overflow-y: auto;}
+
+.otherCourse .otherCourseBox{overflow-x:hidden;}
+.otherCourse .otherCourseBox ul{overflow-y: auto;margin-right: -16px;max-height: 350px;}
+
+.experimentNote textarea{resize: none;width: 275px;border-color: #ddd;}
+.experimentNote .experimentNote-button span{display: block;padding: 0 15px;border-radius: 3px;background-color: #4480ae;cursor: pointer}
+.experimentNote .experimentNote-button span:hover{background-color: #4989ba;}
+.experimentNote .containPart{overflow:hidden;}
+.experimentNote .containPart ul{display: block;height: 250px;overflow-y: auto;margin-right: -12px;}
+.experimentNote .containPart ul li{width: 260px;border: 1px dashed #ddd;position:relative;}
+.experimentNote .containPart ul li a{display: block;}
+.experimentNote .containPart ul li i{position:absolute;top:-5px;right:-5px;cursor:pointer;}
+.experimentNote .containPart ul li .date{height: 50px;width: 60px;background: #fff url(../images/date_bg.png)top center no-repeat;border: 1px solid #1e6269;}
+.experimentNote .containPart ul li .date span{display: block;text-align: center;}
+.experimentNote .containPart ul li .date .span1{height: 22px;}
+.experimentNote .containPart ul li .date .span2{height: 28px;}
+.experimentNote .containPart ul li .noteText{width: 189px;}
+
+
+.part4{background: url(../images/experimentDetail_bg_part2.png) bottom center no-repeat;}
+.part4 .softwareP{width: 648px;padding: 10px 20px;}
+.part4 .softwareP .tipsContent{padding-left: 60px;}
+.part4 .softwareP .softwareList li{margin-top: 8px;background: url(../images/software_bg.png) center;height: 40px;line-height: 40px;width: 320px;}
+.part4 .softwareP .softwareList li:hover{background: url(../images/software_bg_hover.png) center;}
+.part4 .softwareP .softwareList li a{display: block;}
+.part4 .softwareP .softwareList li p{padding-left: 30px;}
+.part4 .jumpButtonP p{height: 110px;width: 360px;background: #ccc;cursor: pointer;}
+.part4 .jumpButtonP p.p1{background: #ccc url(../images/jumpBtnReport.png) no-repeat;}
+.part4 .jumpButtonP p.p1:hover{background: #ccc url(../images/jumpBtnReport_hover.png) no-repeat;}
+.part4 .jumpButtonP p.p2{background: #ccc url(../images/jumpBtnAsk.png) no-repeat;}
+.part4 .jumpButtonP p.p2:hover{background: #ccc url(../images/jumpBtnAsk_hover.png) no-repeat;}
+
+.part5{background: url(../images/experimentDetail_bg_part3.png) bottom center no-repeat;}
+.part5-contain{margin: 30px 20px 18px;}
+.part5-contain .QRCode{position: relative;width: 335px;padding: 13px 15px;}
+.part5-contain .QRCode .bg{width: 334px;height: 200px;}
+.part5-contain .QRCode .code{position: absolute;top: 60px;right: 54px;width: 83px;height: 83px;}
+.part5-contain .experimentResources{width: 650px;}
+.part5-contain .experimentResources ul{ height: 216px;overflow: auto;}
+.part5-contain .experimentResources li{line-height: 30px;cursor: default;}
+.part5-contain .experimentResources .introP i,.part5-contain .experimentResources .introP span{display: block;}
+.part5-contain .experimentResources .buttonP span{cursor: pointer;padding: 2px 15px;border-radius: 3px;}
+.part5-contain .experimentResources .buttonP span.detailBtn{background-color: #2e7fb3;}
+.part5-contain .experimentResources .buttonP span.detailBtn:hover{background-color: #3288c0;}
+.part5-contain .experimentResources .buttonP span.downLoadBtn{background-color: #d78b32;}
+.part5-contain .experimentResources .buttonP span.downLoadBtn:hover{background-color: #e19236;}
+
+
+.part6{background-color: #666; }
+.part6 .div{width: 50%;}
+.part6 .finalScore{padding: 0 30px;}
+.part6 tr{padding: 0;border: none;}
+.part6 table{border: 2px solid #fff;border-right: none;border-bottom: none;border-collapse: collapse;}
+.part6 td{color: #fff;padding: 5px 0; border: 2px solid #fff;border-left: none;border-top: none;text-align: center;vertical-align: middle;}
+.part6 td.text{text-align: left;padding: 5px 10px;}
+.part6 td p{padding:0;margin: 0;}
+.part6 .teacherComment{padding: 0 40px;}
+.part6 .score p{width: 100px;text-align: center;margin: 0 auto;border: 3px solid;}
+.part6 .score p span{display: block;margin: 5px;padding: 2px 0;}
+.part6 .score p.great{border-color: #4fca55;}
+.part6 .score p.great span{background-color: #4fca55;;}
+.part6 .score p.good{border-color: #7ac13b;}
+.part6 .score p.good span{background-color: #7ac13b;}
+.part6 .score p.normal{border-color: #d78b32;}
+.part6 .score p.normal span{background-color: #d78b32;}
+.part6 .score p.fail{border-color: #d24545;}
+.part6 .score p.fail span{background-color: #d24545;}
+.part6 .score p.waiting{border-color: #3c9ce6;}
+.part6 .score p.waiting span{background-color: #3c9ce6;}
+.part6 .score p.uncommit{border-color: #659da2;}
+.part6 .score p.uncommit span{background-color: #659da2;}
+
+/*table css*/

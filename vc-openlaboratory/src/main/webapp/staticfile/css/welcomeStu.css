@@ -1,0 +1,101 @@
+.stuExperiment-welcomePage-container{width: 100%;}
+
+
+.leftPart{width: 821px;}
+/* .titleText{display: block;margin: 0 auto;width: 200px;text-align: center;border-bottom: 3px solid #1e6269;margin-bottom: -2px;} */
+.firstTitleText{margin-top: 20px; margin-bottom: 10px;height: 60px;line-height: 60px;background: #2c7076 url(../images/student/firstTitleBg.png) no-repeat;padding: 0 20px;color: #fff;letter-spacing:5px;}
+.lab-courses .ul{/*width: 800px;*/display: block;}
+.lab-courses .li{border: 1px solid #ddd;}
+.lab-courses .li:hover{border:1px solid #add0d4;background:#f0f0f0;}
+/* .lab-courses .li:hover .experimentRight{width: 559px;}
+.lab-courses .li:hover .a{margin-left: 20px;} */
+.lab-courses .li:hover .a .experimentTop .fc-darkGreen{color: #40887f;}
+.lab-courses .li:hover .a .experimentBottom{color:#1e6269;}
+.lab-courses .li .a{display: block;color: #333;}
+/* .lab-courses .li .a:hover{display: block;color: #1e6269;background: #fff;} */
+.experimentLeft{position: relative; width: 170px;height: 115px;}
+.experimentLeft img{position: absolute;top: 0;left: 0;width: 170px;height: 115px;}
+.experimentLeft .intro{position: relative;height: 115px;display: table-cell;vertical-align: bottom;width: 170px;background: url(../images/student/shadown.png) bottom center repeat-x;text-align: center;}
+.experimentLeft .intro p{vertical-align: middle;}
+.experimentRight{display: block;width: 578px;}
+.experimentPost{display: block;}
+.experimentTop{}
+.experimentBottom{min-height:38px;}
+.experimentInButton{text-align: right;position: relative;}
+.experimentInButton .span1{/*background: url(../images/Btn01.png) center center no-repeat;*/background: #e8c647;border-radius: 5px;}
+.experimentInButton .span1:hover{/*background: url(../images/Btn01_hover.png) center center no-repeat;*/background: #1e6269;}
+.experimentInButton .span2{position: absolute;left: 0;bottom: 5px;width:200px;height: 10px;background: #eee;border: 1px solid #ddd;border-radius: 5px;}
+.experimentInButton .span2 em{display: block;background: #d88300;height: 8px;overflow: hidden; margin-top: 1px;}
+.experimentInButton .span2 i{position: absolute;right: -45px;bottom: -4px;color: #d88300;font-style: normal;}
+.experimentInButton .span2 i:after{content: '%';}
+
+.paging-prev{background: #4d83ab url(../images/student/pagingBtn.png) 0 100% no-repeat;}
+.paging-prev:hover{background: #1e6269 url(../images/student/pagingBtn.png) 0 100% no-repeat;}
+.paging-next{background: #4d83ab url(../images/student/pagingBtn.png) 100% 100% no-repeat;}
+.paging-next:hover{background: #1e6269 url(../images/student/pagingBtn.png) 100% 100% no-repeat;}
+
+
+.rightPart{width: 299px;}
+.secondTitleText{display: block;line-height: 38px;}
+.secondTitleText:before{content: '';border-left: 3px solid #1e6269;padding-right: 10px;/* width: 1px; */height: 15px;display: block;float: left;margin-top: 13px;}
+.experiment-dynamic{}
+.experiment-dynamic-tab{border-bottom: 1px solid #ccc;}
+.experiment-dynamic-tab li{width: 50%;line-height: 30px;height: 30px;text-align: center;cursor: pointer;}
+.experiment-dynamic-tab li.checked{background: #1e6269;color: #fff;}
+.experiment-dynamic-tab li.checked:after{content: '';width: 12px;height: 12px;background: url(../images/student/tab01.png) no-repeat;margin-top: -10px;margin-left: auto;margin-right: auto;display: block;}
+.experiment-dynamic-box{overflow: hidden;}
+.experiment-dynamic-box ul{display: none; overflow-y: scroll;margin-right: -12px;height: 300px;}
+.experiment-dynamic-box ul span{display: block;}
+.experiment-dynamic-box ul.checked{display: block;}
+.experiment-dynamic-box ul.ul1{}
+.experiment-dynamic-box ul.ul2 li{position: relative;}
+.experiment-dynamic-box ul.ul2 li .span1{font-size:14px;}
+.experiment-dynamic-box ul.ul2 li .span2{position: relative;padding-right: 50px;color:#999;}
+.experiment-dynamic-box ul.ul2 li i{display: block;padding: 0 5px;color: #fff;position: absolute;bottom: 0;right: 5px;border-radius: 3px;font-style: normal;}
+.experiment-dynamic-box ul.ul2 li.odd i{background: #ccc;}
+.experiment-dynamic-box ul.ul2 li.even i{background: #ccc;}
+.experiment-dynamic-box ul li{border-bottom: 1px solid #ddd;}
+.experiment-dynamic-box ul li.odd{background: #fff5f0}
+.experiment-dynamic-box ul li.even{background: #e8f5ff}
+
+.experiment-theGreatReports{overflow: hidden;}
+.experiment-theGreatReports ul{height: 300px;overflow-y: scroll;margin-right: -12px;}
+.experiment-theGreatReports li{height: 35px;line-height: 35px;border-bottom: 1px solid #ddd;position: relative;}
+.experiment-theGreatReports li .teacherName{position: absolute;bottom: 5px;right: 15px;}
+.experiment-theGreatReports li i:before{width: 12px;height: 12px;content: '';background: url(../images/student/view.png) no-repeat;padding: 0 8px;}
+.experiment-theGreatReports li:hover{background:#d6eaec;}
+.experiment-theGreatReports li:hover a{color:#1e6269}
+
+/*S stu Experiment welcomePage the great report view*/
+
+	.showGreatReport{display: none;}
+	.report-name{}
+	.report-nav{border-bottom: 1px solid #ccc;}
+	.report-nav li{display: block;width: 50%;line-height: 35px;height: 35px;text-align: center;cursor: pointer;}
+	.report-nav li.checked{background: #1e6269;color: #fff;}
+	.report-nav li.checked:after{content: '';width: 12px;height: 12px;background: url(../images/tab01.png) no-repeat;margin-top: -10px;margin-left: auto;margin-right: auto;display: block;}
+	.report-nav .report-nav-img{}
+	.report-nav .report-nav-txt{}
+	.report-detail{}
+	.report-detail li{display: none;}
+	.report-detail li.checked{display: block;}
+	.report-detail .report-detail-img{}
+	.report-detail .report-detail-img img{display: block;width: 66%;margin: 0 auto;}
+	.report-detail .report-detail-txt{}
+	.report-detail .report-detail-txt table{border: 1px solid #ddd;border-right: none;border-bottom: none;border-collapse: collapse;}
+	.report-detail .report-detail-txt table tr{padding: 0;border: none;}
+	.report-detail .report-detail-txt table tr td{border: 1px solid #ddd;border-left: none;border-top: none;}
+	.report-detail .report-detail-txt table tr td p{padding:0;margin: 0;}
+/*E stu Experiment welcomePage the great report view*/
+
+
+.btn-success {
+    color: #fff;
+    background-color: #4d888e;
+    border-color: #4d888e;
+}
+.btn-success:hover, .btn-success:focus, .btn-success:active, .btn-success.active {
+    color: #fff;
+    background-color: #1e6269;
+    border-color: #1e6269;
+}

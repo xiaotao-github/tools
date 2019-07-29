@@ -1,0 +1,156 @@
+/*S footer css*/
+.vcoocfoot{
+	/* position: absolute; */
+	bottom: 0;
+	width: 100%;
+    clear: both;
+}
+
+.footer{
+    background: #222;
+    width: 100%;
+    border-top: 2px solid #ccc;
+    color: #fff;
+    /*padding: 10px 0;*/
+    font-size: 12px;
+}
+
+.footerInner{
+    width: 680px;
+    margin: 0 auto;
+}
+
+.footerQR{
+    float: left;
+    padding: 10px;
+}
+
+.footerQR img{
+    width: 80px;
+    height: 80px;
+    background: #fff;
+}
+
+.footerRight{
+    float: left;
+    margin-left: 60px;
+}
+
+.footerTop{
+
+}
+
+.footerTop .d0{
+    float: left;
+    height: 60px;
+    line-height: 60px;
+    line-height: 63px/9;
+    *line-height: 60px;
+    _line-height: 60px;
+    margin-right: 30px;
+}
+
+.footerTop .d1{
+    float: left;
+   /*  height: 30px; */
+    line-height: 30px;
+    line-height: 33px/9;
+    *line-height: 30px;
+    _line-height:30px;
+}
+
+.footerTop .d1 p{
+	margin:0;
+	height:30px;
+}
+
+.footerTop .d1 p a{
+    color: #fff;
+}
+
+.footerTop .d2{
+    float: left;
+}
+
+.footerTop .d3{
+    float: left;
+    font-size: 14px;
+    margin-top: 20px;
+}
+
+.footerBottom{
+    margin-top: 5px;
+    height: 20px;
+    line-height: 20px;
+    line-height: 20px/9;
+    *line-height: 20px;
+    _line-height: 20px;
+}
+
+.footerBottom li{
+    float: left;
+    margin-right: 30px;
+}
+
+.footerBottom li i{
+    display: block;
+    float: left;
+}
+
+.footerBottom li span{
+    display: block;
+    float: left;
+    margin-left: 5px;
+}
+
+.footerBottom li i img{
+    width: 20px;
+}
+
+/*Hui cover*/
+.breadcrumb {
+    background-color: #f5f5f5;
+    padding: 0 20px;
+    position: relative;
+    z-index: 99;
+    border-bottom: 1px solid #e5e5e5;
+    line-height: 39px;
+    height: 39px;
+    overflow: hidden;
+}
+
+.breadcrumb span{
+    cursor:pointer;
+}
+
+.btn {
+    display: inline-block;
+    box-sizing: border-box;
+    cursor: pointer;
+    text-align: center;
+    font-weight: 400;
+    white-space: nowrap;
+    vertical-align: middle;
+    -moz-padding-start: npx;
+    -moz-padding-end: npx;
+    border: solid 1px #ddd;
+   /*  background-color: #fff; */
+    width: auto;
+    -webkit-transition: background-color .1s linear;
+    -moz-transition: background-color .1s linear;
+    -o-transition: background-color .1s linear;
+    transition: background-color .1s linear;
+    padding: 4px 12px;
+}
+
+/* .btn-success {
+    color: #fff;
+    background-color: #4d888e;
+    border-color: #4d888e;
+}
+
+.btn-success:hover, .btn-success:focus, .btn-success:active, .btn-success.active {
+    color: #fff;
+    background-color: #1e6269;
+    border-color: #1e6269;
+} */

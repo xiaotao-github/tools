@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>修改个人信息</title>
+    <link href="${ctx }/staticfile/font-awesome-4.7.0/css/font-awesome.css" rel="stylesheet">
+    <link rel="stylesheet" href="${ctx }/staticfile/css/myselfInfoRevise.css">
+    <script src="js/jquery-1.8.3.min.js"></script>
+</head>
+<body>
+<div class="header">
+    <div class="top">
+        <div class="left">
+            <div class="title"><i class="fa fa-volume-up fa-lg" aria-hidden="true"></i>&nbsp;最新公告：</div>
+            <div id="scrollDiv" class="content">
+                <ul>
+                    <li>
+                        <a href="">最新公告最新公告最新公告最新公告最新公告</a>
+                    </li>
+                    <li>
+                        <a href="">最新公告最新公告最新公告最新公告最新公告</a>
+                    </li>
+                    <li>
+                        <a href="">最新公告最新公告最新公告最新公告最新公告</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="right">
+            <span>欢迎您！</span>
+            <a class="name" href="">admin</a>
+            <ul style="display: none">
+                <li class="info">
+                    <a href="myselfInfoRevise.html">修改信息</a>
+                </li>
+                <li class="info">
+                    <a href="passwordRevise.html">修改密码</a>
+                </li>
+                <li class="info">
+                    <a href="">返回首页</a>
+                </li>
+                <li>
+                    <a href="">退出</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="nav clear">
+    <div class="bottom">
+        <div class="logo">
+            <img src="images/logo.png">
+        </div>
+    </div>
+</div>
+<!--主体-->
+<div class="main clear">
+    <!--位置导航-->
+    <div class="main-bar">
+        <span><i class="fa fa-map-marker fa-lg" aria-hidden="true"></i>&nbsp;当前位置：</span>
+        <a href="index.html">首页</a>
+        <span style="margin-left: 4px;margin-right: 4px"> > </span>
+        <span id="current">修改信息</span>
+        <span style="margin-left: 4px;margin-right: 4px"> > </span>
+        <a href="javascript:history.back(-1)">返回上一步</a>
+    </div>
+    <!--内容-->
+    <div class="content clear">
+        <div class="info">
+            <p class="title"><i class="fa fa-id-card" aria-hidden="true"></i>&nbsp;修改基本信息</p>
+            <form action="" method="" class="demoform">
+                <div class="revisecontent">
+                    <div class="left">
+                        <label class="left-title">更换头像：</label>
+                        <div class="left-content">
+                            <div><img id="ImgPr" src=""></div>
+                            <input id="up" type="file" value="选择头像">
+                            <p>仅支持格式：JPG、PNG、GIF、JPEG、BMP</p>
+                        </div>
+                    </div>
+                    <div class="right">
+                        <div class="form-group clear">
+                            <label class="right-label"><span>*&nbsp;</span>姓名：</label>
+                            <div class="right-div">
+                                <input class="name-input" type="text" value="" datatype="names" nullmsg="姓名不能为空！" errormsg="请输入正确的用户姓名" sucmsg="用户名可用！" placeholder="请输入您的姓名">
+                            </div>
+                            <p class="Validform_checktip clear" style="padding-left: 100px"></p>
+                        </div>
+                        <div class="form-group clear">
+                            <label class="right-label"><span>*&nbsp;</span>性别：</label>
+                            <div class="right-div">
+                                <label>
+                                    <input type="radio" name="radio" value="0" checked="checked"><span>男</span>
+                                </label>
+                                &nbsp;
+                                <label>
+                                    <input type="radio" name="radio" value="1"><span>女</span>
+                                </label>
+                            </div>
+                            <p class="Validform_checktip clear" style="padding-left: 100px"></p>
+                        </div>
+                        <div class="form-group clear">
+                            <label class="right-label"><span>*&nbsp;</span>联系电话：</label>
+                            <div class="right-div">
+                                <input class="name-input" type="text" value="" datatype="m" nullmsg="请输入您的联系电话！" errormsg="请输入正确的联系电话！" sucmsg="联系电话可用！" placeholder="请输入您的联系电话">
+                            </div>
+                            <p class="Validform_checktip clear" style="padding-left: 100px"></p>
+                        </div>
+                        <div class="form-group clear">
+                            <label class="right-label"><span>*&nbsp;</span>邮箱地址：</label>
+                            <div class="right-div">
+                                <input class="name-input" type="text" value="" datatype="e" nullmsg="请输入您的邮箱地址！" errormsg="请输入正确的邮箱地址！" sucmsg="邮箱地址可用！" placeholder="请输入您的邮箱地址">
+                            </div>
+                            <p class="Validform_checktip clear" style="padding-left: 100px"></p>
+                        </div>
+                        <div class="form-group clear">
+                            <label class="right-label">个人说明：</label>
+                            <div class="right-div">
+                                <textarea class="textarea" placeholder="说点什么..."></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div style="clear: both"></div>
+        <div class="btn clear">
+            <button id="btn-sub"><i class="fa fa-check-square" aria-hidden="true"></i>&nbsp;确认</button>
+            &nbsp;&nbsp;
+            <button id="btn-reset"><i class="fa fa-refresh" aria-hidden="true"></i>&nbsp;重置</button>
+        </div>
+    </div>
+</div>
+
+<!--脚部-->
+<div style="clear: both"></div>
+<div class="clear footer">
+    <div class="footer_content">
+        <ul>
+            <li>Copyright © 2005-2016 广州市风标电子技术有限公司 版权所有</li>
+            <li>网站备案：粤ICP备05068346</li>
+        </ul>
+    </div>
+</div>
+
+<script src="${ctx }/staticfile/js/Validform_v5.3.2_min.js"></script>
+<script>
+    $(".demoform").Validform({
+        btnSubmit: "#btn-sub",
+        btnReset: "#btn-reset",
+        tiptype: 2,
+        ignoreHidden: false,
+        dragonfly: false,
+        tipSweep: false,
+        label: ".label",
+        showAllError: true,
+        postonce: true,
+        ajaxPost: true,
+        datatype: {
+            "names": /^([A-Za-z]|[\u4E00-\u9FA5]{2,7}$)+$/
+        },
+        usePlugin: {
+            swfupload: {},
+            datepicker: {},
+            passwordstrength: {},
+            jqtransform: {
+                selector: "select,input"
+            }
+        },
+        beforeCheck: function (curform) {
+        },
+        beforeSubmit: function (curform) {
+        },
+        callback: function (data) {
+        }
+    });
+</script>
+
+
+<script type="text/javascript">
+    //    新闻公告上下滚动
+    function AutoScroll(obj) {
+        $(obj).find("ul:first").animate({
+            marginTop: "-30px"
+        }, 500, function () {
+            $(this).css({
+                marginTop: "0px"
+            }).find("li:first").appendTo(this);
+        });
+    }
+    $(document).ready(function () {
+        var myar = setInterval('AutoScroll("#scrollDiv")', 3000);
+        $("#scrollDiv").hover(function () {
+                    clearInterval(myar);
+                },
+                function () {
+                    myar = setInterval('AutoScroll("#scrollDiv")', 3000)
+                });
+    });
+    //个人信息下拉菜单
+    $(document).ready(function () {
+        $('.right .name').hover(function () {
+            $(this).css('backgroundColor', '#545353');
+            $(".right ul").css('display', 'block');
+        }, function () {
+            $(this).css('backgroundColor', '#2e2e2e');
+            $(".right ul").css('display', 'none');
+        });
+        $(".right ul").hover(function () {
+            $(this).css('display', 'block');
+        }, function () {
+            $(this).css('display', 'none');
+        });
+    });
+</script>
+
+<!--图片上传预览-->
+<script>
+    jQuery.fn.extend({
+        uploadPreview: function (opts) {
+            var _self = this,
+                    _this = $(this);
+            opts = jQuery.extend({
+                Img: "ImgPr",
+                Width: 100,
+                Height: 100,
+                ImgType: ["gif", "jpeg", "jpg", "bmp", "png"],
+                Callback: function () {
+                }
+            }, opts || {});
+            _self.getObjectURL = function (file) {
+                var url = null;
+                if (window.createObjectURL != undefined) {
+                    url = window.createObjectURL(file)
+                } else if (window.URL != undefined) {
+                    url = window.URL.createObjectURL(file)
+                } else if (window.webkitURL != undefined) {
+                    url = window.webkitURL.createObjectURL(file)
+                }
+                return url
+            };
+            _this.change(function () {
+                if (this.value) {
+                    if (!RegExp("\.(" + opts.ImgType.join("|") + ")$", "i").test(this.value.toLowerCase())) {
+                        alert("选择文件错误,图片类型必须是" + opts.ImgType.join("，") + "中的一种");
+                        this.value = "";
+                        return false
+                    }
+                    if ($.browser.msie) {
+                        try {
+                            $("#" + opts.Img).attr('src', _self.getObjectURL(this.files[0]))
+                        } catch (e) {
+                            var src = "";
+                            var obj = $("#" + opts.Img);
+                            var div = obj.parent("div")[0];
+                            _self.select();
+                            if (top != self) {
+                                window.parent.document.body.focus()
+                            } else {
+                                _self.blur()
+                            }
+                            src = document.selection.createRange().text;
+                            document.selection.empty();
+                            obj.hide();
+                            obj.parent("div").css({
+                                'filter': 'progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale)',
+                                'width': opts.Width + 'px',
+                                'height': opts.Height + 'px'
+                            });
+                            div.filters.item("DXImageTransform.Microsoft.AlphaImageLoader").src = src
+                        }
+                    } else {
+                        $("#" + opts.Img).attr('src', _self.getObjectURL(this.files[0]))
+                    }
+                    opts.Callback()
+                }
+            })
+        }
+    });
+</script>
+<script>
+    $(function () {
+        $("#up").uploadPreview({Img: "ImgPr"});
+    });
+</script>
+
+<style>
+    .phcolor {
+        color: #999;
+    }
+</style>
+<script>
+    $(function () {
+        supportPlaceholder = 'placeholder' in document.createElement('input');
+        placeholder = function (input) {
+            var text = input.attr('placeholder'),
+                    defaultValue = input.defaultValue;
+            if (!defaultValue) {
+                input.val(text).addClass("phcolor");
+            }
+            input.focus(function () {
+                if (input.val() == text) {
+                    $(this).val("");
+                }
+            });
+            input.blur(function () {
+                if (input.val() == "") {
+                    $(this).val(text).addClass("phcolor");
+                }
+            });
+            input.keydown(function () {
+                $(this).removeClass("phcolor");
+            });
+        };
+        if (!supportPlaceholder) {
+            $('input').each(function () {
+                text = $(this).attr("placeholder");
+                if ($(this).attr("type") == "text") {
+                    placeholder($(this));
+                }
+            });
+        }
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,1228 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.vcooc.experiment.mapper.StudentHomeMapper">
+
+	<!-- 总资源映射 -->
+	<resultMap type="ResourceFile" id="totalResources_mp" autoMapping="true">
+	<id column="file_id" property="fileId" />
+	<!-- <result column="file_name" property="fileName" javaType="string" jdbcType="VARCHAR"/>
+	<result column="file_type" property="fileType" javaType="string" jdbcType="VARCHAR"/> -->
+	<!--映射实验资源中间表 -->
+	<association property="experimentFile" javaType="ExperimentFile">
+		<id column="experiment_id" property="experimentFileId" javaType="int" jdbcType="INTEGER" />
+		<result column="experiment_id" property="experimentId"  javaType="int" jdbcType="INTEGER"  />
+		<result column="resource_file_id" property="resourceFileId"  javaType="int" jdbcType="INTEGER"  />
+		<result column="is_instructor" property="isInstructor"  javaType="int" jdbcType="INTEGER"  />
+	</association>
+	<!-- 映射 资源库表 -->
+<!-- 	<association property="resourceLibrary" javaType="ResourceLibrary">
+	<id column="library_id" property="libraryId" javaType="int" jdbcType="INTEGER" />
+	<result column="library_name" property="libraryName" javaType="string" jdbcType="VARCHAR"/>
+	</association> -->
+	<!-- 资源作者 -->
+	<association property="author" javaType="TeacherInfo">
+	<id column="id" property="id"  javaType="int" jdbcType="INTEGER"/>
+	<result column="th_name" property="name" javaType="string" jdbcType="VARCHAR"/>
+	<!-- 映射院系 -->
+	<association property="department" javaType="Department">
+	<id column="id" property="id" javaType="int" jdbcType="INTEGER"/>
+	<result column="dname" property="name" javaType="string" jdbcType="VARCHAR" />
+	</association>
+	</association>
+	<!-- 映射课程表  -->
+	<association property="experimentCourse" javaType="ExperimentCourse">
+	<id column="exnId" property="experimentCourseId" javaType="int" jdbcType="INTEGER"/>
+		<result column="course_name" property="courseName" javaType="string" jdbcType="VARCHAR" />
+	</association>
+	<!-- 映射实验 -->
+	<association property="experiment" javaType="Experiment">
+	<id column="experiment_id" property="experimentId" javaType="int" jdbcType="INTEGER"/>
+		<result column="experiment_name" property="experimentName" javaType="string" jdbcType="VARCHAR" />
+	</association>
+	
+	</resultMap>
+
+	<!--  映射实验资源 -->
+	<resultMap type="ResourceFile" id="selectExperimentByExperimentId_mp" autoMapping="true">
+	<id column="resource_file_id" property="fileId" />
+	<!--映射实验资源中间表 -->
+	<association property="experimentFile" javaType="ExperimentFile">
+		<id column="experiment_id" property="experimentFileId" javaType="int" jdbcType="INTEGER" />
+		<result column="experiment_id" property="experimentId"  javaType="int" jdbcType="INTEGER"  />
+		<result column="resource_file_id" property="resourceFileId"  javaType="int" jdbcType="INTEGER"  />
+		<result column="is_instructor" property="isInstructor"  javaType="int" jdbcType="INTEGER"  />
+	</association>
+	
+	</resultMap>
+	
+
+	<!-- 映射课程下有多少班级 -->
+	<resultMap type="ScheduleClass" id="finAllscheduleClassList_mp"
+		autoMapping="true">
+		<id column="schedule_class_id" property="scheduleClassId" />
+		<!-- 班级 -->
+		<association property="tbClass" javaType="TbClass">
+		<id column="id" property="id" javaType="int" jdbcType="INTEGER" />
+		<result column="tbname" property="name" javaType="string"
+			jdbcType="VARCHAR" />
+		</association>
+	</resultMap>
+
+
+	<!-- 映射实验室管理员 -->
+	<resultMap type="LabManager" id="finAllExperimentLabManager_mp"
+		autoMapping="true">
+		<id column="lab_manager_id" property="labManagerId" />
+		<!-- 管理员 -->
+		<result column="thname" property="thManager" javaType="string"
+			jdbcType="VARCHAR" />
+	</resultMap>
+
+	<!-- 实验的相关映射 -->
+	<resultMap type="Experiment" id="finallExperimentListmap"
+		autoMapping="true">
+		<id column="experiment_id" property="experimentId" />
+
+		<!-- 课程节数 -->
+		<result column="slice" property="exCourseSchedule" javaType="string"
+			jdbcType="VARCHAR" />
+		<!-- 上课日期 -->
+		<result column="schooltime" property="schooltime" javaType="Date"
+			jdbcType="DATE" />
+			
+		<!-- 课程类型 -->
+		<result column="type" property="type" javaType="int"
+			jdbcType="INTEGER" />
+
+		<!-- 实验课程信息 -->
+		<association property="experimentCourse" javaType="ExperimentCourse">
+			<id column="course_id" property="experimentCourseId" javaType="int"
+				jdbcType="INTEGER" />
+			<result column="course_name" property="courseName" javaType="string"
+				jdbcType="VARCHAR" />
+		</association>
+
+		<!--老师 信息 -->
+		<association property="author" javaType="TeacherInfo">
+			<id column="author_id" property="id" javaType="int" jdbcType="INTEGER" />
+			<result column="teacher_name" property="name" javaType="string"
+				jdbcType="VARCHAR" />
+			<result column="image_path" property="imagePath" javaType="string"
+				jdbcType="VARCHAR" />
+			<!-- 院系 -->
+			<association property="department" javaType="Department">
+				<id column="department_id" property="id" />
+				<result column="dname" property="name" javaType="string"
+					jdbcType="VARCHAR" />
+			</association>
+		</association>
+
+	</resultMap>
+
+	<!--课程表映射 -->
+	<resultMap type="CourseSchedule" id="schedule_course_teacher_map"
+		autoMapping="true">
+		<id column="schedule_id" property="scheduleId" />
+		<association property="experimentCourse" javaType="ExperimentCourse">
+			<id column="course_id" property="experimentCourseId" javaType="int"
+				jdbcType="INTEGER" />
+			<result column="course_name" property="courseName" javaType="string"
+				jdbcType="VARCHAR" />
+		</association>
+
+		<!--老师 信息 -->
+		<association property="teacherInfo" javaType="TeacherInfo">
+			<id column="author_id" property="id" javaType="int" jdbcType="INTEGER" />
+			<result column="teacher_name" property="name" javaType="string"
+				jdbcType="VARCHAR" />
+			<result column="image_path" property="imagePath" javaType="string"
+				jdbcType="VARCHAR" />
+			<!-- 院系 -->
+		<association property="department" javaType="Department">
+				<id column="department_id" property="id" />
+				<result column="dname" property="name" javaType="string"
+					jdbcType="VARCHAR" />
+		</association>
+		</association>
+		
+		<!-- 自主预约表 -->
+		<association property="scourseStudent" javaType="ScourseStudent">
+				<id column="scourse_student_id" property="scourseStudentId" />
+				<result column="lab_myseat" property="labMyseat" javaType="INTEGER"
+				jdbcType="INTEGER" />
+		</association>
+
+		<!-- 实验室的信息 -->
+		<association property="experimentLab" javaType="ExperimentLab">
+			<!--实验室Id -->
+			<id column="lab_id" property="labId" javaType="int" jdbcType="INTEGER"></id>
+			<!-- 实验室编号 -->
+			<result column="lab_number" property="labNumber" javaType="string" jdbcType="VARCHAR" />
+			
+			<!-- 实验室名称 -->
+			<result column="lab_name" property="labName" javaType="string"
+				jdbcType="VARCHAR" />
+			<!-- 实验室管理员 -->
+			<result column="thname" property="thManager" javaType="string"
+				jdbcType="VARCHAR" />
+			<!-- 实验室封面 -->
+			<result column="lab_img" property="labImg"></result>
+			<!-- 实验室网关用来判断是什么实验室 -->
+			<result column="mainframe_id" property="mainframeId" javaType="string"
+				jdbcType="VARCHAR" />
+			<!-- 实验室工位 -->
+			<result column="lab_seat" property="labSeat" javaType="int"
+				jdbcType="INTEGER" />
+
+		</association>
+
+		<!-- 实验信息 -->
+		<association property="experiment" javaType="Experiment">
+			<id column="experiment_id" property="experimentId" javaType="int"
+				jdbcType="INTEGER" />
+			<result column="experiment_name" property="experimentName"
+				javaType="string" jdbcType="VARCHAR" />
+			<result column="standard_identify" property="standardIdentify"
+				javaType="string" jdbcType="VARCHAR" />
+			<result column="experiment_presentation" property="experimentPresentation"
+				javaType="string" jdbcType="VARCHAR" />
+		 	<result column="level" property="level"
+				javaType="INTEGER" jdbcType="INTEGER" />
+		</association>
+			
+		<!-- 所属课程下的老师 -->
+		<!--任课教师 -->
+ 	    <collection property="teacherInfoList"   ofType="TeacherInfo" javaType="ArrayList" >
+ 	              <id column="th_id" property="id"/>
+ 	              <result column="thname" property="name" javaType="string"
+				  jdbcType="VARCHAR"/>
+ 	              <result column="dname" property="departmentTh" javaType="string"
+				  jdbcType="VARCHAR" />
+				   <result column="dimage_path" property="imagePath" javaType="string"
+				  jdbcType="VARCHAR" />
+ 	    </collection>
+	</resultMap>
+
+		<!--根据班级获取全部课程表  -->
+		<select id="AselectMyHomeScheduleByLabId" resultMap="schedule_course_teacher_map">
+	 	<!-- SELECT * FROM course_schedule AS cs
+		INNER JOIN (SELECT class_id,schedule_id FROM schedule_class WHERE stealth =
+		2 )AS sc ON sc.schedule_id = cs.schedule_id
+		INNER JOIN (SELECT * FROM experiment_course
+		WHERE stealth = 2 )AS ex ON ex.experiment_course_id = cs.course_id
+		INNER JOIN (SELECT * FROM
+		experiment WHERE experiment_type = 3 AND stealth = 2 ) AS e ON
+		e.experiment_id = cs.experiment_id
+		INNER JOIN (SELECT id ,NAME teacher_name ,image_path FROM teacher_info )AS th ON th.id
+		= e.author_id
+		INNER JOIN (SELECT *  FROM experiment_lab WHERE stealth =2 )
+		AS el ON el.lab_id = cs.lab_id
+		INNER JOIN experiment_course_teacher AS et ON et.experiment_course_id = ex.experiment_course_id
+		INNER JOIN (SELECT id th_id ,NAME thname ,department_id ,image_path dimage_path FROM teacher_info ) AS thd ON thd.th_id= et.teacher_info_id
+		INNER JOIN (SELECT NAME dname,id FROM department WHERE stealth = 2) AS d ON d.id = thd.department_id 
+		WHERE cs.stealth = 2 -->
+		SELECT * FROM course_schedule AS cs
+		INNER JOIN (SELECT class_id,schedule_id FROM schedule_class WHERE stealth =
+		2 )AS sc ON sc.schedule_id = cs.schedule_id
+		INNER JOIN (SELECT experiment_course_id,number,course_name,stealth FROM experiment_course
+		WHERE stealth = 2 AND is_publish = 2 )AS ex ON ex.experiment_course_id = cs.course_id
+		INNER JOIN (SELECT experiment_id,experiment_name,author_id, stealth FROM
+		experiment WHERE experiment_type = 3 AND stealth = 2 ) AS e ON
+		e.experiment_id = cs.experiment_id
+		INNER JOIN (SELECT id ,NAME teacher_name ,image_path,department_id FROM teacher_info )AS th ON th.id
+		= cs.operator_id
+		INNER JOIN (SELECT lab_number,lab_name,lab_id,stealth  FROM experiment_lab WHERE stealth =2 )
+		AS el ON el.lab_id = cs.lab_id 
+		WHERE cs.stealth = 2
+		<if test="classId != null">AND sc.class_id = #{classId}  </if>
+		<if test="startTime != null"> AND cs.schooltime BETWEEN #{startTime} AND #{endTime} </if>
+		<if test="type == null">AND cs.type = 1  </if>
+		<if test="type != null">AND cs.type = 3     </if>
+		 GROUP BY cs.schedule_id
+		<if test="startRow != null">limit #{startRow},#{pageSize}</if>
+	 </select>
+	 <!-- 获取可预约 改为根据 初始化后的课程表成绩进行查询，过期的不查询  -->
+	<select id="MyReservation" resultMap="schedule_course_teacher_map">
+		<!-- SELECT * FROM course_schedule AS cs
+		INNER JOIN (SELECT * FROM schedule_class WHERE stealth =
+		2 )AS sc ON sc.schedule_id = cs.schedule_id
+		INNER JOIN (SELECT * FROM experiment_course
+		WHERE stealth = 2 )AS ex ON ex.experiment_course_id = cs.course_id
+		INNER JOIN (SELECT * FROM
+		experiment WHERE experiment_type = 3 AND stealth = 2 ) AS e ON
+		e.experiment_id = cs.experiment_id
+		INNER JOIN (SELECT id ,NAME teacher_name ,image_path ,department_id FROM teacher_info )AS th ON th.id 
+		= e.author_id
+		INNER JOIN (SELECT *  FROM experiment_lab WHERE stealth =2 )
+		AS el ON el.lab_id = cs.lab_id
+		INNER JOIN (SELECT id,NAME AS dname FROM department)AS d ON d.id = th.department_id
+		WHERE cs.stealth = 2 AND sc.class_id = #{classId} AND cs.type = 3 
+		AND cs.schooltime BETWEEN #{startTime} AND #{endTime} 
+		HAVING cs.schedule_id NOT IN 
+		(
+		SELECT schedule_id FROM
+		scourse_student
+		WHERE student_id =#{studentId}
+		) -->
+		 SELECT b.*,e.experiment_name,f.course_name,g.name AS teacher_name,h.lab_name,d.dname,h.lab_number
+          FROM ( SELECT a.*, (SELECT COUNT(c.schedule_id) FROM scourse_student AS c WHERE c.student_id = #{studentId} AND c.schedule_id = a.schedule_id ) AS option_status
+          FROM course_schedule AS a WHERE  a.type = 3 AND a.stealth = 2 AND
+            a.schooltime >= CURDATE() AND
+            a.course_id IN (
+            SELECT b.experiment_course_id FROM experiment_course_class AS b WHERE b.tb_class_id = #{classId}
+            )) AS b
+        LEFT JOIN experiment AS e ON e.experiment_id = b.experiment_id
+        LEFT JOIN (SELECT * FROM experiment_course WHERE stealth = 2 AND is_publish = 2 ) AS f ON f.experiment_course_id = b.course_id
+        LEFT JOIN teacher_info AS g ON g.id = b.operator_id
+        LEFT JOIN experiment_lab AS h ON h.lab_id = b.lab_id
+		LEFT JOIN (SELECT id,NAME AS dname FROM department)AS d ON d.id = g.department_id
+		HAVING b.schedule_id NOT IN 
+		(
+		SELECT schedule_id FROM
+		scourse_student
+		WHERE student_id =#{studentId}
+		)
+		
+		limit #{startRow},#{pageSize}
+	 </select> 
+
+	<!-- 我的预约课程 -->
+	<select id="studentAppointmentList" resultMap="schedule_course_teacher_map">
+		<!-- SELECT * FROM course_schedule AS cs
+			INNER JOIN (SELECT scourse_student_id,schedule_id ,student_id,lab_myseat FROM scourse_student )AS s ON
+			s.schedule_id = cs.schedule_id
+			INNER JOIN (SELECT * FROM experiment_course
+			WHERE stealth = 2 )AS ex ON ex.experiment_course_id = cs.course_id
+			INNER JOIN (SELECT * FROM
+			experiment WHERE experiment_type = 3 AND stealth = 2 ) AS e ON
+			e.experiment_id = cs.experiment_id
+			INNER JOIN (SELECT id ,NAME teacher_name ,image_path ,department_id FROM teacher_info )AS th ON th.id 
+			= e.author_id
+			INNER JOIN experiment_course_teacher AS et ON et.experiment_course_id = ex.experiment_course_id
+			INNER JOIN (SELECT id,NAME AS dname FROM department)AS d ON d.id = th.department_id
+			INNER JOIN (SELECT * FROM experiment_lab WHERE stealth =2 )
+			AS el ON el.lab_id = cs.lab_id
+			WHERE cs.stealth = 2 
+			AND cs.type = 3 -->
+			SELECT * FROM course_schedule AS cs
+			INNER JOIN (SELECT scourse_student_id,schedule_id ,student_id,lab_myseat FROM scourse_student )AS s ON
+			s.schedule_id = cs.schedule_id
+			INNER JOIN (SELECT experiment_course_id,number,course_name,stealth FROM experiment_course
+			WHERE stealth = 2 AND is_publish = 2 )AS ex ON ex.experiment_course_id = cs.course_id
+			INNER JOIN (SELECT experiment_id,experiment_name,author_id, stealth FROM
+			experiment WHERE experiment_type = 3 AND stealth = 2 ) AS e ON
+			e.experiment_id = cs.experiment_id
+			INNER JOIN (SELECT id ,NAME teacher_name ,image_path ,department_id FROM teacher_info )AS th ON th.id 
+			= cs.operator_id
+			INNER JOIN (SELECT id,NAME AS dname FROM department)AS d ON d.id = th.department_id
+			INNER JOIN (SELECT lab_number,lab_name,lab_id,stealth  FROM experiment_lab WHERE stealth =2 )
+			AS el ON el.lab_id = cs.lab_id
+			WHERE cs.stealth = 2 AND cs.type = 3 
+		<if test="studentId != null">AND s.student_id = #{studentId}  </if>
+		<if test="startTime != null"> AND cs.schooltime BETWEEN #{startTime} AND #{endTime} </if>
+		GROUP BY cs.schedule_id
+		<if test="type != null">limit #{startRow},#{pageSize}</if>
+	</select>
+
+	<!-- 获取学生课程总数 显示 公开？（需要加上公开字段） -->
+	<select id="countExperimenTcourse" resultType="Integer">
+		SELECT COUNT(*) FROM experiment_course_class cs
+		INNER JOIN experiment_course AS ex ON ex.experiment_course_id =
+		cs.experiment_course_id
+		WHERE ex.stealth = 2 AND cs.is_publish = 2 AND ex.is_publish = 2
+		<if test="classId != null">AND cs.tb_class_id = #{classId}  </if>
+	</select>
+
+	<!-- 获取学生课程下的实验 -->
+	<select id="countexperimentList" resultType="Integer">
+		SELECT COUNT(*) FROM experiment_course_class cs
+		INNER JOIN experiment_course AS ex ON ex.experiment_course_id =
+		cs.experiment_course_id
+		INNER JOIN course_experiment AS ce ON ce.experiment_course_id =
+		ex.experiment_course_id
+		INNER JOIN experiment AS e ON e.experiment_id = ce.experiment_id
+		WHERE ex.stealth = 2 AND e.stealth = 2 AND e.experiment_type = 3 AND ex.is_publish = 2
+		<if test="classId != null">AND cs.tb_class_id = #{classId} </if>
+
+	</select>
+	
+	<!-- 实验相关信息 根据实验Id 获取实验的信息 -->
+	<select id="finallExperimentList" resultMap="finallExperimentListmap">
+		SELECT * FROM experiment AS e
+		INNER JOIN course_experiment AS ce ON ce.experiment_id = e.experiment_id
+		INNER JOIN (SELECT experiment_course_id,course_name FROM
+		experiment_course WHERE stealth = 2 AND is_publish = 2 )AS ex ON ex.experiment_course_id
+		= ce.experiment_course_id
+		INNER JOIN (SELECT id ,NAME teacher_name,department_id ,image_path FROM
+		teacher_info )AS th ON th.id = e.author_id
+		INNER JOIN (SELECT NAME dname,id FROM department WHERE stealth = 2 ) AS d
+		ON d.id = th.department_id
+		INNER JOIN (SELECT experiment_id,slice ,schooltime,schedule_id ,type FROM course_schedule
+		WHERE stealth = 2 ) AS cs ON cs.experiment_id = e.experiment_id
+		WHERE e.experiment_type = 3 AND e.stealth = 2
+		<if test="experimentId != null">AND e.experiment_id = #{experimentId}  </if>
+		<if test="scheduleId != null">AND cs.schedule_id = #{scheduleId} </if>
+		GROUP BY e.experiment_id
+	</select>
+	<!-- 获取实验的管理员 -->
+	<select id="finAllExperimentLabManager" resultMap="finAllExperimentLabManager_mp">
+		SELECT * FROM lab_manager AS la
+		INNER JOIN (SELECT id ,NAME thname FROM teacher_info )AS th ON th.id =
+		la.manager_id
+		WHERE
+		<if test="labId != null"> la.lad_id = #{labId} </if>
+	</select>
+
+	<!-- 课程表Id 获取 课程下的班级 -->
+	<select id="finAllscheduleClassList" resultMap="finAllscheduleClassList_mp">
+		SELECT * FROM schedule_class AS sc
+		LEFT JOIN (SELECT id,NAME tbname FROM tb_class )AS tb ON tb.id =
+		sc.class_id
+		WHERE sc.stealth = 2
+		<if test="scheduleId != null">AND sc.schedule_id = #{scheduleId} </if>
+		GROUP BY sc.schedule_class_id
+	</select>
+	
+	<!-- 实验Id 获取 实验资源明细 -->
+	<select id="selectExperimentByExperimentId" resultMap="selectExperimentByExperimentId_mp">
+	SELECT * FROM  experiment_file  AS ef
+	INNER JOIN resource_file AS rf ON rf.file_id = ef.resource_file_id
+ 	WHERE rf.stealth  = 2
+ 	<if test="experimentId != null">AND ef.experiment_id = #{experimentId} </if>
+	</select>
+	
+	<!-- 学生班级获取可自主预约的实验总数 此查询并不获取被被删除过的课程与实验 -->
+		<select id="finAllMyReservableExperimentList" resultType="Integer" >
+		<!-- SELECT COUNT(*) FROM course_schedule AS cs
+		INNER JOIN (SELECT class_id,schedule_id FROM schedule_class WHERE stealth = 2 )
+		AS sc ON sc.schedule_id = cs.schedule_id
+		INNER JOIN (SELECT * FROM experiment_course
+		WHERE stealth = 2 )AS ex ON ex.experiment_course_id = cs.course_id
+		INNER JOIN (SELECT * FROM
+		experiment WHERE experiment_type = 3 AND stealth = 2 ) AS e ON
+		e.experiment_id = cs.experiment_id
+		INNER JOIN (SELECT id ,NAME teacher_name ,image_path ,department_id FROM teacher_info )AS th ON th.id 
+		= e.author_id
+		INNER JOIN (SELECT id,NAME AS dname FROM department)AS d ON d.id = th.department_id
+		INNER JOIN (SELECT * FROM experiment_lab WHERE stealth =2 )
+		AS el ON el.lab_id = cs.lab_id
+		WHERE cs.stealth = 2  -->
+		<!-- SELECT COUNT(*) FROM course_schedule AS cs
+		INNER JOIN (SELECT class_id,schedule_id FROM schedule_class WHERE stealth =
+		2 )AS sc ON sc.schedule_id = cs.schedule_id
+		INNER JOIN (SELECT experiment_course_id,number,course_name,stealth FROM experiment_course
+		WHERE stealth = 2 )AS ex ON ex.experiment_course_id = cs.course_id
+		INNER JOIN (SELECT experiment_id,experiment_name,author_id, stealth FROM
+		experiment WHERE experiment_type = 3 AND stealth = 2 ) AS e ON
+		e.experiment_id = cs.experiment_id
+		INNER JOIN (SELECT id ,NAME teacher_name ,image_path,department_id FROM teacher_info )AS th ON th.id
+		= cs.operator_id
+		INNER JOIN (SELECT lab_number,lab_name,lab_id,stealth  FROM experiment_lab WHERE stealth =2 )
+		AS el ON el.lab_id = cs.lab_id
+		WHERE cs.stealth = 2 
+		类型为空获取  整班上课以及 自主预约
+	<if test="type==null"> AND cs.type IN (1,3) </if>
+	<if test="type!=null">AND cs.type = 3 </if>
+	<if test="tbClassId != null">AND sc.class_id  = #{tbClassId} </if>
+	<if test="startTime != null"> AND cs.schooltime BETWEEN #{startTime} AND #{endTime} </if> -->
+	 SELECT COUNT(*)
+     FROM ( SELECT a.*, (SELECT COUNT(c.schedule_id) FROM scourse_student AS c WHERE c.student_id = #{studentId} AND c.schedule_id = a.schedule_id ) AS option_status
+     FROM course_schedule AS a WHERE  a.type = 3 AND a.stealth = 2 AND
+     a.schooltime >= CURDATE() AND
+     a.course_id IN (
+     SELECT b.experiment_course_id FROM experiment_course_class AS b WHERE b.tb_class_id = #{tbClassId}
+     )) AS d
+     LEFT JOIN experiment AS e ON e.experiment_id = d.experiment_id
+     LEFT JOIN (select * from experiment_course where stealth = 2 and is_publish = 2 ) AS f ON f.experiment_course_id = d.course_id
+     LEFT JOIN teacher_info AS g ON g.id = d.operator_id
+    LEFT JOIN experiment_lab AS h ON h.lab_id = d.lab_id
+    WHERE d.schedule_id  NOT IN 
+		(
+		SELECT schedule_id FROM
+		scourse_student
+		WHERE student_id =#{studentId}
+	)
+	</select>
+	
+	<!-- 学生id获取可已经预约的实验总数 -->
+	<select id="finAllMyReservableExperiment" resultType="Integer" >
+
+	SELECT COUNT(*) FROM course_schedule AS cs
+	INNER JOIN (SELECT scourse_student_id,schedule_id ,student_id,lab_myseat FROM scourse_student )AS s ON
+	s.schedule_id = cs.schedule_id
+	INNER JOIN (SELECT experiment_course_id,number,course_name,stealth FROM experiment_course
+	WHERE stealth = 2 AND is_publish = 2)AS ex ON ex.experiment_course_id = cs.course_id
+	INNER JOIN (SELECT experiment_id,experiment_name,author_id, stealth FROM
+	experiment WHERE experiment_type = 3 AND stealth = 2 ) AS e ON
+	e.experiment_id = cs.experiment_id
+	INNER JOIN (SELECT id ,NAME teacher_name ,image_path ,department_id FROM teacher_info )AS th ON th.id 
+	= cs.operator_id
+	INNER JOIN (SELECT id,NAME AS dname FROM department)AS d ON d.id = th.department_id
+	INNER JOIN (SELECT lab_number,lab_name,lab_id,stealth  FROM experiment_lab WHERE stealth =2 )
+	AS el ON el.lab_id = cs.lab_id
+	WHERE cs.stealth = 2 
+	AND cs.type = 3 
+	
+	<if test="studentId != null">AND student_id =  #{studentId} </if>
+	<if test="startTime != null"> AND cs.schooltime BETWEEN #{startTime} AND #{endTime} </if>
+	</select>
+	
+	<!-- 获取我已经预约过的课程(包含历史记录)  不查询被删除课程以及 实验 -->
+	<select id="countList" resultType="Integer" >
+		SELECT COUNT(*) FROM course_schedule AS cs
+			INNER JOIN (SELECT scourse_student_id,schedule_id ,student_id,lab_myseat FROM scourse_student )AS s ON
+			s.schedule_id = cs.schedule_id
+			INNER JOIN (SELECT experiment_course_id,number,course_name,stealth FROM experiment_course
+			WHERE stealth = 2 AND is_publish = 2 )AS ex ON ex.experiment_course_id = cs.course_id
+			INNER JOIN (SELECT experiment_id,experiment_name,author_id, stealth FROM
+			experiment WHERE experiment_type = 3 AND stealth = 2 ) AS e ON
+			e.experiment_id = cs.experiment_id
+			INNER JOIN (SELECT id ,NAME teacher_name ,image_path ,department_id FROM teacher_info )AS th ON th.id 
+			= cs.operator_id
+			INNER JOIN (SELECT id,NAME AS dname FROM department)AS d ON d.id = th.department_id
+			INNER JOIN (SELECT lab_number,lab_name,lab_id,stealth  FROM experiment_lab WHERE stealth =2 )
+			AS el ON el.lab_id = cs.lab_id
+			WHERE cs.stealth = 2 
+			AND cs.type = 3 
+		<if test="studentId != null">AND s.student_id = #{studentId}  </if>
+	</select>
+	
+	<!-- 获取实物实验的总资源 -->
+	<select id="totalResources" resultMap="totalResources_mp">
+	<!-- SELECT * FROM  resource_file AS rf
+	INNER JOIN (SELECT * FROM  experiment_file ) AS ef ON  ef.resource_file_id =  rf.file_id 
+	INNER JOIN  (SELECT experiment_id,experiment_type ,stealth FROM experiment)  AS e ON e.experiment_id = ef.experiment_id
+	INNER JOIN (SELECT library_id,library_name ,stealth FROM resource_library ) AS ry ON ry.library_id =  rf.library_id
+	INNER JOIN (SELECT id,department_id,NAME th_name FROM teacher_info) AS th ON th.id = rf.author_id
+	INNER JOIN (SELECT NAME dname ,id,stealth FROM department ) AS d ON d.id = th.department_id
+	WHERE e.stealth = 2 AND ry.stealth = 2 AND rf.stealth = 2 AND d.stealth = 2 -->
+	SELECT * FROM  resource_file AS rf
+	INNER JOIN (SELECT * FROM  experiment_file ) AS ef ON  ef.resource_file_id =  rf.file_id 
+	INNER JOIN  (SELECT experiment_id,experiment_name,experiment_type ,stealth FROM experiment)  AS e ON e.experiment_id = ef.experiment_id
+	INNER JOIN (SELECT id,department_id,NAME th_name FROM teacher_info where department_id = #{departmentId}) AS th ON th.id = rf.author_id
+	INNER JOIN (SELECT NAME dname ,id,stealth FROM department ) AS d ON d.id = th.department_id
+	INNER JOIN (SELECT * FROM course_experiment)AS ce ON ce.experiment_id = e.experiment_id
+	INNER JOIN (SELECT experiment_course_id exnId,department_id,number,course_name ,stealth From experiment_course where  is_publish = 2  ) AS exn ON exn.exnId = ce.experiment_course_id 
+	WHERE e.stealth = 2 AND rf.stealth = 2 AND d.stealth = 2 AND exn.stealth = 2 AND rf.open_status =3
+	<if test="type != null">AND e.experiment_type = #{type} </if>
+	GROUP BY file_id DESC
+	</select>
+	
+	<!-- 获取学生的预约的课程表明细 -->
+	<select id="selectStudentCourseSchedule" resultMap="schedule_course_teacher_map">
+	SELECT * FROM course_schedule AS cs
+	LEFT JOIN (SELECT class_id,schedule_id FROM schedule_class WHERE stealth =
+	2 )AS sc ON sc.schedule_id = cs.schedule_id
+	LEFT JOIN (SELECT experiment_course_id,number,course_name,stealth FROM experiment_course
+	WHERE stealth = 2 AND is_publish = 2 )AS ex ON ex.experiment_course_id = cs.course_id
+	LEFT JOIN (SELECT experiment_id,experiment_name,author_id, stealth FROM
+	experiment WHERE experiment_type = 3 AND stealth = 2 ) AS e ON
+	e.experiment_id = cs.experiment_id
+	LEFT JOIN (SELECT id ,NAME teacher_name ,image_path,department_id FROM teacher_info )AS th ON th.id
+	= cs.operator_id
+	LEFT JOIN (SELECT lab_number,lab_name,lab_id,stealth  FROM experiment_lab WHERE stealth =2 )
+	AS el ON el.lab_id = cs.lab_id 
+	WHERE cs.stealth = 2  AND cs.type = 3     AND cs.schedule_id = #{scheduleId}
+	GROUP BY cs.schedule_id
+	</select>
+	
+	
+
+	
+	<!-- 我的实验信息 -->
+	<resultMap type="com.vcooc.base.pojo.StudentExperimentResult" id="student_experment-list-map" autoMapping="true">
+		<result column="experimentName" property="experimentName" javaType="string"
+				jdbcType="VARCHAR" />
+		<result column="courseName" property="courseName" javaType="string"
+				jdbcType="VARCHAR" />
+		<result column="type" property="experimentType" javaType="string"
+				jdbcType="VARCHAR" />
+		<result column="level" property="level" javaType="string"
+				jdbcType="VARCHAR" />
+		<result column="schooltime" property="schoolTime" javaType="string"
+				jdbcType="VARCHAR" />
+		<result column="slice" property="slice" javaType="string"
+				jdbcType="VARCHAR" />
+		<result column="labName" property="labName" javaType="string"
+				jdbcType="VARCHAR" />
+		<result column="labId" property="labId" javaType="int"
+				jdbcType="INTEGER" />
+		<result column="scheduleId" property="scheduleId" javaType="int"
+				jdbcType="INTEGER" />
+		<result column="studentId" property="studentId" javaType="int"
+				jdbcType="INTEGER" />
+		<result column="experimentId" property="experimentId" javaType="int"
+				jdbcType="INTEGER" />
+		<result column="experimentCourseId" property="experimentCourseId" javaType="int"
+			jdbcType="INTEGER" />
+		<result column="submit_status" property="submitStatus" javaType="int"
+			jdbcType="INTEGER" />
+		<!--任课教师 -->
+ 	    <collection property="teacherMsgList"  ofType="com.vcooc.base.pojo.TeacherMsgResult" column="experimentId" javaType="ArrayList"
+ 	    		select="com.vcooc.experiment.mapper.StudentHomeMapper.selectCourseTeacherByExperimentId">
+ 	              <id column="teacher_id" property="id"/>
+ 	              <result column="teacherName" property="teacherName" javaType="string"
+				  jdbcType="VARCHAR"/>
+ 	              <result column="departMentName" property="departMentName" javaType="string"
+				  jdbcType="VARCHAR" />
+				   <result column="imagePath" property="imagePath" javaType="string"
+				  jdbcType="VARCHAR" />
+ 	    </collection>
+	</resultMap>
+	
+	<!--根据实验课程ID，查询任课教师信息  -->
+	<select id="selectCourseTeacherByCourseId" resultType="com.vcooc.base.pojo.TeacherMsgResult" parameterType="int">
+		SELECT
+			ti.`name` as teacherName,
+			d.`name` as departMentName,
+			ti.image_path   as imagePath
+		FROM
+			teacher_info AS ti
+		LEFT JOIN department d ON ti.department_id = d.id
+		WHERE
+			ti.id IN (
+				SELECT
+					teacher_info_id
+				FROM
+					experiment_course_teacher
+				WHERE
+					experiment_course_id = #{experimentCourseId} 
+		)
+	</select>
+	
+		<!--根据实验课程ID，查询任课教师信息  -->
+	<select id="selectCourseTeacherByExperimentId" resultType="com.vcooc.base.pojo.TeacherMsgResult" parameterType="int">
+		SELECT
+			ti.`name` as teacherName,
+			d.`name` as departMentName,
+			ti.image_path   as imagePath
+		FROM
+			teacher_info AS ti
+		LEFT JOIN department d ON ti.department_id = d.id
+		WHERE
+			ti.id IN (
+				SELECT
+					author_id
+				FROM
+					experiment
+				WHERE
+					experiment_id = #{experimentId} 
+		)
+	</select>
+ 	
+ 	<!-- 根据学生Id查询学生的实验信息列表 -->
+ 	<select id="findStudentExperimentList" resultMap="student_experment-list-map">
+		<if test="type==1 || type==0">
+			SELECT
+				ec.course_name AS courseName,
+				DATE_FORMAT(cs.schooltime,'%Y-%m-%d') as schooltime,
+				CASE
+					WHEN cs.slice = 'A' THEN '上午第1-2节'
+					WHEN cs.slice = 'B' THEN '下午第3-4节'
+					WHEN cs.slice = 'C' THEN '午休'
+					WHEN cs.slice = 'D' THEN '下午第5-6节'
+					WHEN cs.slice = 'E' THEN '下午第7-8节'
+					WHEN cs.slice = 'F' THEN '晚上第9-10节'
+				ELSE cs.slice
+				END AS slice,
+				CASE
+				WHEN cs.type = 1 THEN '整班上课'
+				WHEN cs.type = 3 THEN '自主预约'
+				ELSE cs.type
+				END  AS `type`,
+				expl.lab_name AS labName,
+				e.experiment_name AS experimentName,
+				CASE 
+				WHEN e.`level`=1 THEN '容易'
+				WHEN e.`level`=2 THEN '适中'
+				WHEN e.`level`=3 THEN '困难'
+				ELSE e.`level`
+				END AS `level`,
+				cs.course_id as experimentCourseId,
+				cs.lab_id AS labId,
+				cs.schedule_id as scheduleId,
+				stui.id AS studentId,
+				cs.experiment_id AS experimentId
+				,ss.submit_status
+			
+			FROM
+				student_info AS stui
+			INNER JOIN schedule_class ccs ON  ccs.class_id = stui.tb_class_id ##课程班级表
+			INNER JOIN (SELECT experiment_id,schedule_id,type,course_id,lab_id,schooltime,slice,class_id from course_schedule WHERE stealth =2 )AS cs ON ccs.schedule_id = cs.schedule_id
+			INNER JOIN experiment_course AS ec ON ec.experiment_course_id = cs.course_id   ##实验课程表
+			INNER JOIN (SELECT * from experiment WHERE stealth =2  AND experiment_type =3)AS e ON cs.experiment_id = e.experiment_id
+			INNER JOIN (SELECT * from experiment_lab WHERE stealth =2) AS expl ON cs.lab_id = expl.lab_id
+			INNER JOIN  (select submit_status ,submitter_id ,schedule_id from schedule_student_score WHERE submitter_id = #{studentId}) AS ss on ss.schedule_id = cs.schedule_id 
+			
+				WHERE
+					 stui.id = #{studentId}
+				AND cs.type =1  AND ec.is_publish = 2
+		</if>
+		
+		<if test="type==1">
+			order by schooltime  ASC ,slice ASC
+		</if>
+		<if test="type==0">
+			UNION
+		</if>
+		<if test="type==0 || type==3">
+		
+				SELECT
+				ec.course_name AS courseName,
+				DATE_FORMAT(cs.schooltime,'%Y-%m-%d') as schooltime,
+				CASE
+					WHEN cs.slice = 'A' THEN '上午第1-2节'
+					WHEN cs.slice = 'B' THEN '下午第3-4节'
+					WHEN cs.slice = 'C' THEN '午休'
+					WHEN cs.slice = 'D' THEN '下午第5-6节'
+					WHEN cs.slice = 'E' THEN '下午第7-8节'
+					WHEN cs.slice = 'F' THEN '晚上第9-10节'
+				ELSE cs.slice
+				END AS slice,
+				CASE
+				WHEN cs.type = 1 THEN '整班上课'
+				WHEN cs.type = 3 THEN '自主预约'
+				ELSE cs.type
+				END  AS `type`,
+				expl.lab_name AS labName,
+				e.experiment_name AS experimentName,
+				CASE 
+					WHEN e.`level`=1 THEN '容易'
+					WHEN e.`level`=2 THEN '适中'
+					WHEN e.`level`=3 THEN '困难' 
+					ELSE e.`level`
+				END  AS `level`,
+				cs.course_id as experimentCourseId,
+				cs.lab_id AS labId,
+				cs.schedule_id as scheduleId,
+				ss.student_id AS studentId,
+				cs.experiment_id AS experimentId
+				,sss.submit_status
+			FROM
+				scourse_student AS ss
+			INNER JOIN (SELECT experiment_id,schedule_id,type,course_id,lab_id,schooltime,slice,class_id from course_schedule WHERE stealth =2 )AS cs ON ss.schedule_id = cs.schedule_id
+			INNER JOIN (SELECT * from experiment_lab WHERE stealth =2) AS expl ON cs.lab_id = expl.lab_id
+		    INNER JOIN (SELECT * from experiment WHERE stealth =2  AND experiment_type =3)AS e ON cs.experiment_id = e.experiment_id
+			INNER JOIN (SELECT * FROM experiment_course WHERE stealth =2  )as ec ON  cs.course_id =ec.experiment_course_id
+			INNER JOIN  (select submit_status ,submitter_id ,schedule_id from schedule_student_score WHERE submitter_id = #{studentId}) AS sss on sss.schedule_id = cs.schedule_id 
+			
+			WHERE
+				ss.student_id = #{studentId}
+				AND cs.type =3  AND ec.is_publish = 2
+			order by schooltime  ASC ,slice ASC
+		</if>
+		
+		limit #{startRow},#{pageSize}
+ 	</select>
+ 	
+	 <select id="findStudentExperimentListTwo" resultMap="student_experment-list-map">
+	 		<if test="type==20">
+			SELECT
+				ec.course_name AS courseName,
+				DATE_FORMAT(cs.schooltime,'%Y-%m-%d') as schooltime,
+				CASE
+					WHEN cs.slice = 'A' THEN '上午第1-2节'
+					WHEN cs.slice = 'B' THEN '下午第3-4节'
+					WHEN cs.slice = 'C' THEN '午休'
+					WHEN cs.slice = 'D' THEN '下午第5-6节'
+					WHEN cs.slice = 'E' THEN '下午第7-8节'
+					WHEN cs.slice = 'F' THEN '晚上第9-10节'
+				ELSE cs.slice
+				END AS slice,
+				CASE
+				WHEN cs.type = 1 THEN '整班上课'
+				WHEN cs.type = 3 THEN '自主预约'
+				ELSE cs.type
+				END  AS `type`,
+				expl.lab_name AS labName,
+				e.experiment_name AS experimentName,
+				CASE 
+				WHEN e.`level`=1 THEN '容易'
+				WHEN e.`level`=2 THEN '适中'
+				WHEN e.`level`=3 THEN '困难'
+				ELSE e.`level`
+				END AS `level`,
+				cs.course_id as experimentCourseId,
+				cs.lab_id AS labId,
+				cs.schedule_id as scheduleId,
+				stui.id AS studentId,
+				cs.experiment_id AS experimentId
+				,ss.submit_status
+			
+			FROM
+				student_info AS stui
+			INNER JOIN schedule_class ccs ON  ccs.class_id = stui.tb_class_id ##课程班级表
+			INNER JOIN (SELECT experiment_id,schedule_id,type,course_id,lab_id,schooltime,slice,class_id from course_schedule WHERE stealth =2 )AS cs ON ccs.schedule_id = cs.schedule_id
+			INNER JOIN experiment_course AS ec ON ec.experiment_course_id = cs.course_id   ##实验课程表
+			INNER JOIN (SELECT * from experiment WHERE stealth =2  AND experiment_type =3)AS e ON cs.experiment_id = e.experiment_id
+			INNER JOIN (SELECT * from experiment_lab WHERE stealth =2) AS expl ON cs.lab_id = expl.lab_id
+			INNER JOIN  (select submit_status ,submitter_id ,schedule_id from schedule_student_score WHERE submitter_id = #{studentId} and submit_status = 3) AS ss on ss.schedule_id = cs.schedule_id 
+			
+			WHERE
+					 stui.id = #{studentId}
+			AND ec.is_publish = 2
+			order by schooltime  ASC ,slice ASC
+		</if>
+		limit #{startRow},#{pageSize}	
+	 </select>
+	 
+	 
+	 <select id="findStudentExperimentListOne" resultMap="student_experment-list-map">
+	 		<if test="type==10">
+SELECT
+				ec.course_name AS courseName,
+				DATE_FORMAT(cs.schooltime,'%Y-%m-%d') as schooltime,
+				CASE
+					WHEN cs.slice = 'A' THEN '上午第1-2节'
+					WHEN cs.slice = 'B' THEN '下午第3-4节'
+					WHEN cs.slice = 'C' THEN '午休'
+					WHEN cs.slice = 'D' THEN '下午第5-6节'
+					WHEN cs.slice = 'E' THEN '下午第7-8节'
+					WHEN cs.slice = 'F' THEN '晚上第9-10节'
+				ELSE cs.slice
+				END AS slice,
+				CASE
+				WHEN cs.type = 1 THEN '整班上课'
+				WHEN cs.type = 3 THEN '自主预约'
+				ELSE cs.type
+				END  AS `type`,
+				expl.lab_name AS labName,
+				e.experiment_name AS experimentName,
+				CASE 
+				WHEN e.`level`=1 THEN '容易'
+				WHEN e.`level`=2 THEN '适中'
+				WHEN e.`level`=3 THEN '困难'
+				ELSE e.`level`
+				END AS `level`,
+				cs.course_id as experimentCourseId,
+				cs.lab_id AS labId,
+				cs.schedule_id as scheduleId,
+				stui.id AS studentId,
+				cs.experiment_id AS experimentId
+				,ss.submit_status
+			
+			FROM
+				student_info AS stui
+			INNER JOIN schedule_class ccs ON  ccs.class_id = stui.tb_class_id ##课程班级表
+			INNER JOIN (SELECT experiment_id,schedule_id,type,course_id,lab_id,schooltime,slice,class_id from course_schedule WHERE stealth =2 )AS cs ON ccs.schedule_id = cs.schedule_id
+			INNER JOIN experiment_course AS ec ON ec.experiment_course_id = cs.course_id   ##实验课程表
+			INNER JOIN (SELECT * from experiment WHERE stealth =2  AND experiment_type =3)AS e ON cs.experiment_id = e.experiment_id
+			INNER JOIN (SELECT * from experiment_lab WHERE stealth =2) AS expl ON cs.lab_id = expl.lab_id
+			INNER JOIN  (select submit_status ,submitter_id ,schedule_id from schedule_student_score WHERE submitter_id = #{studentId} and submit_status = 2) AS ss on ss.schedule_id = cs.schedule_id 
+			
+			WHERE
+					 stui.id = #{studentId}
+			AND ec.is_publish = 2
+			order by schooltime  ASC ,slice ASC
+		</if>
+		limit #{startRow},#{pageSize}	
+	 </select>
+	 
+	  <select id="findStudentExperimentListThree" resultMap="student_experment-list-map">
+	 		<if test="type==30">
+		SELECT
+				ec.course_name AS courseName,
+				DATE_FORMAT(cs.schooltime,'%Y-%m-%d') as schooltime,
+				CASE
+					WHEN cs.slice = 'A' THEN '上午第1-2节'
+					WHEN cs.slice = 'B' THEN '下午第3-4节'
+					WHEN cs.slice = 'C' THEN '午休'
+					WHEN cs.slice = 'D' THEN '下午第5-6节'
+					WHEN cs.slice = 'E' THEN '下午第7-8节'
+					WHEN cs.slice = 'F' THEN '晚上第9-10节'
+				ELSE cs.slice
+				END AS slice,
+				CASE
+				WHEN cs.type = 1 THEN '整班上课'
+				WHEN cs.type = 3 THEN '自主预约'
+				ELSE cs.type
+				END  AS `type`,
+				expl.lab_name AS labName,
+				e.experiment_name AS experimentName,
+				CASE 
+				WHEN e.`level`=1 THEN '容易'
+				WHEN e.`level`=2 THEN '适中'
+				WHEN e.`level`=3 THEN '困难'
+				ELSE e.`level`
+				END AS `level`,
+				cs.course_id as experimentCourseId,
+				cs.lab_id AS labId,
+				cs.schedule_id as scheduleId,
+				stui.id AS studentId,
+				cs.experiment_id AS experimentId
+				,ss.submit_status
+			
+			FROM
+				student_info AS stui
+			INNER JOIN schedule_class ccs ON  ccs.class_id = stui.tb_class_id ##课程班级表
+			INNER JOIN (SELECT experiment_id,schedule_id,type,course_id,lab_id,schooltime,slice,class_id from course_schedule WHERE stealth =2 )AS cs ON ccs.schedule_id = cs.schedule_id
+			INNER JOIN experiment_course AS ec ON ec.experiment_course_id = cs.course_id   ##实验课程表
+			INNER JOIN (SELECT * from experiment WHERE stealth =2  AND experiment_type =3)AS e ON cs.experiment_id = e.experiment_id
+			INNER JOIN (SELECT * from experiment_lab WHERE stealth =2) AS expl ON cs.lab_id = expl.lab_id
+			INNER JOIN  (select submit_status ,submitter_id ,schedule_id from schedule_student_score WHERE submitter_id = #{studentId} AND submit_status in(1,5)) AS ss on ss.schedule_id = cs.schedule_id 
+			
+			WHERE
+					 stui.id = #{studentId}
+			AND cs.type =1  AND ec.is_publish = 2
+		
+			
+			UNION
+		
+			SELECT
+				ec.course_name AS courseName,
+				DATE_FORMAT(cs.schooltime,'%Y-%m-%d') as schooltime,
+				CASE
+					WHEN cs.slice = 'A' THEN '上午第1-2节'
+					WHEN cs.slice = 'B' THEN '下午第3-4节'
+					WHEN cs.slice = 'C' THEN '午休'
+					WHEN cs.slice = 'D' THEN '下午第5-6节'
+					WHEN cs.slice = 'E' THEN '下午第7-8节'
+					WHEN cs.slice = 'F' THEN '晚上第9-10节'
+				ELSE cs.slice
+				END AS slice,
+				CASE
+				WHEN cs.type = 1 THEN '整班上课'
+				WHEN cs.type = 3 THEN '自主预约'
+				ELSE cs.type
+				END  AS `type`,
+				expl.lab_name AS labName,
+				e.experiment_name AS experimentName,
+				CASE 
+					WHEN e.`level`=1 THEN '容易'
+					WHEN e.`level`=2 THEN '适中'
+					WHEN e.`level`=3 THEN '困难' 
+					ELSE e.`level`
+				END  AS `level`,
+				cs.course_id as experimentCourseId,
+				cs.lab_id AS labId,
+				cs.schedule_id as scheduleId,
+				ss.student_id AS studentId,
+				cs.experiment_id AS experimentId
+				,sss.submit_status
+			FROM
+				scourse_student AS ss
+			INNER JOIN (SELECT experiment_id,schedule_id,type,course_id,lab_id,schooltime,slice,class_id from course_schedule WHERE stealth =2 )AS cs ON ss.schedule_id = cs.schedule_id
+			INNER JOIN (SELECT * from experiment_lab WHERE stealth =2) AS expl ON cs.lab_id = expl.lab_id
+		    INNER JOIN (SELECT * from experiment WHERE stealth =2  AND experiment_type =3)AS e ON cs.experiment_id = e.experiment_id
+			INNER JOIN (SELECT * FROM experiment_course WHERE stealth =2  )as ec ON  cs.course_id =ec.experiment_course_id
+			INNER JOIN  (select submit_status ,submitter_id ,schedule_id from schedule_student_score WHERE submitter_id = #{studentId} AND submit_status in(1,5)) AS sss on sss.schedule_id = cs.schedule_id 
+			
+			WHERE
+				ss.student_id = #{studentId}
+				AND cs.type =3  AND ec.is_publish = 2
+			order by schooltime  ASC ,slice ASC
+
+		</if>
+		limit #{startRow},#{pageSize}	
+	 </select>
+	 
+	 
+	 
+	  <select id="findStudentExperimentListFour" resultMap="student_experment-list-map">
+	 		<if test="type==40">
+		SELECT
+				ec.course_name AS courseName,
+				DATE_FORMAT(cs.schooltime,'%Y-%m-%d') as schooltime,
+				CASE
+					WHEN cs.slice = 'A' THEN '上午第1-2节'
+					WHEN cs.slice = 'B' THEN '下午第3-4节'
+					WHEN cs.slice = 'C' THEN '午休'
+					WHEN cs.slice = 'D' THEN '下午第5-6节'
+					WHEN cs.slice = 'E' THEN '下午第7-8节'
+					WHEN cs.slice = 'F' THEN '晚上第9-10节'
+				ELSE cs.slice
+				END AS slice,
+				CASE
+				WHEN cs.type = 1 THEN '整班上课'
+				WHEN cs.type = 3 THEN '自主预约'
+				ELSE cs.type
+				END  AS `type`,
+				expl.lab_name AS labName,
+				e.experiment_name AS experimentName,
+				CASE 
+				WHEN e.`level`=1 THEN '容易'
+				WHEN e.`level`=2 THEN '适中'
+				WHEN e.`level`=3 THEN '困难'
+				ELSE e.`level`
+				END AS `level`,
+				cs.course_id as experimentCourseId,
+				cs.lab_id AS labId,
+				cs.schedule_id as scheduleId,
+				stui.id AS studentId,
+				cs.experiment_id AS experimentId
+				,ss.submit_status
+			
+			FROM
+				student_info AS stui
+			INNER JOIN schedule_class ccs ON  ccs.class_id = stui.tb_class_id ##课程班级表
+			INNER JOIN (SELECT experiment_id,schedule_id,type,course_id,lab_id,schooltime,slice,class_id from course_schedule WHERE stealth =2 )AS cs ON ccs.schedule_id = cs.schedule_id
+			INNER JOIN experiment_course AS ec ON ec.experiment_course_id = cs.course_id   ##实验课程表
+			INNER JOIN (SELECT * from experiment WHERE stealth =2  AND experiment_type =3)AS e ON cs.experiment_id = e.experiment_id
+			INNER JOIN (SELECT * from experiment_lab WHERE stealth =2) AS expl ON cs.lab_id = expl.lab_id
+			INNER JOIN  (select submit_status ,submitter_id ,schedule_id from schedule_student_score WHERE submitter_id = #{studentId} and submit_status =6) AS ss on ss.schedule_id = cs.schedule_id 
+			
+			WHERE
+					 stui.id = #{studentId}
+			AND ec.is_publish = 2
+			order by schooltime  ASC ,slice ASC
+		</if>
+		limit #{startRow},#{pageSize}	
+	 </select>
+	 
+	 	  <select id="findStudentExperimentListFive" resultMap="student_experment-list-map">
+	 		<if test="type==50">
+			SELECT
+				ec.course_name AS courseName,
+				DATE_FORMAT(cs.schooltime,'%Y-%m-%d') as schooltime,
+				CASE
+					WHEN cs.slice = 'A' THEN '上午第1-2节'
+					WHEN cs.slice = 'B' THEN '下午第3-4节'
+					WHEN cs.slice = 'C' THEN '午休'
+					WHEN cs.slice = 'D' THEN '下午第5-6节'
+					WHEN cs.slice = 'E' THEN '下午第7-8节'
+					WHEN cs.slice = 'F' THEN '晚上第9-10节'
+				ELSE cs.slice
+				END AS slice,
+				CASE
+				WHEN cs.type = 1 THEN '整班上课'
+				WHEN cs.type = 3 THEN '自主预约'
+				ELSE cs.type
+				END  AS `type`,
+				expl.lab_name AS labName,
+				e.experiment_name AS experimentName,
+				CASE 
+				WHEN e.`level`=1 THEN '容易'
+				WHEN e.`level`=2 THEN '适中'
+				WHEN e.`level`=3 THEN '困难'
+				ELSE e.`level`
+				END AS `level`,
+				cs.course_id as experimentCourseId,
+				cs.lab_id AS labId,
+				cs.schedule_id as scheduleId,
+				stui.id AS studentId,
+				cs.experiment_id AS experimentId
+				,ss.submit_status
+			
+			FROM
+				student_info AS stui
+			INNER JOIN schedule_class ccs ON  ccs.class_id = stui.tb_class_id ##课程班级表
+			INNER JOIN (SELECT experiment_id,schedule_id,type,course_id,lab_id,schooltime,slice,class_id from course_schedule WHERE stealth =2 )AS cs ON ccs.schedule_id = cs.schedule_id
+			INNER JOIN experiment_course AS ec ON ec.experiment_course_id = cs.course_id   ##实验课程表
+			INNER JOIN (SELECT * from experiment WHERE stealth =2  AND experiment_type =3)AS e ON cs.experiment_id = e.experiment_id
+			INNER JOIN (SELECT * from experiment_lab WHERE stealth =2) AS expl ON cs.lab_id = expl.lab_id
+			INNER JOIN  (select submit_status ,submitter_id ,schedule_id from schedule_student_score WHERE submitter_id = #{studentId} and submit_status =4) AS ss on ss.schedule_id = cs.schedule_id 
+			
+			WHERE
+					 stui.id = #{studentId}
+			AND ec.is_publish = 2
+			order by schooltime  ASC ,slice ASC
+		</if>
+		limit #{startRow},#{pageSize}	
+	 </select>
+ 	
+	 	
+<!-- 	 	根据学生Id查询学生的实验次数,0为全部，1为整班上课 3自主预约 -->
+ 	<select id="findStudentExperimentCount" resultType="Integer">
+		<if test="type==0">
+			
+			SELECT sum(a.experImentCount) as experImentCount from
+			(
+				##整班
+				SELECT count(*) AS experImentCount
+				FROM student_info AS stui
+				INNER JOIN experiment_course_class ccs ON stui.tb_class_id = ccs.tb_class_id ##实验课程班级表
+				INNER JOIN experiment_course AS ec ON ec.experiment_course_id = ccs.experiment_course_id ##实验课程表
+				INNER JOIN (SELECT experiment_id, schedule_id,type,course_id,lab_id,schooltime,slice,class_id
+					FROM course_schedule
+					WHERE stealth = 2
+				) AS cs ON ec.experiment_course_id = cs.course_id
+				INNER JOIN (SELECT * FROM experiment WHERE stealth = 2 
+					AND experiment_type = 3
+				) AS e ON cs.experiment_id = e.experiment_id
+				INNER JOIN ( SELECT * FROM experiment_lab WHERE stealth = 2
+				) AS expl ON cs.lab_id = expl.lab_id
+				INNER JOIN  (select submit_status ,submitter_id ,schedule_id from schedule_student_score WHERE submitter_id = #{studentId}  ) AS sss on sss.schedule_id = cs.schedule_id 
+				
+				WHERE
+					stui.id = #{studentId} AND cs.type =1   AND ec.is_publish = 2
+			UNION
+			
+			    ##自主预约
+				SELECT  count(*) as experImentCount
+				FROM
+					scourse_student AS ss
+				INNER JOIN (SELECT experiment_id,schedule_id,type,course_id,lab_id,schooltime,slice,class_id from course_schedule WHERE stealth =2 )AS cs ON ss.schedule_id = cs.schedule_id
+				INNER JOIN (SELECT * from experiment_lab WHERE stealth =2) AS expl ON cs.lab_id = expl.lab_id
+			    INNER JOIN (SELECT * from experiment WHERE stealth =2    AND experiment_type =3)AS e ON cs.experiment_id = e.experiment_id
+				INNER JOIN (SELECT * FROM experiment_course WHERE stealth =2  )as ec ON  cs.course_id =ec.experiment_course_id
+				INNER JOIN  (select submit_status ,submitter_id ,schedule_id from schedule_student_score WHERE submitter_id = #{studentId}  ) AS sss on sss.schedule_id = cs.schedule_id 
+				
+				WHERE
+					ss.student_id = #{studentId} AND cs.type =3 AND ec.is_publish = 2
+			) as a
+				
+		</if>
+		
+		<if test="type==1">
+			##整班上课
+			SELECT count(*) AS experImentCount
+				FROM student_info AS stui
+				INNER JOIN experiment_course_class ccs ON stui.tb_class_id = ccs.tb_class_id ##实验课程班级表
+				INNER JOIN experiment_course AS ec ON ec.experiment_course_id = ccs.experiment_course_id ##实验课程表
+				INNER JOIN (SELECT experiment_id, schedule_id,type,course_id,lab_id,schooltime,slice,class_id
+					FROM course_schedule
+					WHERE stealth = 2
+				) AS cs ON ec.experiment_course_id = cs.course_id
+				INNER JOIN (SELECT * FROM experiment WHERE stealth = 2 
+					AND experiment_type = 3
+				) AS e ON cs.experiment_id = e.experiment_id
+				INNER JOIN ( SELECT * FROM experiment_lab WHERE stealth = 2
+				) AS expl ON cs.lab_id = expl.lab_id
+				INNER JOIN  (select submit_status ,submitter_id ,schedule_id from schedule_student_score WHERE submitter_id = #{studentId}  ) AS sss on sss.schedule_id = cs.schedule_id 
+				
+				WHERE
+					stui.id = #{studentId} AND cs.type =#{type}  AND ec.is_publish = 2
+		</if>
+		<if test="type==3">
+			##自主预约
+			SELECT  count(*) as experImentCount
+				FROM
+					scourse_student AS ss
+				INNER JOIN (SELECT experiment_id,schedule_id,type,course_id,lab_id,schooltime,slice,class_id from course_schedule WHERE stealth =2 )AS cs ON ss.schedule_id = cs.schedule_id
+				INNER JOIN (SELECT * from experiment_lab WHERE stealth =2) AS expl ON cs.lab_id = expl.lab_id
+			    INNER JOIN (SELECT * from experiment WHERE stealth =2    AND experiment_type =3)AS e ON cs.experiment_id = e.experiment_id
+				INNER JOIN (SELECT * FROM experiment_course WHERE stealth =2 AND is_publish = 2 )as ec ON  cs.course_id =ec.experiment_course_id
+				INNER JOIN  (select submit_status ,submitter_id ,schedule_id from schedule_student_score WHERE submitter_id = #{studentId}  ) AS sss on sss.schedule_id = cs.schedule_id 
+				
+				WHERE
+					ss.student_id = #{studentId} AND cs.type =#{type} AND ec.is_publish = 2
+		</if>	
+		
+ 	</select>
+ 	<select id="findStudentExperimentCountOne" resultType="Integer">
+ 	<if test="type==10">
+			SELECT count(*) AS experImentCount
+				FROM student_info AS stui
+				INNER JOIN experiment_course_class ccs ON stui.tb_class_id = ccs.tb_class_id ##实验课程班级表
+				INNER JOIN experiment_course AS ec ON ec.experiment_course_id = ccs.experiment_course_id ##实验课程表
+				INNER JOIN (SELECT experiment_id, schedule_id,type,course_id,lab_id,schooltime,slice,class_id
+					FROM course_schedule
+					WHERE stealth = 2
+				) AS cs ON ec.experiment_course_id = cs.course_id
+				INNER JOIN (SELECT * FROM experiment WHERE stealth = 2 
+					AND experiment_type = 3
+				) AS e ON cs.experiment_id = e.experiment_id
+				INNER JOIN ( SELECT * FROM experiment_lab WHERE stealth = 2
+				) AS expl ON cs.lab_id = expl.lab_id
+				INNER JOIN  (select submit_status ,submitter_id ,schedule_id from schedule_student_score WHERE submitter_id = #{studentId} AND submit_status =2  ) AS sss on sss.schedule_id = cs.schedule_id 
+				
+				WHERE
+					stui.id = #{studentId}  AND ec.is_publish = 2
+		</if>
+ 	</select>
+ 	<select id="findStudentExperimentCountTwo" resultType="Integer">
+ 	<if test="type==20">
+			SELECT count(*) AS experImentCount
+				FROM student_info AS stui
+				INNER JOIN experiment_course_class ccs ON stui.tb_class_id = ccs.tb_class_id ##实验课程班级表
+				INNER JOIN experiment_course AS ec ON ec.experiment_course_id = ccs.experiment_course_id ##实验课程表
+				INNER JOIN (SELECT experiment_id, schedule_id,type,course_id,lab_id,schooltime,slice,class_id
+					FROM course_schedule
+					WHERE stealth = 2
+				) AS cs ON ec.experiment_course_id = cs.course_id
+				INNER JOIN (SELECT * FROM experiment WHERE stealth = 2 
+					AND experiment_type = 3
+				) AS e ON cs.experiment_id = e.experiment_id
+				INNER JOIN ( SELECT * FROM experiment_lab WHERE stealth = 2
+				) AS expl ON cs.lab_id = expl.lab_id
+				INNER JOIN  (select submit_status ,submitter_id ,schedule_id from schedule_student_score WHERE submitter_id = #{studentId} AND submit_status =3  ) AS sss on sss.schedule_id = cs.schedule_id 
+				
+				WHERE
+					stui.id = #{studentId}  AND ec.is_publish = 2
+		</if>
+ 	</select>
+ 	<select id="findStudentExperimentCountThree" resultType="Integer">
+ 	
+		<if test="type==30">
+			SELECT sum(a.experImentCount) as experImentCount from
+			(
+				##整班
+				SELECT count(*) AS experImentCount
+				FROM student_info AS stui
+				INNER JOIN schedule_class ccs ON  ccs.class_id = stui.tb_class_id ##课程班级表
+			INNER JOIN (SELECT experiment_id,schedule_id,type,course_id,lab_id,schooltime,slice,class_id from course_schedule WHERE stealth =2 )AS cs ON ccs.schedule_id = cs.schedule_id
+			INNER JOIN experiment_course AS ec ON ec.experiment_course_id = cs.course_id   ##实验课程表
+				INNER JOIN (SELECT * FROM experiment WHERE stealth = 2 
+					AND experiment_type = 3
+				) AS e ON cs.experiment_id = e.experiment_id
+				INNER JOIN ( SELECT * FROM experiment_lab WHERE stealth = 2
+				) AS expl ON cs.lab_id = expl.lab_id
+				INNER JOIN  (select submit_status ,submitter_id ,schedule_id from schedule_student_score WHERE submitter_id =  #{studentId} AND submit_status in(1,5) ) AS sss on sss.schedule_id = cs.schedule_id 
+				
+				WHERE
+					stui.id = 2214 AND cs.type =1   AND ec.is_publish = 2
+			UNION
+			
+			    ##自主预约
+				SELECT  count(*) as experImentCount
+				FROM
+					scourse_student AS ss
+				INNER JOIN (SELECT experiment_id,schedule_id,type,course_id,lab_id,schooltime,slice,class_id from course_schedule WHERE stealth =2 )AS cs ON ss.schedule_id = cs.schedule_id
+				INNER JOIN (SELECT * from experiment_lab WHERE stealth =2) AS expl ON cs.lab_id = expl.lab_id
+			    INNER JOIN (SELECT * from experiment WHERE stealth =2    AND experiment_type =3)AS e ON cs.experiment_id = e.experiment_id
+				INNER JOIN (SELECT * FROM experiment_course WHERE stealth =2  )as ec ON  cs.course_id =ec.experiment_course_id
+				INNER JOIN  (select submit_status ,submitter_id ,schedule_id from schedule_student_score WHERE submitter_id =  #{studentId} AND submit_status in(1,5) ) AS sss on sss.schedule_id = cs.schedule_id 
+				
+				WHERE
+					ss.student_id =  #{studentId} AND cs.type =3 AND ec.is_publish = 2
+			) as a
+		</if>
+ 	</select>
+ 	<select id="findStudentExperimentCountFour" resultType="Integer">
+ 			<if test="type==40">
+			SELECT count(*) AS experImentCount
+				FROM student_info AS stui
+				INNER JOIN experiment_course_class ccs ON stui.tb_class_id = ccs.tb_class_id ##实验课程班级表
+				INNER JOIN experiment_course AS ec ON ec.experiment_course_id = ccs.experiment_course_id ##实验课程表
+				INNER JOIN (SELECT experiment_id, schedule_id,type,course_id,lab_id,schooltime,slice,class_id
+					FROM course_schedule
+					WHERE stealth = 2
+				) AS cs ON ec.experiment_course_id = cs.course_id
+				INNER JOIN (SELECT * FROM experiment WHERE stealth = 2 
+					AND experiment_type = 3
+				) AS e ON cs.experiment_id = e.experiment_id
+				INNER JOIN ( SELECT * FROM experiment_lab WHERE stealth = 2
+				) AS expl ON cs.lab_id = expl.lab_id
+				INNER JOIN  (select submit_status ,submitter_id ,schedule_id from schedule_student_score WHERE submitter_id = #{studentId} AND submit_status =6 ) AS sss on sss.schedule_id = cs.schedule_id 
+				
+				WHERE
+					stui.id = #{studentId}  AND ec.is_publish = 2
+		</if>
+ 	</select>
+ 	<select id="findStudentExperimentCountFive" resultType="Integer">
+ 		<if test="type==50">
+			SELECT count(*) AS experImentCount
+				FROM student_info AS stui
+				INNER JOIN experiment_course_class ccs ON stui.tb_class_id = ccs.tb_class_id ##实验课程班级表
+				INNER JOIN experiment_course AS ec ON ec.experiment_course_id = ccs.experiment_course_id ##实验课程表
+				INNER JOIN (SELECT experiment_id, schedule_id,type,course_id,lab_id,schooltime,slice,class_id
+					FROM course_schedule
+					WHERE stealth = 2
+				) AS cs ON ec.experiment_course_id = cs.course_id
+				INNER JOIN (SELECT * FROM experiment WHERE stealth = 2 
+					AND experiment_type = 3
+				) AS e ON cs.experiment_id = e.experiment_id
+				INNER JOIN ( SELECT * FROM experiment_lab WHERE stealth = 2
+				) AS expl ON cs.lab_id = expl.lab_id
+				INNER JOIN  (select submit_status ,submitter_id ,schedule_id from schedule_student_score WHERE submitter_id = #{studentId} AND submit_status = 4 ) AS sss on sss.schedule_id = cs.schedule_id 
+				
+				WHERE
+					stui.id = #{studentId}  AND ec.is_publish = 2
+		</if>
+ 	</select>
+ 	
+ 	
+</mapper>

@@ -1,0 +1,76 @@
+/*S userInfoEdit*/
+.main{background-color:#f5f5f5}
+.main .content{width:1200px;margin:0 auto;background-color:#fff}
+.main .content .info{width:1100px;margin:0 auto}
+.main .content .info .title{font-size:18px;line-height:30px;color:#64ab7e;padding-top:40px;border-bottom:1px dashed #D8D8D8}
+.main .content .info .revisecontent{padding-top:30px}
+.main .content .info .revisecontent .left{width:400px;float:left;padding-left:100px}
+.main .content .info .revisecontent .left .left-title{float:left;width:100px;font-weight:500}
+.main .content .info .revisecontent .left .left-content{float:left;width:270px}
+.main .content .info .revisecontent .left .left-content img{display:block;padding-bottom:5px;width:140px;height:140px}
+.main .content .info .revisecontent .left .left-content p{font-size:12px}
+.main .content .info .revisecontent .right{float:right;}
+.main .content .info .revisecontent .right .form-group .right-label{float:left;width:100px;text-align:right}
+.main .content .info .revisecontent .right .form-group .right-div{float:left;width:400px}
+.main .content .info .revisecontent .right .form-group .right-div .name-input{width:390px;padding:10px 5px}
+.main .content .info .revisecontent .right .form-group .right-div .textarea{width:392px;max-width:392px;min-height:80px;padding:5px}
+.main .content .btn{text-align:center;margin:50px auto 0;padding-bottom:150px}
+.main .content .btn button{padding:8px 20px;cursor:pointer;border:none;border-radius:3px;transition:all .4s ease;outline:0;text-align:center;letter-spacing:1px;background-color:#59896b;color:#fff;font-size:16px}
+.main .content .btn button:hover{background-color:#64ab7e!important;cursor:pointer}
+.Validform_checktip{height:25px;overflow:hidden;color:#999;font-size:12px;float:left}
+.Validform_right{color:#71b83d;padding-left:15px;background:url(../images/right.png) no-repeat left top}
+.Validform_wrong{color:red;padding-left:15px;white-space:nowrap;background:url(../images/error.png) no-repeat left top}
+.Validform_loading{padding-left:15px;background:url(../images/onLoad.gif) no-repeat left top}
+.Validform_error{background-color:#ffe7e7}
+#Validform_msg{color:#7d8289;font:12px/1.5 tahoma,arial,\5b8b\4f53,sans-serif;width:280px;-webkit-box-shadow:2px 2px 3px #aaa;-moz-box-shadow:2px 2px 3px #aaa;background:#fff;position:absolute;top:0;right:50px;z-index:99999;display:none;filter:progid:DXImageTransform.Microsoft.Shadow(Strength=3, Direction=135, Color='#999999')}
+#Validform_msg .iframe{position:absolute;left:0;top:-1px;z-index:-1}
+#Validform_msg .Validform_title{line-height:25px;height:25px;text-align:left;font-weight:700;padding:0 8px;color:#fff;position:relative;background-color:#000}
+#Validform_msg a.Validform_close:link,#Validform_msg a.Validform_close:visited{line-height:22px;position:absolute;right:8px;top:0;color:#fff;text-decoration:none}
+#Validform_msg a.Validform_close:hover{color:#cc0}
+#Validform_msg .Validform_info{padding:8px;border:1px solid #000;border-top:none;text-align:left}
+/*E userInfoEdit*/
+
+
+/*S userPasswordEdit*/
+.password-main{background-color:#f5f5f5}
+.password-main .password-content{padding-top: 20px; width:1200px;margin:0 auto 30px auto;background-color:#fff}
+.password-main .password-content .password{width:1100px;margin:0 auto}
+.password-main .password-content .password .title{padding-top:20px;border-bottom:1px dashed #D8D8D8}
+.password-main .password-content .password .title .span-1{font-size:18px;line-height:30px;color:#64ab7e}
+.password-main .password-content .password .revisecontent{margin-left:250px;padding:100px 0}
+.password-main .password-content .password .revisecontent .form-group .password-name{width:100px;text-align:right;float:left}
+.password-main .password-content .password .revisecontent .form-group .text-input{float:left;width:400px}
+.password-main .password-content .password .revisecontent .form-group .text-input .password-input{width:390px;padding:10px 5px}
+.password-main .password-content .btn{text-align:center;margin:50px auto 0;padding-bottom:50px}
+.password-main .password-content .btn button{padding:8px 20px;cursor:pointer;border:none;border-radius:3px;transition:all .4s ease;outline:0;text-align:center;letter-spacing:1px;background-color:#59896b;color:#fff;font-size:16px}
+.password-main .password-content .btn button:hover{background-color:#64ab7e!important;cursor:pointer}
+/* userPasswordEdit*/
+
+
+
+/*S userInfoView*/
+.userInfoViewContainer{width: 100%;background:#eee;}
+.contain-nav{width: 1200px;margin: 0 auto;height: 30px;line-height: 30px;}
+.contain-nav a{color: #333;}
+.infoView-main{width: 1100px;margin: 0 auto;padding: 0 50px 20px;background:#fff;padding-bottom: 150px;}
+.infoView-title{font-size: 18px;line-height: 30px;color: #64ab7e;padding-top: 15px;border-bottom: 1px dashed #D8D8D8;position: relative;}
+.infoView-title span{display: block;width: 60px;position: absolute;right: 0;top: 20px;font-size: 12px;color: #333;text-align: center;cursor: pointer;}
+.infoView-left{float: left;width: 350px;margin-left: 80px;margin-top: 40px;}
+.infoView-left .infoView-avatar{width: 150px;height: 150px;overflow: hidden;padding: 10px;border: 1px solid #FFF;border-radius: 50%;margin: 0 auto;border: 2px solid #5b90af;}
+.infoView-left .infoView-avatar img{display: block;width: 100%;height: 100%;border-radius: 50%;}
+.infoView-left .infoMsg-left{background: #5b90af;color: #FFF;padding: 20px;padding-top: 60px;margin-top: -60px;}
+.infoView-left .infoMsg-left .p{height: 40px;line-height: 40px;border-bottom: 1px dashed #929292;}
+.infoView-left .infoMsg-left .p .span1{display:block;width: 80px;text-align: right;float: left;}
+.infoView-left .infoMsg-left .p .span2{display:block;width: 180px; text-align: left;float: left;margin-left: 40px;}
+
+.infoView-right{float: right;width: 500px;margin-right: 40px;margin-top: 40px;}
+.infoView-right .p{border-bottom: 1px solid #5b90af;height: 40px;padding: 10px;position: relative;}
+.infoView-right .p .span1{font-size: 16px; font-weight:bold;line-height: 40px;}
+.infoView-right .p .span2{font-size: 14px;line-height: 40px;}
+.infoView-right .p .span3{display: block;position: absolute;right: 10px;top: 10px;line-height: 40px;color: #999;cursor: pointer;}
+.infoView-right .p .span3 a{color: #CCC}
+.infoView-right .p .span3 a:hover{color: #f01414;}
+.infoView-right .p1{border-bottom:1px solid #5b90af;padding: 10px;}
+.infoView-right .p1 .span11{font-size: 16px;font-weight: bold;line-height: 40px;display: block;width: 80px;float: left;}
+.infoView-right .p1 .span21{font-size: 14px;display: block;float: left;width: 380px; padding: 10px;}
+/*E userInfoView*/

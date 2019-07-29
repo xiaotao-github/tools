@@ -1,0 +1,42 @@
+@charset "utf-8";
+/* 绿色 */
+::-webkit-scrollbar-track{background-color:rgba(220,220,220,0.6);}
+::-webkit-scrollbar-thumb{background-color:rgba(180,180,180,0.5);}
+::-webkit-scrollbar-thumb:hover {background-color:#32a07d}
+::-webkit-scrollbar-thumb:active {background-color:#32a07d}
+::-webkit-scrollbar-corner{background-color:#32a07d }
+/*全站默认字体颜色*/
+a{color:#333}a:hover,a:focus,.maincolor,.maincolor a{color:#06c}
+.navbar{ background:#32a07d}/*顶部导航*/
+	.navbar-logo,.navbar-logo-m,.navbar-slogan,.navbar-userbar{color:#fff}/*logo 及 用户信息文字颜色*/
+	.navbar-logo:hover,.navbar-logo-m:hover{color:#fff;text-decoration: none}
+	
+.navbar-nav > ul > li, .navbar-nav > ul > li > a{ color:#fff}/*顶部导航文字颜色*/
+.navbar-userbar > ul> > li,.navbar-userbar > ul> > li > a{ color:#fff}
+
+.Hui-aside{}/*侧边栏*/
+	.Hui-aside .menu_dropdown dt{color:#ccece2}/*左侧二级导航菜单*/
+	.Hui-aside .menu_dropdown dt:hover{/*color:#32a07d*/ background: #59b99b;}
+	.Hui-aside .menu_dropdown dt:hover [class^="icon-"]{ color:#7e8795}
+	.Hui-aside .menu_dropdown li a{color:#a6e0ce;border-bottom: 1px solid #e5e5e5}
+	.Hui-aside .menu_dropdown li a:hover{color:#1f8866;background-color:#85d2b8}
+	.Hui-aside .menu_dropdown li.current a,.menu_dropdown li.current a:hover{color:#148cf1}
+	.Hui-aside .menu_dropdown dt .Hui-iconfont{ color:#ccece2}
+	.Hui-aside .menu_dropdown dt .menu_dropdown-arrow{ color:#ccece2}	
+	.dislpayArrow a{background:url(icon_arrow.png) no-repeat 0 0}
+.tabBar {border-bottom: 2px solid #32a07d}
+.tabBar span.current{background-color:#32a07d}
+
+
+
+.useravatar{
+	background: url(avatar_border.png);
+}
+
+.Hui-aside{
+	background: #32a07d;
+}
+
+.Hui-aside .menu_dropdown dt{
+	border-bottom: 1px solid #cbece2;
+}

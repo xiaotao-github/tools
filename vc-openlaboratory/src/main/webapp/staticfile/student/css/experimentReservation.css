@@ -1,0 +1,36 @@
+.mySchedule{background: url(../images/opacity_bg.png) repeat;background: rgba(255,255,255,0.8);}
+
+.mySchedule .courseSwiper{margin: 0 auto;padding: 20px 0; overflow: hidden;width:950px;}
+.mySchedule .courseSwiper .swiper-slide{background: url(../images/welcome1_grid_bg.png) center center no-repeat;}
+.mySchedule .swiper-btn{width: 40px;height: 40px;position: absolute;cursor: pointer;}
+.mySchedule .swiper-btn.swiper-prev{background: url(../images/welcome1_prevBtn.png) center no-repeat;left: 0px;}
+.mySchedule .swiper-btn.swiper-next{background: url(../images/welcome1_nextBtn.png) center no-repeat;right: 0px;}
+
+.reservation .reservation-typeSel ul .selLeft{cursor:pointer;display: inline-block;margin: 0 10px;padding: 0 15px;background: #37c8ca;color: #fff;border: 1px solid #37c8ca;border-radius: 15px;}
+.reservation .reservation-typeSel ul .selLeft.selected{background: #fff;color: #37c8ca;}
+.reservation .reservation-typeSel .myReservation-history{top: 15px;right: 0;}
+.reservation .reservation-typeSel .myReservation-history .span1{padding: 0 15px;border-radius: 15px;border: 1px solid #f37b1d;cursor: pointer;}
+.reservation .reservation-typeSel .myReservation-history.selected .span1{background: #fff;color: #f37b1d;}
+
+.reservation-list .top{border-bottom: 1px solid #ddd;background: #f4fcff;}
+
+.reservation-list ul li{border-radius: 15px;}
+.reservation-list ul li:hover .center{background: #f9f9f9;}
+.reservation-list .top .seatNum{right: 10px;font-size: 14px;top: 5px;}
+.reservation-list .top .seatNum i{font-style: normal;}
+.reservation-list .center .courseName{border-radius: 15px;border: 1px solid #ccc;padding: 0 10px;}
+.reservation-list .center{border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;background: #fff;}
+.reservation-list .center .teachers_list li{display: inline-block;}
+.reservation-list .center .teacherAvatar img{display: block;width: 40px;height: 40px;border-radius: 50%;}
+.reservation-list .center .reservation-btn{top: 30px;right: 30px;}
+.reservation-list .center .reservation-btn .button{cursor: pointer;width: 120px;height: 40px;line-height: 40px;border-radius: 5px;background: #37c8ca;color: #fff;}
+.reservation-list .center .reservation-btn .button:hover{opacity: 0.9;}
+.reservation-list .center .reservation-btn .button.reserved{background: #4ca3bc;}
+.reservation-list .center .reservation-btn .button.history{background: #999;}
+
+.reservation-list .bottom{border-top: 1px solid #ddd;background: #f4fcff;cursor: pointer;}
+
+/*============ daypilot css ==============*/
+.scheduler_default_rowheader_inner{display: table;text-align: center;width: 96%;height: 99%;margin: 0 auto;font-size: 14px;color: #3c817e;font-weight: bold;}
+.scheduler_default_rowheader_inner div{display: table-cell;vertical-align: middle;}
+.scheduler_default_corner{display: table-cell;vertical-align: middle;text-align: center;font-size: 16px;font-weight: bold;}

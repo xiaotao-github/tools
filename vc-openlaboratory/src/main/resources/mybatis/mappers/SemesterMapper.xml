@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.vcooc.experiment.mapper.SemesterMapper">
+            <resultMap type="Semester" id="semesterMap" autoMapping="true">
+                    <id column="semester_id" property="semesterId"/>     
+                    
+                    <!-- 关联操作员 -->
+                    <association property="teacherInfo" javaType="TeacherInfo"> 
+                                <id column="operator_id" property="id"/>   
+                                <result column="teacher_name" property="name"/>        
+                    </association>    
+            </resultMap>
+     
+     
+     <!-- 查询所有学期信息 -->
+     <select id="selectAllSemesters" parameterType="int" resultMap="semesterMap">
+         select
+         s.semester_id,
+		s.semester_name,
+		s.operator_id,
+		s.start_time,
+		s.end_time,
+		s.stealth,
+		s.create_time,
+		s.update_time     ,
+		t.name teacher_name
+		from semester s
+		left join teacher_info t on t.id= s.operator_id
+		where s.stealth=#{stealth}
+     </select>
+     
+     <!-- 校验名称是否重复 -->
+     <select id="validateSemesterName" parameterType="string" resultType="int">
+               select count(semester_id) from semester 
+               where  stealth=2 and  semester_name=#{name} 
+               <if test="id!=null"> and semester_id!=#{id}</if>
+     </select>
+     
+     <!-- 查询所有学期时间 -->
+     <select id="selectAllSemseters" parameterType="int" resultMap="semesterMap">
+               select     semester_id, semester_name,start_time,end_time
+               from semester  where stealth=2 
+               <if test="id!=null">
+                      and   semester_id!=#{id}
+               </if>
+     </select>
+     
+     <select id="getCurrentSemester" resultType="Semester">
+		SELECT 	  semester_id,semester_name, operator_id,start_time,end_time, 
+				  stealth,create_time,update_time
+	 
+		FROM      semester
+		WHERE   start_time  &lt;= NOW() AND  end_time &gt;= NOW()
+     </select>
+</mapper>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<link rel="stylesheet" href="css/common.css">
+	<link rel="stylesheet" href="css/login_mobile.css">
+	<script type="text/javascript" src="js/jquery-1.11.2.min.js"></script>
+	<script type="text/javascript" src="js/Validform_v5.3.2_min.js"></script>
+</head>
+<body>
+	<div class="loginMobileContainer">
+		<p class="title">登录</p>
+		<div class="logo"><img src="images/logo.png" alt=""></div>
+		<form action="" class="voocloginform" name="loginform">
+			<div class="loginFill">
+				<ul>
+					<li class="userNum">
+						<div>
+							<input type="text"class="input" errormsg="出错" datatype="*" nullmsg="请填写您的账号!" name="number" value="" placeholder="请填写您的账号" class="input">
+						</div>
+						<p class="Validform_checktip"></p>
+					</li>
+					<li class="userPassword">
+						<div>
+							<input type="password" onkeyup="value=value.replace(/[\u4E00-\u9FA5]/g,'')" errormsg="出错" datatype="*" nullmsg="请填写密码!" name="password" value="" placeholder="请填写密码" class="input">
+						</div>
+						<p class="Validform_checktip"></p>
+					</li>
+					<li class="userVerification">
+						<div class="clearfix">
+							<input type="text" errormsg="出错" datatype="*" nullmsg="请填写验证码!" name="verificationNum" value="" placeholder="验证码" class="input inputVerification">
+							<img src="" alt="验证码" class="verification">
+						</div>
+						<p class="Validform_checktip"></p>
+					</li>
+					<li class="userLogin">
+						<button type="button">登&emsp;&emsp;录</button>
+					</li>
+				</ul>
+			</div>
+		</form>
+	</div>
+</body>
+	<script language="javascript" type="text/javascript" src="js/login.js"></script>
+</html>

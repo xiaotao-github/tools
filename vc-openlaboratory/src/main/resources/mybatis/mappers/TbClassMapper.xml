@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.vcooc.experiment.mapper.TbClassMapper">
+	<!--班级映射 班级编号，班级名称，所属院系，所属专业，所属年级，班级介绍，操作员 -->
+	<resultMap type="TbClass" id="TbClassMap" autoMapping="true">
+		<id column="id" property="id" />
+		<association property="grade" javaType="Grade">
+		<id column="grade_id" property="id" javaType="int"
+				jdbcType="INTEGER" />
+			<result column="grade_name" property="name" javaType="string"
+				jdbcType="VARCHAR" />
+			<association property="major" javaType="Major">
+				<id column="major_id" property="id" javaType="int"
+				jdbcType="INTEGER" />
+				<result column="major_name" property="name" javaType="string"
+					jdbcType="VARCHAR" />
+				<association property="department" javaType="Department">
+					<id column="department_id" property="id" javaType="int"
+				jdbcType="INTEGER" />
+					<result column="department_name" property="name" javaType="string"
+						jdbcType="VARCHAR" />
+				</association>
+			</association>
+		</association>
+		<association property="teacherInfo" javaType="TeacherInfo">
+			<result column="teacher_name" property="name" javaType="string"
+				jdbcType="VARCHAR" />
+			<association property="user" javaType="User">
+				<id column="teacher_info_id" property="id" javaType="int"
+				jdbcType="INTEGER" />
+			</association>	
+		</association>
+	</resultMap>
+
+	<!--根据条件查询所有班级信息 -->
+	<select id="selectAllClasses" resultMap="TbClassMap">
+		SELECT
+		c.id ,c.number,c.name,gm.major_id AS major_id
+		,gm.major_name,gm.grade_id AS grade_id ,gm.grade_name,ti.id AS
+		teacher_info_id,ti.name AS
+		teacher_name,md.department_id AS
+		department_id,md.department_name,c.presentation ,c.create_time,c.update_time,
+      (select count(id) from student_info where tb_class_id=c.id and stealth=2) member_num
+    FROM tb_class c
+		LEFT
+		JOIN teacher_info
+		ti ON ti.id=c.teacher_info_id
+		LEFT JOIN
+		(SELECT g.id AS
+		grade_id,g.name
+		AS grade_name ,m.name AS major_name,m.id AS
+		major_id
+		FROM grade g
+		LEFT
+		JOIN major m ON m.id=g.major_id
+		) AS gm ON
+		gm.grade_id=c.grade_id
+		LEFT JOIN (
+		SELECT m.id AS major_id,d.id AS
+		department_id,d.name AS
+		department_name FROM major m
+		LEFT JOIN
+		department d ON m.department_id
+		=d.id
+		)AS md ON md.major_id=gm.major_id
+		<where>
+			<if test="stealth!=null">c.stealth=#{stealth}</if>
+			<if test="departmentId!=null">and md.department_id=#{departmentId}</if>
+		</where>
+		<if test="MAX_COUNT!=null"> limit #{MAX_COUNT}</if>
+	</select>
+</mapper>

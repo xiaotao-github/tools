@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.vcooc.experiment.mapper.ResourceFileMapper">
+	<!--资源文件映射-->
+ 	<resultMap type="ResourceFile" id="resourceFileMap"
+		autoMapping="true">
+		<id column="file_id" property="fileId" javaType="int" jdbcType="INTEGER" />
+		<!--  映射资源库-->
+		<association property="resourceLibrary" javaType="ResourceLibrary">
+			<id column="library_id" property="libraryId" javaType="int" jdbcType="INTEGER" />
+			<result column="library_name" property="libraryName" javaType="string" jdbcType="VARCHAR" />
+			<!-- 映射院系 -->
+			<association property="department" javaType="Department">
+				<id column="department_id" property="id" javaType="int" jdbcType="INTEGER" />
+				<result column="department_name" property="name" javaType="string" jdbcType="VARCHAR" />
+			</association>
+		</association>
+		<!--映射作者  -->
+		<association property="author" javaType="TeacherInfo">
+			<id column="author_id" property="id" javaType="int" jdbcType="INTEGER" />
+			<result column="author_name" property="name" javaType="string" jdbcType="VARCHAR" />
+		</association>
+	</resultMap>
+	<!--查询用户上传的资源文件信息-->
+	<select id="selectFilesByAuthorId" resultMap="resourceFileMap">
+		SELECT rf.*,ti.name AS author_name,rl.library_name AS library_name,d.id AS department_id,d.name department_name
+		FROM resource_file rf
+		LEFT JOIN teacher_info ti ON ti.id=rf.author_id
+		LEFT JOIN resource_library rl ON rl.library_id=rf.library_id 
+		LEFT JOIN department d ON d.id = rl.department_id
+		<where>
+			<if test="authorId!=null">rf.author_id = #{authorId}</if>
+			<if test="stealth!=null">AND rf.stealth = #{stealth}</if>
+		</where>
+	</select>
+	
+	
+	
+	<!--查询用户上传的资源文件信息-->
+	<select id="selectFilesByAuthorIds" resultMap="resourceFileMap">
+		SELECT rf.*,ti.name AS author_name,rl.library_name AS library_name,d.id AS department_id,d.name department_name
+		FROM resource_file rf
+		LEFT JOIN teacher_info ti ON ti.id=rf.author_id
+		LEFT JOIN resource_library rl ON rl.library_id=rf.library_id 
+		LEFT JOIN department d ON d.id = rl.department_id
+		WHERE rf.author_id = #{authorId}
+		<if test="keyword!=null">AND ${keyword}</if>
+	</select>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<!--查询用户收藏的资源文件信息-->
+	<select id="selectCollectionFilesByAuthorId" resultMap="resourceFileMap">
+		SELECT rf.*,ti.name AS author_name,rl.library_name AS library_name,d.id AS department_id,d.name department_name
+		FROM resource_file rf
+		LEFT JOIN teacher_info ti ON ti.id=rf.author_id
+		LEFT JOIN resource_library rl ON rl.library_id=rf.library_id 
+		LEFT JOIN department d ON d.id = rl.department_id
+		WHERE rf.stealth =#{stealth} AND rf.file_id IN (
+		SELECT rc.file_id FROM resource_collection rc WHERE rc.teacher_info_id =#{teacherInfoId}
+		)
+	</select>
+	
+	
+	<select id="selectById" resultMap="resourceFileMap">
+		SELECT   rf.file_id,rf.library_id,rf.author_type,rf.author_id, rf.handlers_id, 
+				 rf.file_name, rf.file_title, rf.file_presentation, rf.file_tag, 
+				 rf.file_type, rf.file_size, rf.file_path, rf.file_format_path, 
+	 			 rf.open_status, rf.is_download, rf.download_num,rf.stealth,rf.link,
+	 			 rf.file_presentation,rf.create_time,
+	 			 ti.name AS author_name,
+	 			 rl.library_name AS library_name,
+	 			 d.id AS department_id,d.name department_name
+		FROM resource_file  rf 
+		LEFT JOIN teacher_info ti ON ti.id=rf.author_id
+		LEFT JOIN resource_library rl ON rl.library_id=rf.library_id 
+		LEFT JOIN department d ON d.id = rl.department_id
+		WHERE  rf.file_id=#{fileId}
+	</select>
+	<!-- 获取校园内开发的资源 -->
+		<select id="selectOpenFiles" resultMap="resourceFileMap">
+		SELECT   rf.file_id,rf.library_id,rf.author_type,rf.author_id, rf.handlers_id, 
+				 rf.file_name, rf.file_title, rf.file_presentation, rf.file_tag, 
+				 rf.file_type, rf.file_size, rf.file_path, rf.file_format_path, 
+	 			 rf.open_status, rf.is_download, rf.download_num,rf.stealth,rf.link,
+	 			 rf.file_presentation,rf.create_time,
+	 			 ti.name AS author_name,
+	 			 rl.library_name AS library_name,
+	 			 d.id AS department_id,d.name department_name
+		FROM resource_file  rf 
+		LEFT JOIN teacher_info ti ON ti.id=rf.author_id
+		LEFT JOIN resource_library rl ON rl.library_id=rf.library_id 
+		LEFT JOIN department d ON d.id = rl.department_id
+		WHERE  rf.open_status=#{openStatus} AND rf.stealth = #{stealth}
+	</select>
+	
+	
+</mapper>

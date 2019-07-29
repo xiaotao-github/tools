@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.vcooc.experiment.mapper.TeacherLogInformationMapper">
+	<!--操作日志映射 -->
+	<resultMap type="TeacherLogInformation" id="logResultMap" autoMapping="true">
+		<id property="id" column="id"/>
+		<association property="teacherInfo" javaType="TeacherInfo">
+			<result column="teacher_info_name" property="name" javaType="string" jdbcType="VARCHAR"/>
+			<association property="user" javaType="User">
+				<id column="teacher_info_id" property="id" javaType="int" jdbcType="INTEGER"/>
+			</association>
+			<association property="department" javaType="Department">
+				<id column="department_id" property="id" javaType="int" jdbcType="INTEGER"/>
+				<result column="department_name" property="name" javaType="string" jdbcType="VARCHAR"/>
+			</association>
+		</association>
+	</resultMap>
+	<!--录入操作日志 -->
+	<insert id="addTeacherInfoLog" parameterType="TeacherLogInformation">
+		INSERT INTO
+		teacher_log_information(id,teacher_info_id,operation_system,operation_ip, file_path,operation_time,message)
+		VALUES(
+		NULL,
+		#{teacherInfo.user.id},
+		#{operationSystem},
+		#{operationIp},
+		#{filePath},
+		#{operationTime},
+		#{message})
+	</insert>
+	<!--根据条件查找操作日志 -->
+	<select id="selectTeacherLogInformation" parameterType="Integer" resultMap="logResultMap">
+		SELECT l.id,l.operation_system,l.file_path,l.operation_ip,l.operation_time,l.message,td.* 
+		FROM teacher_log_information l
+		LEFT JOIN
+		(
+		SELECT ti.id teacher_info_id,ti.name teacher_info_name,d.id
+		department_id,d.name department_name FROM teacher_info ti
+		LEFT JOIN
+		department d
+		ON ti.department_id = d.id
+		) AS td
+		ON td.teacher_info_id=l.teacher_info_id
+		<where>
+			l.operation_system = 7
+			<if test="departmentId!=null">and department_id = #{departmentId}</if>
+			<if test="userId!=null">and td.teacher_info_id=#{userId}</if>
+			 ORDER BY l.id DESC
+		</where>
+	</select>
+</mapper>

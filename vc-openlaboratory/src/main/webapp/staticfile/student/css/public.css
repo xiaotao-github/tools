@@ -1,0 +1,50 @@
+*{padding:0;margin:0}
+li,ul{list-style-type:none}
+a{color:#666;text-decoration:none;border:none}
+
+body{background: #fff url(../images/bg.png) top center no-repeat;}
+.box-shadow{box-shadow: 0 0px 5px rgba(0,0,0,0.3);}
+.laboratory-container .inner{background: #fff url(../images/containerBg.png) top center no-repeat;}
+
+.clear{clear:both}
+
+.inner{width: 1120px;margin: 0 auto;}
+
+/*public css*/
+.fc-hover-white:hover{color: #fff}
+.fc-objBlue{color:#55a2b8;}
+.fc-objGreen{color:#37c8ca;}
+.fc-objYellow{color:#ffc76f;}
+
+
+.bc-white{background-color:#FFF;}
+.bc-gray{background-color: #eee}
+.bc-f2{background-color: #f2f2f2;}
+
+.pd-0{padding: 0;}
+.pdt-0{padding-top: 0}
+.pdb-0{padding-bottom: 0}
+.pdl-0{padding-left: 0}
+.pdr-0{padding-right: 0}
+
+.mr-0{margin: 0}
+.mrt-0{margin-top: 0}
+.mrb-0{margin-bottom: 0}
+.mrl-0{margin-left: 0}
+.mrr-0{margin-right: 0}
+
+.fw-bold{font-weight: bold;}
+.fw-normal{font-weight: normal;}
+.fw-bolder{font-weight: bolder;}
+
+.textIndent-1{text-indent: 1em}
+.textIndent-2{text-indent: 2em}
+
+.boxBorder{border: 1px solid #ccc;}
+
+.paging{padding: 30px 0;}
+.paging span{background: #37c8ca;padding: 5px 10px;margin: 0 5px;border: 1px solid #37c8ca;cursor: pointer;}
+.paging span:hover,.paging ul li:hover{color: #37c8ca;background: #fff;}
+.paging ul{display: inline-block;}
+.paging ul li{border: 1px solid #37c8ca;display: inline-block;background: #37c8ca;padding: 3px 10px;color: #fff;cursor: pointer;margin: 0 2px;}
+.paging ul li.selected{color: #37c8ca;background: #fff;}

@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.vcooc.experiment.mapper.ExperimentGroupMapper">
+	<!--班级-小组映射 -->
+	<resultMap type="TbClass" id="tbClassMap" autoMapping="true">
+		<id column="id" property="id" />
+		<!--班级的所属年级 -->
+		<association property="grade" select="selectGradeByGradeId"
+			column="grade_id" />
+		<!--查询该班级下尚未分配小组的学生 -->
+		<collection property="studentInfoList" ofType="StudentInfo"
+			column="{classId=id,experimentCourseId=experiment_course_id,experimentId=experiment_id}"
+			select="selectOtherStudentInfoByExperimentCourseIdAndExperimentIdAndClassId" />
+		<!--根据实验课程ID、实验ID、班级ID，查询班级下的小组 -->
+		<collection property="experimentGroupList" ofType="ExperimentGroup"
+			column="{classId=id,experimentCourseId=experiment_course_id,experimentId=experiment_id}"
+			select="selectExperimentGroupByExperimentCourseIdAndExperimentIdAndClassId" />
+	</resultMap>
+	<!--实验班级映射 -->
+	<resultMap type="TbClass" id="experimentClassMap"
+		autoMapping="true">
+		<id column="id" property="id" />
+		<!--班级的所属年级 -->
+		<association property="grade" select="selectGradeByGradeId"
+			column="grade_id" />
+	</resultMap>
+
+	<!--年级专业映射 -->
+	<resultMap type="Grade" id="gradeMap" autoMapping="true">
+		<id column="id" property="id" />
+		<!--年级的所属专业 -->
+		<association property="major" select="selectMajorByMajorId"
+			column="major_id" />
+	</resultMap>
+	<!--专业院系映射 -->
+	<resultMap type="Major" id="majorMap" autoMapping="true">
+		<id column="id" property="id" />
+		<!--专业的所属院系 -->
+		<association property="department" select="selectDepartmentByDepartmentId"
+			column="department_id" />
+	</resultMap>
+	<!--小组，学生映射 -->
+	<resultMap type="ExperimentGroup" id="experimentGroupMap"
+		autoMapping="true">
+		<id column="experiment_group_id" property="experimentGroupId" />
+		<association property="teacherInfo" javaType="TeacherInfo"
+			column="teacher_info_id" select="selectTeacherInfoByTeacherInfoId" />
+		<collection property="studentInfoList" ofType="StudentInfo"
+			column="experiment_group_id" select="selectStudentInfoByGroupId" />
+	</resultMap>
+	<resultMap type="java.util.Map" id="classSizeAndClassIdMap">
+		<result column="count" property="classSize" />
+		<result column="tb_class_id" property="classId" />
+	</resultMap>
+
+	<!--小组映射 (全) -->
+	<resultMap type="ExperimentGroup" id="experimentGroupAllMap"
+		autoMapping="true">
+		<id column="experiment_group_id" property="experimentGroupId" />
+		<!--创建教师 -->
+		<association property="teacherInfo" javaType="TeacherInfo"
+			select="selectTeacherInfoByTeacherInfoId" column="teacher_info_id" />
+		<!--查询该小组所属班级 -->
+		<association property="tbClass" javaType="TbClass"
+			select="selectExperimentClassByClassId" column="tb_class_id" />
+		<!--查询该小组所属实验课程 -->
+		<association property="experimentCourse" javaType="ExperimentCourse"
+			column="experiment_course_id" select="selectExperimentCourseByExperimentCourseId" />
+		<!--查询该小组所属实验 -->
+		<association property="experiment" column="experiment_id"
+			select="selectExperimentByExperimentId" />
+		<!--小组的所属班级 班级下未分配学生的成员 -->
+		<collection property="notGroupStudentInfoList" ofType="StudentInfo"
+			column="{classId=tb_class_id,experimentCourseId=experiment_course_id,experimentId=experiment_id}"
+			select="selectOtherStudentInfoByExperimentCourseIdAndExperimentIdAndClassId" />
+		<!--小组下的学生 -->
+		<collection property="studentInfoList" ofType="StudentInfo"
+			column="experiment_group_id" select="selectStudentInfoByGroupId" />
+	</resultMap>
+
+	<!--根据实验ID 查询实验课程下的班级、以及班级关联的实验小组信息 -->
+	<select id="selectExperimentClassInfo" resultMap="tbClassMap">
+		SELECT
+		tc.*,e.experiment_id,ec.experiment_course_id FROM tb_class tc
+		,experiment e,experiment_course ec
+		WHERE tc.id IN
+		(
+		SELECT ecc.tb_class_id FROM experiment_course_class ecc WHERE
+		ecc.experiment_course_id = #{experimentCourseId}
+		) AND e.experiment_id
+		= #{experimentId} AND ec.experiment_course_id = #{experimentCourseId}
+	</select>
+	<!--根据实验课程ID、实验ID和班级ID，查询班级下的小组信息 -->
+	<select
+		id="selectExperimentGroupByExperimentCourseIdAndExperimentIdAndClassId"
+		resultMap="experimentGroupMap" parameterType="java.util.Map">
+		SELECT eg.* FROM
+		experiment_group eg WHERE eg.experiment_course_id =
+		#{experimentCourseId} AND eg.experiment_id = #{experimentId} AND
+		eg.tb_class_id = #{classId}
+	</select>
+	<!--根据小组ID，查询小组下的学生信息 -->
+	<select id="selectStudentInfoByGroupId" resultType="StudentInfo">
+		SELECT stu.*,u.username
+		FROM student_info stu 
+		LEFT JOIN user u ON u.id=stu.id
+		WHERE stu.id IN (SELECT gs.student_info_id FROM
+		experiment_group_student gs WHERE gs.experiment_group_id =
+		#{experimentGroupId})
+	</select>
+	<!--根据班级ID，实验ID， 课程实验ID，查询该班级下尚未分配小组的学生信息 -->
+	<select
+		id="selectOtherStudentInfoByExperimentCourseIdAndExperimentIdAndClassId"
+		resultType="StudentInfo" parameterType="java.util.Map">
+		SELECT si.*,u.username FROM student_info si
+		LEFT JOIN user u ON u.id=si.id 
+		WHERE si.id NOT IN (
+		SELECT gs.student_info_id FROM
+		experiment_group_student gs WHERE gs.experiment_group_id IN (
+		SELECT
+		eg.experiment_group_id FROM experiment_group eg WHERE
+		eg.experiment_course_id =#{experimentCourseId} AND eg.experiment_id =
+		#{experimentId} AND eg.tb_class_id = #{classId}))
+		AND si.tb_class_id =
+		#{classId}
+	</select>
+	<!--根据年级ID，查询年级信息 -->
+	<select id="selectGradeByGradeId" resultMap="gradeMap">
+		SELECT g.* FROM
+		grade g WHERE g.id = #{gradeId}
+	</select>
+	<!--根据专业ID，查询专业信息 -->
+	<select id="selectMajorByMajorId" resultMap="majorMap">
+		SELECT m.* FROM
+		major m WHERE m.id = #{majorId}
+	</select>
+	<!--根据院系ID，查询院系信息 -->
+	<select id="selectDepartmentByDepartmentId" resultType="Department">
+		SELECT
+		d.* FROM department d WHERE d.id = #{departmentId}
+	</select>
+	<!--添加小组成员，将小组成员添加进小组中 -->
+	<insert id="distrubuteStudentToGroup">
+		INSERT INTO
+		experiment_group_student(experiment_group_student_id,experiment_group_id,student_info_id)
+		VALUES
+		<foreach collection="studentInfoIds" item="studentInfoId"
+			separator=",">
+			(NULL,#{experimentGroupId},#{studentInfoId})
+		</foreach>
+	</insert>
+	<!--根据传入的学生ID，得到学生的班级，以及传入的学生中在该班级的数量 -->
+	<select id="selectStudentInfoInClassSize" resultMap="classSizeAndClassIdMap">
+		SELECT COUNT(DISTINCT tb_class_id) count,si.tb_class_id FROM
+		student_info si WHERE
+		si.id IN
+		<foreach collection="studentInfoIds" item="studentInfoId"
+			open="(" close=")" separator=",">
+			#{studentInfoId}
+		</foreach>
+	</select>
+	<select id="selectTeacherInfoByTeacherInfoId" resultType="TeacherInfo">
+		SELECT
+		* FROM teacher_info WHERE id = #{teacherInfoId}
+	</select>
+	<!--查询学生是否在该实验下的其他小组之中 -->
+	<select id="selectStudentSizeIsOtherGroup" resultType="Integer">
+		SELECT COUNT(student_info_id) FROM experiment_group_student egs
+		WHERE
+		egs.experiment_group_id IN (SELECT eg.experiment_group_id FROM experiment_group eg
+		<where>
+			eg.experiment_course_id = #{experimentCourseId} AND eg.experiment_id
+			= #{experimentId}
+			<if test="experimentGroupId !=null">AND eg.experiment_group_id !=#{experimentGroupId}</if>
+		</where>
+		)
+		AND egs.student_info_id IN
+		<foreach collection="studentInfoIds" open="(" close=")"
+			item="studentInfoId" separator=",">
+			#{studentInfoId}
+		</foreach>
+	</select>
+	<!--删除小组下的学生 -->
+	<delete id="deleGroupStudent" parameterType="int">
+		DELETE FROM
+		experiment_group_student WHERE experiment_group_id =
+		#{experimentGroupId}
+	</delete>
+
+	<!--根据小组ID查询小组信息 -->
+	<select id="selectExperimentGroupById" resultMap="experimentGroupAllMap">
+		SELECT eg.*
+		FROM experiment_group eg WHERE eg.experiment_group_id =
+		#{experimentGroupId}
+	</select>
+	<!--根据班级ID 查询班级信息 -->
+	<select id="selectExperimentClassByClassId" resultMap="experimentClassMap">
+		SELECT
+		tc.* FROM tb_class tc WHERE tc.id = #{tbClassId}
+	</select>
+	<!--根据实验ID，查询实验信息 -->
+	<select id="selectExperimentByExperimentId" parameterType="int"
+		resultType="Experiment">
+		SELECT e.* FROM experiment e WHERE e.experiment_id
+		=#{experimentId}
+	</select>
+	<!--根据实验课程ID，查询实验课程信息 -->
+	<select id="selectExperimentCourseByExperimentCourseId"
+		parameterType="int" resultType="ExperimentCourse">
+		SELECT ec.* FROM experiment_course ec
+		WHERE ec.experiment_course_id = #{experimentCourseId}
+	</select>
+	
+	<!--小组映射 (全) -->
+	<resultMap type="ExperimentGroup" id="experimentGroupAllMap1"
+		autoMapping="true">
+		<id column="experiment_group_id" property="experimentGroupId" />
+		<!--创建教师 -->
+		<association property="teacherInfo" javaType="TeacherInfo">
+				   <id column="teacher_info_id" property="id"/>
+			      <result column="teacher_name" property="name"/>
+			</association>
+		<!--查询该小组所属班级 -->
+		<association property="tbClass" javaType="TbClass">
+				     <id column="tb_class_id" property="id"/>
+			      <result column="class_name" property="name"/>
+			</association>
+		<!--查询该小组所属实验课程 -->
+		<association property="experimentCourse" javaType="ExperimentCourse">
+        	      <id column="experiment_course_id" property="experimentCourseId"/>
+                  <result column="course_name" property="courseName"/>
+			</association>
+		<!--查询该小组所属实验 -->
+		<association property="experiment" javaType="Experiment">
+			      <id column="experiment_id" property="experimentId"/>
+			      <result column="experiment_name" property="experimentName"/>
+			</association>
+	</resultMap>
+	
+	
+	<!--根据条件查询小组信息 -->
+	<select id="selectExperimentGroupByWhere" resultMap="experimentGroupAllMap1">
+		SELECT
+	eg.`experiment_group_id`,
+	eg.`group_name`,
+	eg.`tb_class_id`,
+  tc.name class_name,
+	eg.`experiment_course_id`,
+  ec.course_name   ,
+	eg.`experiment_id`,
+   e.experiment_name,
+	eg.`teacher_info_id`,
+   ti.name teacher_name,
+	eg.`start_time`,
+	eg.`end_time`,
+  dm.departmentName department_name
+FROM
+	experiment_group eg
+left join tb_class tc on tc.id = eg.tb_class_id
+left join experiment_course ec on ec.experiment_course_id = eg.experiment_course_id
+left join experiment e on e.experiment_id = eg.experiment_id
+left join teacher_info ti on ti.id = eg.teacher_info_id
+	LEFT JOIN (
+		select c.id as classId,c.name as className,g.id as gradeId ,g.name gradeName
+		,g.major_id as majorId from tb_class c
+		LEFT JOIN grade g ON g.id = c.grade_id 
+		) gc on gc.classId= eg.tb_class_id
+		LEFT JOIN (
+		select m.id as majorId,m.name as majorName,d.id as departmentId,d.name as
+		departmentName from major m
+		LEFT JOIN department d on d.id = m.department_id
+		) dm ON dm.majorId = gc.majorId
+		LEFT JOIN (
+		select d.id as departmentId ,ti.id as teacherId,ti.name as teacherName from
+		department d
+		LEFT JOIN teacher_info ti ON ti.id = d.teacher_info_id
+		) dt ON dt.departmentId = dm.departmentId
+		<where>
+			<if test="departmentId!=null">
+				eg.tb_class_id IN (
+				SELECT tc.id FROM tb_class tc WHERE tc.grade_id IN (
+				SELECT g.id FROM grade g WHERE g.major_id IN (
+				SELECT m.id FROM major m WHERE m.department_id = #{departmentId})))
+			</if>
+			<if test="teacherInfoId!=null">AND eg.teacher_info_id = #{teacherInfoId}</if>
+		</where>
+	</select>
+	<select id="selectClassExperimentGroup" resultMap="experimentGroupMap">
+		select eg.* from experiment_group eg where eg.experiment_id = #{experimentId} and eg.tb_class_id = #{classId}
+	</select>
+	
+	<!-- 查询知道教师以及实验信息 -->
+	<select id="selectGroupById" parameterType="int" resultMap="experimentGroupAllMap">
+	          select experiment_group_id,teacher_info_id ,tb_class_id,experiment_id,experiment_course_id from experiment_group
+	          where experiment_group_id=#{id}
+	</select>
+</mapper>

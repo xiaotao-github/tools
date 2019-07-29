@@ -1,0 +1,13 @@
+/*-----------------------eventDetail1 css----------------------*/
+.eachClassMemberList{}
+.eachClassMemberList .classTable{border: 1px solid #ddd;}
+.eachClassMemberList .className{margin-bottom: 0;line-height: 40px;background: #66b0c1;cursor: pointer;position: relative;}
+.eachClassMemberList .className:hover{background: #4ca3bc;}
+.eachClassMemberList .className span{display: block;margin-right: 120px;}
+.eachClassMemberList .className a{position: absolute;top: 5px;right: 10px;}
+
+.eachGroupMemberList dt{display: table-cell;vertical-align: middle;text-align: center; height: 100%;border: 1px solid #ddd;border-right: none;cursor: pointer;position: relative;padding-left: 30px;}
+.eachGroupMemberList dt p{margin-bottom: 0;}
+.eachGroupMemberList dt span{position: absolute;left: 10px;top: 0;}
+.eachGroupMemberList dd{padding:0;}
+.eachGroupMemberList dd .hp{margin-bottom: 0;display: none;border: 1px solid #ddd;background: #f2f2f2;}

@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.vcooc.experiment.mapper.ExperimentStandardMapper">
+	
+	
+	<sql id="colname">
+		standard_id, 
+		standard_identify, 
+		exp1, 
+		number, 
+		`presentation`, 
+		score,
+		stand_title,
+		stealth, 
+		create_time, 
+		update_time
+	</sql>
+	
+	<sql id="tabname">
+		experiment_standard
+	</sql>
+	
+	
+	
+	<!-- 根据实验的id,查询该实验下的标准,只查非伪删除的数据 -->
+	<select id="selectByExprimentId" resultType="ExperimentStandard">
+		SELECT <include refid="colname"></include>
+		FROM   <include refid="tabname"></include>
+		WHERE standard_identify = (
+			SELECT 	 
+				standard_identify
+			FROM 
+				experiment 
+			WHERE   experiment_id=#{exprimentId}
+		)
+		<if test="stealth != null ">AND stealth=#{stealth}</if>
+		ORDER BY number
+	</select>
+	
+	<!-- 根据实验表里面的实验评定id,查询所有实验标准 -->
+	<select id="selectByStandardIdentify" resultType="ExperimentStandard">
+		SELECT <include refid="colname"></include>
+		FROM   <include refid="tabname"></include>
+		WHERE standard_identify = #{standardIdentify}
+		<if test="stealth != null ">AND stealth=#{stealth}</if>
+		ORDER BY number
+	</select>
+	
+	
+	<!-- 根据成绩评定UUID查询最大的序号 -->
+	<select id="getMaxNumber" resultType="int">
+		SELECT 	MAX(NUMBER)
+		FROM    <include refid="tabname"></include>
+		WHERE standard_identify = #{standardIdentify}
+		<if test="stealth != null ">AND stealth=#{stealth}</if>
+	</select>
+	
+	
+	<!-- 根据主键查询最大的序号 -->
+	<select id="getMaxNumberById" resultType="int">
+		SELECT 	MAX(number)
+		FROM    <include refid="tabname"></include>
+		WHERE standard_identify =(
+				SELECT standard_identify 
+				FROM <include refid="tabname"></include> 
+				WHERE  standard_id =#{standardId}
+				)
+		<if test="stealth != null ">AND stealth=#{stealth}</if>
+	</select>
+	
+	
+	
+	<!-- 删除评分标准 -->
+	<select id="deleteById">
+		<!-- 排序 -->
+		UPDATE <include refid="tabname"></include>
+		SET number = number-1 
+		WHERE number &gt;(
+				SELECT a.number FROM 
+						( SELECT  number 
+						  FROM   <include refid="tabname"></include>
+						  WHERE   standard_id=#{standardId}
+						 ) a
+				)
+		AND stealth=2
+		AND standard_identify = (
+				SELECT a.standard_identify FROM 
+						(SELECT  standard_identify
+						 FROM    <include refid="tabname"></include> 
+						 WHERE   standard_id=#{standardId}
+						)a
+				);
+		<!-- 删除学生成绩关联 -->
+		<!-- DELETE FROM  student_experiment_score 
+		WHERE standard_id=#{standardId}; -->
+		
+		<!-- 伪删除评分标准 -->
+		UPDATE <include refid="tabname"></include>
+		SET stealth = #{stealth}
+		WHERE standard_id=#{standardId};
+	</select>
+	
+	<!-- 上移  -->
+	<select id="UpNumber">
+		<!-- 修改其他数据 -->
+		UPDATE <include refid="tabname"></include> 
+		SET number =number+1 
+		WHERE number &gt;= #{newNumber} AND number &lt; #{oldNumber}
+		AND  standard_identify = 
+					(
+						SELECT a.standard_identify FROM 
+							(SELECT  standard_identify
+							 FROM    <include refid="tabname"></include> 
+							 WHERE   standard_id=#{standardId}
+							 )a
+					);
+		
+		<!-- 修改当条数据 -->
+		UPDATE <include refid="tabname"></include> 
+		SET number = #{newNumber}
+		WHERE   standard_id=#{standardId};
+	</select>
+	
+	
+	<!-- 下移  -->
+	<select id="downNumber">
+		<!-- 修改其他数据 -->
+		UPDATE <include refid="tabname"></include> 
+		SET number =number-1 
+		WHERE number &gt; #{oldNumber} AND number &lt;= #{newNumber}
+		AND  standard_identify = 
+					(
+						SELECT a.standard_identify 
+						FROM 
+							(SELECT  standard_identify
+							 FROM    <include refid="tabname"></include> 
+							 WHERE   standard_id=#{standardId}
+							 )a
+					);
+		
+		<!-- 修改当条数据 -->
+		UPDATE <include refid="tabname"></include> 
+		SET number = #{newNumber}
+		WHERE   standard_id=#{standardId};
+	</select>
+	
+	<!-- 复制评分标准 -->
+	<select id="copeStandards">
+		INSERT INTO  <include refid="tabname"></include>  
+			(
+				standard_identify, 
+				number, 
+				`presentation`, 
+				score, 
+				stealth, 
+				stand_title,
+				create_time, 
+				update_time
+			)
+		SELECT
+			#{standardIdentify}, 
+			#{number}, 
+			`presentation`, 
+			score, 
+			stealth, 
+			stand_title,
+			NOW(), 
+			NOW()
+		FROM
+			<include refid="tabname"></include> 
+		WHERE
+			standard_id=#{standardId};
+	</select>
+	
+	<!-- 添加 -->
+	<insert id="insert" parameterType="ExperimentStandard">
+		INSERT INTO <include refid="tabname"></include> 
+		( 
+			standard_identify, 
+			exp1, 
+			number, 
+			`presentation`, 
+			score,
+			stand_title,
+			stealth, 
+			create_time, 
+			update_time
+		)
+		VALUES
+		(
+			#{standardIdentify}, 
+			#{exp1}, 
+			#{number}, 
+			#{presentation}, 
+			#{score},
+			#{standTitle},
+			#{stealth}, 
+			NOW(), 
+			NOW()
+		)
+	</insert>
+	
+	<!-- 根据主键进行查询 -->
+	<select id="selectByPrimaryKey" resultType="ExperimentStandard">
+		SELECT <include refid="colname"></include>
+		FROM   <include refid="tabname"></include>
+		WHERE standard_id=#{standardId};
+	</select>
+	
+	<!-- 修改不为null的字段 -->
+	<update id="updateByPrimaryKeySelective" parameterType="ExperimentStandard">
+		 UPDATE <include refid="tabname"></include>
+		 SET
+		 <if test="standardIdentify != null">standard_identify = #{standardIdentify} ,</if>
+		 <if test="exp1 != null">exp1 = #{exp1} ,</if>
+		 <if test="presentation != null">`presentation` = #{presentation} ,</if>
+		 <if test="number != null">number = #{number} ,</if>
+		 <if test="standTitle != null">stand_title = #{standTitle} ,</if>
+		 <if test="stealth != null">stealth = #{stealth} ,</if>
+		 update_time = NOW()
+		 WHERE standard_id=#{standardId};
+	</update>
+	<!--批量添加实验评定标注-->
+	<insert id="addStandard" parameterType="List">
+		INSERT INTO experiment_standard(`standard_identify`,`exp1`,`number`
+		,`presentation`,`score`,`stand_title`,`stealth`,`create_time`,`update_time`)
+		VALUES
+		<foreach collection="experimentStandards" item="temp" separator=",">
+		(#{temp.standardIdentify},#{temp.exp1},#{temp.number}
+		,#{temp.presentation},#{temp.score},#{temp.standTitle},#{temp.stealth}
+		,now(),now())
+		</foreach>
+	</insert>
+	<!--根据StandardIdentify删除实验评分标准-->
+	<delete id="deleteByStandardIdentify">
+		DELETE FROM experiment_standard WHERE standard_identify = #{standardIdentify} 
+	</delete>
+</mapper>

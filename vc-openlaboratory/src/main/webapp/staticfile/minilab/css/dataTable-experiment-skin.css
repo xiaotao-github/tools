@@ -1,0 +1,54 @@
+@CHARSET "UTF-8";
+.dataTable .even td{
+	background: #def9ff;
+}
+
+.table-border.table-bordered{
+	border-bottom:1px solid #ddd;
+}
+
+table.dataTable thead .sorting{
+	background:#5cb5b0 url(../images/dataTable-resourceLib/sort_both.png) right center no-repeat;
+    color: #fff;
+}
+
+table.dataTable thead .sorting_disabled{
+	background: #5cb5b0;
+	color: #fff;
+}
+
+table.dataTable thead .sorting_asc{
+	background:#358e89 url(../images/dataTable-resourceLib/sort_asc.png) right center no-repeat;
+	color: #fff;
+}
+
+table.dataTable thead .sorting_desc{
+	background:#358e89 url(../images/dataTable-resourceLib/sort_desc.png) right center no-repeat;
+	color: #fff;
+}
+
+table.dataTable tbody tr:hover{
+	background:;
+}
+
+.table-border td{
+	border-bottom:none;
+	border-top:none;
+}
+
+.strip1{
+	background:#fff;
+}
+
+.strip2{
+	background: #f2f2f2;
+}
+
+.table-hover tbody tr:hover td, .table-hover tbody tr:hover th{
+	background: #fbf5b7;
+	color:#333;
+}
+
+.dataTables_filter .input-text{
+	background: url(../images/search.png) right center no-repeat;
+}

@@ -1,0 +1,7 @@
+eclipse.preferences.version=1
+encoding//src/main/resources/env.properties=UTF-8
+encoding//src/main/resources/httpclient.properties=UTF-8
+encoding//src/main/resources/redis.properties=UTF-8
+encoding//src/main/resources/upload.properties=UTF-8
+encoding//src/main/webapp/WEB-INF/page/student/experimentDetail.jsp=UTF-8
+encoding//src/main/webapp/WEB-INF/page/student/resourcesPreview.jsp=UTF-8

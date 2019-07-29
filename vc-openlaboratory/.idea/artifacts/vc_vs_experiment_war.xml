@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="vc-vs-experiment:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <root id="archive" name="vc-vs-experiment-0.0.1-SNAPSHOT.war">
+      <element id="artifact" artifact-name="vc-vs-experiment:war exploded" />
+    </root>
+  </artifact>
+</component>
